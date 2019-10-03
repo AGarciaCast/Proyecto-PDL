@@ -1,2 +1,2 @@
 # Proyecto-PDL
-Compilador pseudo JavaScript
+Compilador de pseudo JavaScript
