@@ -19,11 +19,11 @@ public class Compilador {
 			this.accion = accion;
 		}
 		
-		public getEstado() {
+		public int getEstado() {
 			return estado;
 		}
 		
-		public getAccion() {
+		public String getAccion() {
 			return accion;
 		}
 	}
