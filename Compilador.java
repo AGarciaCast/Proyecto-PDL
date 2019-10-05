@@ -3,11 +3,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Compilador {
 	char car;
 	final MatrizTransiciones MT_AFD = new MatrizTransiciones();
 	static BufferedReader br;
+	//Para las acciones semánticas
+	int num = 0;
+	String lex = "";
+	//TODO: rellenar con las palabras reservadas
+	Set<String> palRes = new Set<String>();
+	
 	
 	//Contenido de la MatrizTransiciones
 	public class ParEstadoAccion {
@@ -168,15 +176,22 @@ public class Compilador {
 	}
 	
 	public class Token<E>{
-		private int codToken;
+		private String codToken;
 		private E atributo;
 		
-		public Token(int codToken, E atributo){
+		public Token(String codToken, E atributo){
 			this.codToken=codToken;
 			this.atributo=atributo;
 		}
-
-		public int getCodToken() {
+		
+		//Contructor sin atributo
+		public Token(String codToken){
+			this.codToken=codToken;
+			this.atributo=null;
+		}
+		
+		//No creo que hagan falta estos metodos
+		public String getCodToken() {
 			return codToken;
 		}
 
@@ -193,7 +208,7 @@ public class Compilador {
 	public void ALex (){
 		int estado = 0;
 		while (estado < 8){
-			char accion = MT_AFD.accion(estado, car);
+			String accion = MT_AFD.accion(estado, car);
 			estado = MT_AFD.estado(estado, car);
 			if(estado == -1){
 				//error
@@ -207,6 +222,8 @@ public class Compilador {
 		}
 	}
 	
+	
+	//Acciones semánticas
 	public void lee(){
 		int caracterInt=-1;
 		try {
@@ -218,6 +235,69 @@ public class Compilador {
 			e.printStackTrace();
 		}
 	}
+	
+	public void error() {
+		System.out.println("Error en transicion no prevista");
+	}
+	
+	public void A(){
+		lee();
+		num = Character.getNumericValue(car);
+	}
+	
+	public void B(){
+		lee();
+		num = num*10 + Character.getNumericValue(car);
+	}
+	
+	public void C(){
+		lee();
+		lex += car;
+	}
+	
+	public Token<Integer> G1(){
+		lee();
+		return new Token<Integer>("ASIGOR");
+	}
+	
+	//palRes es un conjunto de Strings
+	public Token<Integer> G2(){
+		int p = -1;
+		if (palRes.contains(lex)) return new Token<Integer>(lex);
+		if ((p = buscaTS()) == -1) p = anadeTS();
+		return new Token<Integer>("ID", p);
+	}
+	
+	public Token<Integer> G3(){
+		if (num >= Math.pow(2, 15)) return new Token<Integer>("", -1); //ERROR
+		return new Token<Integer>("ENT", num);
+	}
+	
+	public Token<String> G4(){
+		lee();
+		return new Token<String>("CAD", lex);
+	}
+	
+	public void G5(){
+		//TODO del 5 al 14
+	}
+	
+	public void G14() {
+		//TODO
+	}
+	
+	//Busca lex en TS
+	public int buscaTS() {
+		//TODO
+		return 0;
+	}
+	
+	//Añade lex en TS
+	public int anadeTS() {
+		//TODO
+		return 0;
+	}
+	
 	
 	public static void main(String []args){
 		File file = new File("Path");
