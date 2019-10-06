@@ -415,6 +415,13 @@ public  class Compilador {
 		while(car!='\0')
 			ALex();
 		
+		try {
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
