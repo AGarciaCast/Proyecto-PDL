@@ -1,13 +1,16 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public  class Compilador {
 	static char car;
 	static MatrizTransiciones MT_AFD = new MatrizTransiciones();
 	static BufferedReader br;
+	static BufferedWriter bw;
 	//Para las acciones semanticas
 	static int num = 0;
 	static String lex = "";
@@ -197,14 +200,16 @@ public  class Compilador {
 		
 	}
 	
-	public static void  ALex (){
+	public static Token<?>  ALex (){
 		int estado = 0;
+		Token<?> token=null;
 		while (estado < 8){
 			String accion = MT_AFD.accion(estado, car);
 			estado = MT_AFD.estado(estado, car);
 			if(estado == -1){
 				//error
 			}else{
+				
 				switch(accion){
 					case "lee":
 						lee();
@@ -221,51 +226,54 @@ public  class Compilador {
 					default:
 						switch(Integer.parseInt(accion.substring(1))){
 						case 1:
-							G1();
+							token=G1();
 							break;
 						case 2:
-							G2();
+							token=G2();
 							break;
 						case 3:
-							G3();
+							token=G3();
 							break;
 						case 4:
-							G4();
+							token=G4();
 							break;
 						case 5:
-							G5();
+							token=G5();
 							break;
 						case 6:
-							G6();
+							token=G6();
 							break;
 						case 7:
-							G7();
+							token=G7();
 							break;
 						case 8:
-							G8();
+							token=G8();
 							break;
 						case 9:
-							G9();
+							token=G9();
 							break;
 						case 10:
-							G10();
+							token=G10();
 							break;
 						case 11:
-							G11();
+							token=G11();
 							break;
 						case 12:
-							G12();
+							token=G12();
 							break;
 						case 13:
-							G13();
+							token=G13();
 							break;
 						case 14:
-							G14();
+							token=G14();
 					}
 					
 				}
 			}
 		}
+		
+		escribirToken(token);
+		return token;
 	}
 	
 	
@@ -402,39 +410,46 @@ public  class Compilador {
 	}
 	
 	//Escribe el token en el archivo
+	private static  <E> void escribirToken(Token<E> token){
+	    String output="";
+	    String codToken=token.getCodToken();
+	    E atributo=token.getAtributo();
+	    if(atributo==null) 
+	    	output=" <"+ codToken + ", -> \n";
+	    else
+	    	output=" <"+ codToken + ", "+atributo+"> \n";
 	
-	  public <E> escribirToken(Token<E> token) throws IOException{
-        String output="";
-        String codToken=token.getCodToken();
-        E atributo=token.getAtributo();
-        if(atributo==null)
-          output=" <"+ codToken + ", -> \n";
-        else
-          output=" <"+ codToken + ", "+atributo+"> \n";
-
-          BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-      writer.write(output);
-       
-      writer.close();
-
-      }
+	      try {
+			bw.write(output);
+	      } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	      }
+	}
 	
 	
 	public static void main(String []args){
 		File file = new File(args[0]);
 		br = null;
+		bw = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
+			bw = new BufferedWriter(new FileWriter("path"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		lee();
 		while(car!='\0')
 			ALex();
 		
 		try {
 			br.close();
+			bw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
