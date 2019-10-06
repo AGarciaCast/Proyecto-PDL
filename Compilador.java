@@ -401,6 +401,24 @@ public  class Compilador {
 		return 0;
 	}
 	
+	//Escribe el token en el archivo
+	
+	  public <E> escribirToken(Token<E> token) throws IOException{
+        String output="";
+        String codToken=token.getCodToken();
+        E atributo=token.getAtributo();
+        if(atributo==null)
+          output=" <"+ codToken + ", -> \n";
+        else
+          output=" <"+ codToken + ", "+atributo+"> \n";
+
+          BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+      writer.write(output);
+       
+      writer.close();
+
+      }
+	
 	
 	public static void main(String []args){
 		File file = new File(args[0]);
