@@ -434,7 +434,7 @@ public  class Compilador {
 		bw = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
-			bw = new BufferedWriter(new FileWriter("path"));
+			bw = new BufferedWriter(new FileWriter("tokens.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
