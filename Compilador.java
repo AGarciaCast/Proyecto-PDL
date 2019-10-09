@@ -5,15 +5,102 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public  class Compilador {
+public  class Tests {
 	static char car;
 	static MatrizTransiciones MT_AFD = new MatrizTransiciones();
+	static TS TablaSimbolos = new TS();
 	static BufferedReader br;
 	static BufferedWriter bw;
 	//Para las acciones semanticas
 	static int num = 0;
 	static String lex = "";
+	
+	public static class TS {
+		private List<TSElem> tabla;
+		public TS(){
+			tabla = new ArrayList<TSElem>();
+		}
+
+		//Quitar el parametro, ya que siempre opera con lex...
+		public int buscaTS(String lex){
+			int posTS=0;
+			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lex)){
+				posTS++;
+			}
+			return posTS == tabla.size() ? -1 : posTS;
+		}
+
+		public int anadeTS(String lex){
+			tabla.add(new TSElem(lex));
+			return tabla.size() - 1;
+		}
+	}
+	
+	//Filas de la TS: lexema, tipo, despl., NArgs, tipoArgs, tipoDevuelto
+	//El ALex. solo mete el lexema
+	public static class TSElem {
+		private String lexema;
+		private String tipo;
+		private int desplazamiento;
+		private int NArgs;
+		private String[] tipoArgs;
+		private String tipoDevuelto;
+		
+		public TSElem(String lexema) {
+			this.lexema = lexema;
+		}
+		
+		public String getLexema() {
+			return lexema;
+		}
+
+		public void setLexema(String lexema) {
+			this.lexema = lexema;
+		}
+
+		public String getTipo() {
+			return tipo;
+		}
+
+		public void setTipo(String tipo) {
+			this.tipo = tipo;
+		}
+
+		public int getDesplazamiento() {
+			return desplazamiento;
+		}
+
+		public void setDesplazamiento(int desplazamiento) {
+			this.desplazamiento = desplazamiento;
+		}
+
+		public int getNArgs() {
+			return NArgs;
+		}
+
+		public void setNArgs(int nArgs) {
+			NArgs = nArgs;
+		}
+
+		public String[] getTipoArgs() {
+			return tipoArgs;
+		}
+
+		public void setTipoArgs(String[] tipoArgs) {
+			this.tipoArgs = tipoArgs;
+		}
+
+		public String getTipoDevuelto() {
+			return tipoDevuelto;
+		}
+
+		public void setTipoDevuelto(String tipoDevuelto) {
+			this.tipoDevuelto = tipoDevuelto;
+		}
+	}
 	
 	//Contenido de la MatrizTransiciones
 	private static class ParEstadoAccion {
@@ -90,14 +177,12 @@ public  class Compilador {
 			for (int i = 0; i < 19; i++) matriz[5][i] = new ParEstadoAccion(-1, "error");
 			matriz[5][char2int('*')] = new ParEstadoAccion(6, "lee");
 			
-			for (int i = 0; i < 19; i++) matriz[6][i] = new ParEstadoAccion(-1, "error");
-			matriz[6][char2int('.')] = new ParEstadoAccion(6, "lee");
-			matriz[6][char2int('/')] = new ParEstadoAccion(6, "lee");
+			//Cualquier cosa que no sea * lo lee sin más
+			for (int i = 0; i < 19; i++) matriz[6][i] = new ParEstadoAccion(6, "lee");
 			matriz[6][char2int('*')] = new ParEstadoAccion(7, "lee");
 			
-			for (int i = 0; i < 19; i++) matriz[7][i] = new ParEstadoAccion(-1, "error");
+			for (int i = 0; i < 19; i++) matriz[7][i] = new ParEstadoAccion(6, "lee");
 			matriz[7][char2int('/')] = new ParEstadoAccion(0, "lee");
-			matriz[7][char2int('.')] = new ParEstadoAccion(6, "lee");
 			matriz[7][char2int('*')] = new ParEstadoAccion(7, "lee");
 		
 		}
@@ -130,7 +215,8 @@ public  class Compilador {
 						return 7;
 					case ' ':  
 					case '\t':
-					case '\n':
+					case '\n': 
+					case '\r': //cr
 						return 8;
 					case ';':  
 						return 9;
@@ -184,8 +270,7 @@ public  class Compilador {
 			this.codToken=codToken;
 			this.atributo=null;
 		}
-		
-		//No creo que hagan falta estos metodos
+
 		public String getCodToken() {
 			return codToken;
 		}
@@ -200,14 +285,21 @@ public  class Compilador {
 		
 	}
 	
-	public static Token<?>  ALex (){
+	public static Token<?> ALex (){
+		//Resetear los valores
 		int estado = 0;
-		Token<?> token=null;
+		lex = "";
+		num = 0;
+		Token<?> token = null;
 		while (estado < 8){
+			//Debug System.out.println("est:" + estado + " car: " + car);
 			String accion = MT_AFD.accion(estado, car);
 			estado = MT_AFD.estado(estado, car);
 			if(estado == -1){
-				//error
+				error();
+				//Antes de salir escribe el fichero con la tabla de simbolos
+				escribirTablaSimbolos();
+				System.exit(0);
 			}else{
 				
 				switch(accion){
@@ -270,8 +362,7 @@ public  class Compilador {
 					
 				}
 			}
-		}
-		
+		} 
 		escribirToken(token);
 		return token;
 	}
@@ -283,6 +374,9 @@ public  class Compilador {
 		try {
 			if((caracterInt=br.read())!=-1){
 				car = (char) caracterInt;
+				//Chapuza para que reconozca el final del fichero 
+			} else {
+				car = '\0';
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -294,19 +388,24 @@ public  class Compilador {
 		System.out.println("Error en transicion no prevista");
 	}
 	
+	
 	private static void A(){
-		lee();
+		//Ojo al orden
 		num = Character.getNumericValue(car);
+		lee();
 	}
 	
 	private static void B(){
+		//Ojo al orden
+		num = num * 10 + Character.getNumericValue(car);
 		lee();
-		num = num*10 + Character.getNumericValue(car);
 	}
 	
+	
 	private static void C(){
-		lee();
+		//Ojo al orden
 		lex += car;
+		lee();
 	}
 	
 	private static Token<Integer> G1(){
@@ -340,13 +439,13 @@ public  class Compilador {
 				return new Token<Integer>("ELSE");
 			default:
 				int p;
-				if ((p = buscaTS()) == -1) p = anadeTS();
+				if ((p = TablaSimbolos.buscaTS(lex)) == -1) p = TablaSimbolos.anadeTS(lex);
 				return new Token<Integer>("ID", p);
 		}
 	}
 	
 	private static Token<Integer> G3(){
-		if (num >= Math.pow(2, 15)) return new Token<Integer>("", -1); //ERROR
+		if (num >= Math.pow(2, 15)) return new Token<Integer>("ENT_ERROR", -1); //Error
 		return new Token<Integer>("ENT", num);
 	}
 	
@@ -397,20 +496,9 @@ public  class Compilador {
 		return new Token<Integer>("Coma");
 	}
 	
-	//Busca lex en TS
-	public static int buscaTS() {
-		//TODO
-		return 0;
-	}
-	
-	//Introduce lex en TS
-	public static int anadeTS() {
-		//TODO
-		return 0;
-	}
 	
 	//Escribe el token en el archivo
-	private static  <E> void escribirToken(Token<E> token){
+	private static <E> void escribirToken(Token<E> token){
 	    String output="";
 	    String codToken=token.getCodToken();
 	    E atributo=token.getAtributo();
@@ -427,9 +515,14 @@ public  class Compilador {
 	      }
 	}
 	
+	private static void escribirTablaSimbolos(){
+		//TODO Escribir la tabla de simbolos en otro fichero con el formato requerido
+	}
+	
 	
 	public static void main(String []args){
-		File file = new File(args[0]);
+		//File file = new File(args[0]);
+		File file = new File("path");
 		br = null;
 		bw = null;
 		try {
@@ -444,8 +537,9 @@ public  class Compilador {
 		}
 		
 		lee();
-		while(car!='\0')
-			ALex();
+		while(car!='\0') ALex();
+		
+		escribirTablaSimbolos();
 		
 		try {
 			br.close();
