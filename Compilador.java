@@ -451,7 +451,7 @@ public  class Compilador {
 	
 	private static Token<String> G4(){
 		lee();
-		return new Token<String>("CAD", lex);
+		return new Token<String>("CAD", lex + "\0");
 	}
 		
 	private static Token<Integer> G5(){
