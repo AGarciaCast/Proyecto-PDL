@@ -527,7 +527,7 @@ public  class Compilador {
 	    String codToken=token.getCodToken();
 	    E atributo=token.getAtributo();
 	    if(atributo==null) 
-	    	output=" <"+ codToken + ", -> \n";
+	    	output=" <"+ codToken + ", > \n";
 	    else
 	    	output=" <"+ codToken + ", "+atributo+"> \n";
 	
