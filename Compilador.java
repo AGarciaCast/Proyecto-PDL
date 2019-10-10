@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public  class Tests {
+public  class Compilador {
 	static char car;
 	static MatrizTransiciones MT_AFD = new MatrizTransiciones();
 	static TS TablaSimbolos = new TS();
@@ -177,7 +177,7 @@ public  class Tests {
 			for (int i = 0; i < 19; i++) matriz[5][i] = new ParEstadoAccion(-1, "error");
 			matriz[5][char2int('*')] = new ParEstadoAccion(6, "lee");
 			
-			//Cualquier cosa que no sea * lo lee sin más
+			//Cualquier cosa que no sea * lo lee sin mÃ¡s
 			for (int i = 0; i < 19; i++) matriz[6][i] = new ParEstadoAccion(6, "lee");
 			matriz[6][char2int('*')] = new ParEstadoAccion(7, "lee");
 			
