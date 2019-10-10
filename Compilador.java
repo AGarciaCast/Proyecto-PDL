@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//Espacio al final? Comnetario al final? Comentario a medias al final?
-
-
 public  class Compilador {
 	static char car;
 	static MatrizTransiciones MT_AFD = new MatrizTransiciones();
