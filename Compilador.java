@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//Espacio al final? Comnetario al final? Comentario a medias al final?
+
+
 public  class Compilador {
 	static char car;
 	static MatrizTransiciones MT_AFD = new MatrizTransiciones();
@@ -25,7 +29,7 @@ public  class Compilador {
 		}
 
 		//Quitar el parametro, ya que siempre opera con lex...
-		public int buscaTS(String lex){
+		public int buscaTS(){
 			int posTS=0;
 			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lex)){
 				posTS++;
@@ -33,7 +37,7 @@ public  class Compilador {
 			return posTS == tabla.size() ? -1 : posTS;
 		}
 
-		public int anadeTS(String lex){
+		public int anadeTS(){
 			tabla.add(new TSElem(lex));
 			return tabla.size() - 1;
 		}
@@ -168,16 +172,13 @@ public  class Compilador {
 			for (int i = 0; i < 19; i++) matriz[3][i] = new ParEstadoAccion(10, "G3");
 			matriz[3][char2int('1')] = new ParEstadoAccion(3, "B");
 			
-			for (int i = 0; i < 19; i++) matriz[4][i] = new ParEstadoAccion(-1, "error");
+			for (int i = 0; i < 19; i++) matriz[4][i] = new ParEstadoAccion(4, "C");
 			matriz[4][char2int('\'')] = new ParEstadoAccion(11, "G4");
-			matriz[4][char2int('/')] = new ParEstadoAccion(4, "C");
-			matriz[4][char2int('.')] = new ParEstadoAccion(4, "C");
-			matriz[4][char2int('*')] = new ParEstadoAccion(4, "C");
 			
 			for (int i = 0; i < 19; i++) matriz[5][i] = new ParEstadoAccion(-1, "error");
 			matriz[5][char2int('*')] = new ParEstadoAccion(6, "lee");
 			
-			//Cualquier cosa que no sea * lo lee sin más
+			//Cualquier cosa que no sea * lo lee sin mas
 			for (int i = 0; i < 19; i++) matriz[6][i] = new ParEstadoAccion(6, "lee");
 			matriz[6][char2int('*')] = new ParEstadoAccion(7, "lee");
 			
@@ -188,7 +189,7 @@ public  class Compilador {
 		}
 		
 		public static int char2int(char c) {
-			if(((int)c >= 65 && (int)c<=90 )||((int)c >= 97 && (int)c<=122))
+			if(( (int)c >= 65 && (int)c <= 90 ) || ( (int)c >= 97 && (int)c <= 122 ))
 				return 1;
 			else{
 				switch (c) {
@@ -247,11 +248,17 @@ public  class Compilador {
 		
 		//Devuelve el estado correspondiente a la posicion (estado, car)
 		public int estado (int estado, char car){
+			//Si esta leyendo un comentario y se encuentra el final o una cadena (sin cerrar)
+			if (car == '\0' && (estado == 6 || estado == 7 || estado == 4)) return -1;
+			//o si estaba leyendo espacios al final
+			if (car == '\0' && estado == 0) error(0);
 			return matriz[estado][char2int(car)].getEstado();
 		}
-				
+
 		//Devuelve la accion correspondiente a la posicion (estado, car)
 		public String accion (int estado, char car){
+			//if (car == '\0' && (estado == 6 || estado == 7) || estado == 4) return "error";
+			//if (car == '\0' && estado == 0) error(0);
 			return matriz[estado][char2int(car)].getAccion();
 		}
 	}
@@ -292,14 +299,12 @@ public  class Compilador {
 		num = 0;
 		Token<?> token = null;
 		while (estado < 8){
-			//Debug System.out.println("est:" + estado + " car: " + car);
+			//System.out.println("est:" + estado + " car: " + car);
 			String accion = MT_AFD.accion(estado, car);
 			estado = MT_AFD.estado(estado, car);
 			if(estado == -1){
-				error();
-				//Antes de salir escribe el fichero con la tabla de simbolos
-				escribirTablaSimbolos();
-				System.exit(0);
+				//Manda mensaje de error, escribe la tabla de simbolos y sale del programa
+				error(1);
 			}else{
 				
 				switch(accion){
@@ -384,8 +389,27 @@ public  class Compilador {
 		}
 	}
 	
-	public static void error() {
-		System.out.println("Error en transicion no prevista");
+	public static void error(int codError) {
+		switch (codError) {
+		case 0:
+			break;
+		case 1:
+			System.err.println("Error: transicion no prevista");
+			break;
+		case 2:
+			System.err.println("Error: numero fuera de rango");
+			break;
+		}
+		escribirTablaSimbolos();
+		//Sin esto, no vuelca nada en el fichero en caso de error
+		try {
+			br.close();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.exit(1);
 	}
 	
 	
@@ -439,13 +463,13 @@ public  class Compilador {
 				return new Token<Integer>("ELSE");
 			default:
 				int p;
-				if ((p = TablaSimbolos.buscaTS(lex)) == -1) p = TablaSimbolos.anadeTS(lex);
+				if ((p = TablaSimbolos.buscaTS()) == -1) p = TablaSimbolos.anadeTS();
 				return new Token<Integer>("ID", p);
 		}
 	}
 	
 	private static Token<Integer> G3(){
-		if (num >= Math.pow(2, 15)) return new Token<Integer>("ENT_ERROR", -1); //Error
+		if (num >= Math.pow(2, 15)) error(2); //return new Token<Integer>("ENT_ERROR", -1);
 		return new Token<Integer>("ENT", num);
 	}
 	
@@ -548,7 +572,6 @@ public  class Compilador {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 }
