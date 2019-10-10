@@ -25,7 +25,6 @@ public  class Compilador {
 			tabla = new ArrayList<TSElem>();
 		}
 
-		//Quitar el parametro, ya que siempre opera con lex...
 		public int buscaTS(){
 			int posTS=0;
 			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lex)){
