@@ -264,14 +264,14 @@ public  class Compilador {
 		private E atributo;
 		
 		public Token(String codToken, E atributo){
-			this.codToken=codToken;
-			this.atributo=atributo;
+			this.codToken = codToken;
+			this.atributo = atributo;
 		}
 		
 		//Contructor sin atributo
 		public Token(String codToken){
-			this.codToken=codToken;
-			this.atributo=null;
+			this.codToken = codToken;
+			this.atributo = null;
 		}
 
 		public String getCodToken() {
@@ -516,25 +516,29 @@ public  class Compilador {
 		return new Token<Integer>("Coma");
 	}
 	
-	
+
 	//Escribe el token en el archivo
 	private static <E> void escribirToken(Token<E> token){
-	    String output="";
-	    String codToken=token.getCodToken();
-	    E atributo=token.getAtributo();
-	    if(atributo==null) 
-	    	output=" <"+ codToken + ", > \n";
-	    else
-	    	output=" <"+ codToken + ", "+atributo+"> \n";
-	
-	      try {
+		String output = "";
+		String codToken = token.getCodToken();
+		E atributo = token.getAtributo();
+		if (atributo == null) {
+			output = " <"+ codToken + ", > \n";
+		}
+		//Anade comillas
+		else if (codToken.equals("CAD")) {
+			output = " <" + codToken + ", \"" + atributo + "\"> \n";
+		} else {
+			output = " <" + codToken + ", " + atributo + "> \n";
+		}
+		try {
 			bw.write(output);
-	      } catch (IOException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-	      }
+		}
 	}
-	
+
 	private static void escribirTablaSimbolos(){
 		//TODO Escribir la tabla de simbolos en otro fichero con el formato requerido
 	}
