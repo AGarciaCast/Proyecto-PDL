@@ -8,7 +8,7 @@ var boolean booleano;
  function int dias (int m, int a)
 {
 	var int dd;
-	print ( 'di cu·ntos dÌas tiene el mes ' );
+	print ( 'di cu√°ntos d√≠as tiene el mes ' );
 	print (m);
 	input(dd);
 	if (bisiesto(a)) dd = dd  +  1;
