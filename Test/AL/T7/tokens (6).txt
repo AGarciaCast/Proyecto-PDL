@@ -54,7 +54,7 @@
  <PuntoComa, > 
  <Print, > 
  <ParentesisAbrir, > 
- <CAD, "di cuántos días tiene el mes "> 
+ <CAD, "di cuÃ¡ntos dÃ­as tiene el mes "> 
  <ParentesisCerrar, > 
  <PuntoComa, > 
  <Print, > 
