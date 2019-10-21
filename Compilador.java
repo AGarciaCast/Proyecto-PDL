@@ -26,6 +26,9 @@ public  class Compilador {
 	//Para las acciones semanticas
 	static int num = 0;
 	static String lex = "";
+	//Para llevar la cuenta de la linea
+	//TODO No funciona bien
+	static int linea = 1;
 
 	public static class TS {
 
@@ -245,10 +248,11 @@ public  class Compilador {
 					return 5;
 				case '*':  
 					return 7;
+				case '\r': //cr
+					linea++;
 				case ' ':  
 				case '\t':
 				case '\n': 
-				case '\r': //cr
 					return 8;
 				case ';':  
 					return 9;
@@ -423,10 +427,10 @@ public  class Compilador {
 		case 0:
 			break;
 		case 1:
-			System.err.println("Error: transicion no prevista");
+			System.err.println("Error: transicion no prevista." + "  Linea: " + linea);
 			break;
 		case 2:
-			System.err.println("Error: numero fuera de rango");
+			System.err.println("Error: numero fuera de rango." + "  Linea: " + linea);
 			break;
 		}
 		escribirTablaSimbolos(TablaSimbolosGlobal);
