@@ -1,0 +1,42 @@
+Fuente 
+
+var string texto; /*Comentario bueno*/
+ function imprime (string msg)
+{
+	print (msg);
+}
+/ Comentario malo*/
+function pideTexto ()
+{
+	print ( 'Introduce un texto' );
+	input (texto);
+}
+ pideTexto();
+var string textoAux;
+textoAux = texto;
+imprime (textoAux);
+
+
+Tokens 
+
+ <DEC, > 
+ <TipoVarCAD, > 
+ <ID, 0> 
+ <PuntoComa, > 
+ <DECFunc, > 
+ <ID, 1> 
+ <ParentesisAbrir, > 
+ <TipoVarCAD, > 
+ <ID, 2> 
+ <ParentesisCerrar, > 
+ <CorcheteAbrir, > 
+ <Print, > 
+ <ParentesisAbrir, > 
+ <ID, 2> 
+ <ParentesisCerrar, > 
+ <PuntoComa, > 
+ <CorcheteCerrar, > 
+
+Error
+
+Error: transicion no prevista.
