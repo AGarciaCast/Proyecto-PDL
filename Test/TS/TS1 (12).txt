@@ -1,0 +1,24 @@
+Tabla Simbolos #1:
+
+ * LEXEMA: 'booleano'
+
+ * LEXEMA: 'bisiesto'
+
+ * LEXEMA: 'a'
+
+ * LEXEMA: 'bis'
+
+ * LEXEMA: 'dias'
+
+ * LEXEMA: 'm'
+
+ * LEXEMA: 'dd'
+
+ * LEXEMA: 'esFechaCorrecta'
+
+ * LEXEMA: 'd'
+
+ * LEXEMA: 'demo'
+
+ * LEXEMA: 'A_A_A_'
+
