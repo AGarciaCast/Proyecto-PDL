@@ -1,0 +1,798 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{automata}
+
+\title{Memoria de la Práctica de Procesadores de Lenguajes: Analizador Léxico}
+\author{Diego José Abengózar, Alejandro García, Ignacio Javier Encinas}
+\date{23/10/2019}
+
+\begin{document}
+\newpage
+\maketitle 
+\section{Diseño Analizador Léxico}
+-\emph{Tokens}\\ -Gramática\\ -Autómata\\ -Acciones semánticas \\ -Errores
+\section{Tabla de Símbolos}
+\section{Matriz de Transiciones}
+\section{Anexo de Errores}
+\newpage
+
+
+\section*{Analizador Léxico}
+\subsection*{\emph{Tokens}}
+
+\< \>
+\newline \medskip
+<ENT, num>
+\newline \medskip
+<CAD, lex>
+\newline \medskip
+<ID, lex>
+\newline \medskip
+<TipoVarLOG, ->
+\newline \medskip
+<ELSE, ->
+\newline \medskip
+<DECFunc, ->
+\newline \medskip
+<IF, ->
+\newline \medskip
+<input, ->
+\newline \medskip
+<tipoVarENT, ->
+\newline \medskip
+<Print, ->
+\newline \medskip
+<Return, ->
+\newline \medskip
+<tipoVarCAD, ->
+\newline \medskip
+<DEC, ->
+\newline \medskip
+<ASIG, ->
+\newline \medskip
+<ASIGOR, ->
+\newline \medskip
+<Coma, ->
+\newline \medskip
+<PuntoComa, ->
+\newline \medskip
+<ParentesisAbrir, ->
+\newline \medskip
+<ParentesisCerrar, ->
+\newline \medskip
+<CorcheteAbrir, ->
+\newline \medskip
+<CorcheteCerrar, ->
+\newline \medskip
+<SUMA, ->
+\newline \medskip
+<NOT, ->
+\newline \medskip
+<MENOR, ->
+
+\newpage
+\subsection*{Gramática}
+A\rightarrow \textnormal{$ delA \hspace{2mm}|\hspace{2mm} ; \hspace{2mm}|\hspace{2mm} \{ \hspace{2mm}|\hspace{2mm} \} \hspace{2mm}|\hspace{2mm} ( \hspace{2mm}|\hspace{2mm} ) \hspace{2mm}|\hspace{2mm} + \hspace{2mm}|\hspace{2mm} < \hspace{2mm}|\hspace{2mm} ! \hspace{2mm}|\hspace{2mm} = \hspace{2mm}|\hspace{2mm} , \hspace{2mm}|\hspace{2mm} |B\hspace{2mm} |\hspace{2mm} lC \hspace{2mm}| \hspace{2mm} dD \hspace{2mm}|\hspace{2mm} 'E \hspace{2mm}|\hspace{2mm} /F$} 
+\smallskip \newline
+B\rightarrow=
+\smallskip \newline
+C\rightarrow lC| dC| \_C|$\lambda$
+\smallskip \newline
+D\rightarrow dD|$\lambda$
+\smallskip \newline
+E\rightarrow cE|*E|/E|'
+\smallskip \newline
+F\rightarrow *G
+\smallskip \newline
+G\rightarrow cG|/G|*H
+\smallskip \newline
+H\rightarrow /A|cG|*H
+\bigskip \newline 
+\textnormal{Donde c=T-\{+, /\}}
+\newpage
+\subsection*{Autómata Finito}
+\begin{tikzpicture}[->,thick, node distance= 2.5cm,auto]
+\tikzstyle{nodoChiquito} = [state, accepting, node distance = 1.5cm];
+\node [state, initial](0){$0$};
+
+\node [state](1)[right of = 0, xshift=2cm]{$1$};
+\node [state, accepting](8)[right of = 1]{$8$};
+
+\node [state](5)[above of = 1,yshift=1.5cm]{$5$};
+\node [state](6)[right of = 5]{$6$};
+\node [state](7)[below of = 6]{$7$};
+
+\node [state](2)[below of = 1]{$2$};
+\node [state, accepting](9)[right of = 2]{$9$};
+
+\node [state](3)[below of = 2,]{$3$};
+\node [state, accepting](10)[right of = 3]{$10$};
+
+\node [state](4)[below of = 3]{$4$};
+\node [state, accepting](11)[right of = 4]{$11$};
+
+\node [nodoChiquito](12)[left of = 0,yshift=7.5cm,xshift=-3cm]{$12$};
+\node [nodoChiquito](13)[below of = 12]{$13$};
+\node [nodoChiquito](14)[below of = 13]{$14$};
+\node [nodoChiquito](15)[below of = 14]{$15$};
+\node [nodoChiquito](16)[below of = 15]{$16$};
+\node [nodoChiquito](17)[below of = 16,yshift=-1.5cm]{$17$};
+\node [nodoChiquito](18)[below of = 17]{$18$};
+\node [nodoChiquito](19)[below of = 18]{$19$};
+\node [nodoChiquito](20)[below of = 19]{$20$};
+\node [nodoChiquito](21)[below of = 20]{$21$};
+
+\path 
+	(0) edge[loop above] node{del} (0)
+        edge[bend right=70, right] node{; {\color{blue} G5}} (12)
+        edge[bend right=50, right] node{\{ {\color{blue} G6}} (13)
+        edge[bend right=30, right] node{\} {\color{blue} G7}} (14)
+        edge[bend right=20, above] node{( {\color{blue} G8}} (15)
+        edge[bend right=10, above] node{) {\color{blue} G9}} (16)
+        edge[bend left=20, above] node{+ {\color{blue} G10}} (17)
+        edge[bend left=20, left] node{$<$ {\color{blue} G11}} (18)
+        edge[bend left=30, left] node{! {\color{blue} G12}} (19)
+        edge[bend left=40, left] node{= {\color{blue} G13}} (20)
+        edge[bend left=50, left] node{, {\color{blue} G14}} (21)
+            
+	    
+	(0) edge [bend right=12] node{$\vert$} (1)
+	(1) edge node{= {\color{blue} G1}} (8)
+	
+	(0) edge[bend right = 15] node{l {\color{blue} C}} (2)
+	(2) edge [loop above] node{e $\vert$ d $\vert$ - {\color{blue} C} } (2)
+	    edge node{o.c {\color{blue} G2}} (9)
+	
+	(0) edge[bend right = 20] node{d {\color{blue} A}} (3)
+	(3) edge[loop above] node{d {\color{blue} B}} (3)
+	    edge node{o.c {\color{blue} G3}} (10)
+	    
+	(0) edge[bend right=12,left] node{'} (4)
+	(4) edge[loop above] node{c $\vert$ * $\vert$ / {\color{blue} C}} (4)
+	    edge node{' {\color{blue} G4}} (11)
+	
+	(0) edge node{/} (5)
+	(5) edge node{*} (6)
+	(6) edge [bend left] node{*} (7)
+	    edge [loop right] node{c $\vert$ /} (6)
+	(7) edge [bend left] node {c} (6)
+	    edge [loop right] node{*} (7)
+	    edge[bend right=12, above] node {/} (0)
+
+;
+
+
+
+\end{tikzpicture}
+
+
+\newpage
+\subsection*{Acciones Semánticas}
+\medskip
+\textnormal{Lee }\forall \textnormal{ transición menos o.c}
+\medskip \newline
+\textnormal{C: CONCAT}
+\medskip \newline
+\textnormal{$G_1: GEN\_TOKEN(ASIG\_OR, \-)$}
+\medskip \newline
+\textnormal{$G_2: if(lex=palRes) $}
+\newline 
+\textnormal{\hspace{10mm}GEN\_TOKEN(palRes, -)} 
+\newline
+\textnormal{\hspace{8mm}else if ((p=BUSCA\_TS(lex))=NULL)} 
+\newline
+\textnormal{\hspace{10mm}p=AÑADE\_TS(lex)} 
+\newline
+\textnormal{\hspace{8mm}GEN\_TOKEN(ID, p)}
+\medskip\newline
+\textnormal{$G_3:if ((p=BUSCA\_TS(lex))=NULL)$} 
+\newline
+\textnormal{\hspace{10mm}p=AÑADE\_TS(lex)} 
+\newline
+\textnormal{\hspace{8mm}GEN\_TOKEN(ID, p)}
+\medskip \newline
+\textnormal{A : num $=$ valor(d)}
+\medskip \newline
+\textnormal{B: num $=$ num$*$10 $+$ valor(d)}
+\medskip \newline
+\textnormal{$G_4: if(num >= 2^{16}) $}
+\newline
+\textnormal{\hspace{10mm} Error()}
+\newline
+\textnormal{\hspace{8mm}else GEN\_TOKEN(ENT, num)} 
+\medskip \newline
+\textnormal{$G_5:$ GEN\_TOKEN(CAD, lex)}
+\medskip \newline
+\textnormal{$G_6:$ GEN\_TOKEN(TipoVarLOG, -)}
+\medskip \newline
+\textnormal{$G_6:$ GEN\_TOKEN(ELSE, -)}
+\medskip \newline
+\textnormal{$G_7:$ GEN\_TOKEN(DECFunc, -)}
+\medskip \newline
+\textnormal{$G_8:$ GEN\_TOKEN(IF, -)}
+\medskip \newline
+\textnormal{$G_9:$ GEN\_TOKEN(input, -)}
+\medskip \newline
+\textnormal{$G_{10}:$ GEN\_TOKEN(tipoVarENT, -)}
+\medskip \newline
+\textnormal{$G_{11}:$ GEN\_TOKEN(Print, -)}
+\medskip \newline
+\textnormal{$G_{12}:$ GEN\_TOKEN(Return, -)}
+\medskip \newline
+\textnormal{$G_{13}:$ GEN\_TOKEN(tipoVarCAD, -)}
+\medskip \newline
+\textnormal{$G_{14}:$ GEN\_TOKEN(DEC, -)}
+\medskip \newline
+\textnormal{$G_{15}:$ GEN\_TOKEN(ASIG, -)}
+\medskip \newline
+\textnormal{$G_{16}:$ GEN\_TOKEN(ASIGOR, -)}
+\medskip \newline
+\textnormal{$G_{17}:$ GEN\_TOKEN(Coma, -)}
+\medskip \newline
+\textnormal{$G_{18}:$ GEN\_TOKEN(PuntoComa, -)}
+\medskip \newline
+\textnormal{$G_{19}:$ GEN\_TOKEN(ParentesisAbrir, -)}
+\medskip \newline
+\textnormal{$G_{20}:$ GEN\_TOKEN(ParentesisCerrar, -)}
+\medskip \newline
+\textnormal{$G_{21}:$ GEN\_TOKEN(CorcheteAbrir, -)}
+\medskip \newline
+\textnormal{$G_{22}:$ GEN\_TOKEN(CorcheteCerrar, -)}
+\medskip \newline
+\textnormal{$G_{23}:$ GEN\_TOKEN(SUMA, -)}
+\medskip \newline
+\textnormal{$G_{24}:$ GEN\_TOKEN(NOT, -)}
+\medskip \newline
+\textnormal{$G_{25}:$ GEN\_TOKEN(MENOR, -)}
+\newpage
+\subsection*{Errores}
+\textnormal{Cualquier transición que no sea contemplada por el autómata \\
+Así como el empleo de números fuera de rango}
+\newpage
+\section*{Tabla de Símbolos}
+Contiene la información de los identificadores, de los cuales se guardan los campos: lexema, tipo y desplazamiento. Para las funciones se guardará el número de parámetros, su tipo, la forma de paso de parámetros y el tipo del valor de retorno. Se creará una tabla para su estudio local, la cual se destruirá al terminar de leer el cuerpo de la función.
+\newpage
+\section*{Matriz de Transiciones}
+\hspace*{-120pt} \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+    \textbf{MT\_AFD} & \textbf{\textbar}  & \textbf{letra} & \textbf{digito} & \textbf{'}     & \textbf{/}     & \textbf{\_}    & \textbf{carácter} & \textbf{*}     & \textbf{delimitador} & \textbf{;} \\
+\hline
+    0     & 1 lee & 2 C   & 3A    & 4 lee & 5 lee & -1 error & -1 error & -1 error & 0 lee & 12 G5 \\
+\hline
+    1     & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error \\
+\hline
+    2     & 9 G2  & 2 C   & 2 C   & 9 G2  & 9 G2  & 2 C   & 9 G2  & 9 G2  & 9 G2  & 9 G2 \\
+\hline
+    3     & 10 G3 & 10 G3 & 3 B   & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 \\
+\hline
+    4     & 4 C   & 4 C   & 4 C   & 11 G4 & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C \\
+\hline
+    5     & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & 6 lee & -1 error & -1 error \\
+\hline
+    6     & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 7 lee & 6 lee & 6 lee \\
+\hline
+    7     & 6 lee & 6 lee & 6 lee & 6 lee & 0 lee & 6 lee & 6 lee & 7 lee & 6 lee & 6 lee \\
+\hline
+    \end{tabular}\hspace{-120pt}\\\\
+
+\hspace*{-80pt} \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+    \textbf{MT\_AFD}     & \textbf{\{}     & \textbf{\}}     & \textbf{(}     & \textbf{)}     & \textbf{+}     & \textbf{\textless}     & \textbf{!}     & \textbf{=}     & \textbf{,} \\
+\hline
+    0 & 13 G6 & 14 G7 & 15 G8 & 16 G9 & 17 G10 & 18 G11 & 19 G12 & 20 G13 & 21 G14 \\
+\hline
+    1 & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & 8 G1  & -1 error \\
+\hline
+    2 & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2 \\
+\hline
+    3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 \\
+\hline
+    4 & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C \\
+\hline
+    5 & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error \\
+\hline
+    6 & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee \\
+\hline
+    7 & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee \\
+\hline
+    \end{tabular}\hspace{-80pt}
+
+\newpage
+
+\section*{Anexo de Pruebas}
+
+\textbf{Error 1: Número fuera de rango.} \\ 
+\emph{Fuente}: \\
+var int a; \\
+var int b;\\
+a = 33333;\\
+b = a;\\
+ if ($a  <  b$) b  =  1; \\
+if ($b  <  a$) b  =  8;\\
+ a = a  $+$  b;\\
+print (a);\\
+print (b);\medskip\\
+\emph{Tokens} 
+
+\< \> 
+ <DEC, > 
+ <TipoVarENT, > 
+ <ID, 0> 
+ <PuntoComa, > 
+ 
+ \< \> 
+ <DEC, > 
+ <TipoVarENT, > 
+ <ID, 1> 
+ <PuntoComa, > 
+ 
+ \< \> 
+ <ID, 0> 
+ <ASIG, > \bigskip \\
+\textbf{Error 2: Transición no prevista}\medskip\\
+\emph{Fuente:} 
+
+
+var string texto; /*Comentario bueno*/
+
+ function imprime (string msg)
+ 
+\{
+
+	print (msg);
+	
+\} 
+
+/ Comentario malo*/
+
+function pideTexto () 
+
+\{. 
+
+	print ( 'Introduce un texto' ); 
+	
+	input (texto); 
+	
+\} 
+
+ pideTexto(); 
+ 
+var string textoAux;
+
+textoAux = texto;
+
+imprime (textoAux);\medskip\\
+\emph{Tokens:} 
+
+
+\< \> 
+ <DEC, > 
+ <TipoVarCAD, > 
+ <ID, 0> 
+ <PuntoComa, >
+ 
+ \< \>
+ <DECFunc, >  
+ <ID, 1> 
+ <ParentesisAbrir, > 
+ <TipoVarCAD, >
+ 
+ \< \>
+ <ID, 2> 
+ <ParentesisCerrar, > 
+ <CorcheteAbrir, > 
+ <Print, > 
+ 
+ \< \>
+ <ParentesisAbrir, > 
+ <ID, 2> 
+ <ParentesisCerrar, > 
+ <PuntoComa, > 
+ 
+ \< \>
+ <CorcheteCerrar, >\bigskip \\
+\textbf{Error 3: Transición no prevista}\medskip \\
+\emph{Fuente:}
+
+var string texto;
+
+function pideTexto ()
+
+\{
+	print ('Introduce un texto);
+	
+	input (texto);
+	
+\}
+function imprime (string msg)
+
+\{
+
+	print ('Mensage introducido:');
+	
+	print (msg);
+	
+\}
+
+pideTexto();
+
+var string textoAux;
+
+textoAux = texto;
+
+imprime (textoAux);\medskip\\
+\emph{Tokens:}\\
+
+\< \>
+ <DEC, > 
+ <TipoVarCAD, > 
+ <ID, 0> 
+ <PuntoComa, > 
+ 
+ \< \> 
+ <DECFunc, > 
+ <ID, 1> 
+ <ParentesisAbrir, > 
+ <ParentesisCerrar, > 
+ 
+ \< \> 
+ <CorcheteAbrir, > 
+ <Print, > 
+ <ParentesisAbrir, > 
+ 
+$<$CAD, "\textnormal{Introduce un texto);} 
+ 
+	input (texto);
+	
+\} 
+
+\textnormal{function imprime (string msg)}
+
+\{ 
+
+	print (" $>$
+	\< \>
+ \\<ID, 2> 
+ \\<ID, 3> \bigskip \\
+\textbf{Pruebas pasadas con éxito:}\medskip\\
+\textbf{1:}\smallskip\\
+\emph{Fuente:} \smallskip
+
+
+var int a;
+ 
+var int b;
+
+a = 3;
+
+b = a;
+
+ var boolean c;
+ 
+c = a  $<$  b;
+
+if (c) b  =  1;
+
+c = b  $<$  a;
+
+if (c) b  =  4;
+
+ a = a  +  b;
+ 
+print (a);
+
+print (b);\medskip \\
+\emph{Tokens:}
+
+\smallskip 
+\\
+\< \> 
+ <DEC, -> 
+ <TipoVarENT, -> 
+ <ID, 0> 
+ <PuntoComa, -> 
+ <DEC, ->
+ 
+ \< \> 
+ <TipoVarENT, -> 
+ <ID, 1> 
+ <PuntoComa, -> 
+ <ID, 0> 
+ 
+ \< \> 
+ <ASIG, -> 
+ <ENT, 3> 
+ <PuntoComa, -> 
+ <ID, 1> 
+ 
+ \< \> 
+ <ASIG, -> 
+ <ID, 0> 
+ <PuntoComa, -> 
+ <DEC, -> 
+ 
+ \< \> 
+ <TipoVarLOG, -> 
+ <ID, 2> 
+ <PuntoComa, -> 
+ <ID, 2> 
+ 
+ \< \> 
+ <ASIG, -> 
+ <ID, 0> 
+ <MENOR, -> 
+ <ID, 1> 
+ 
+ \< \> 
+ <PuntoComa, -> 
+ <IF, -> 
+ <ParentesisAbrir, -> 
+ <ID, 2> 
+ 
+ \< \> 
+ <ParentesisCerrar, -> 
+ <ID, 1> 
+ <ASIG, -> 
+ <ENT, 1> 
+ 
+ \< \> 
+ <PuntoComa, -> 
+ <ID, 2> 
+ <ASIG, -> 
+ <ID, 1> 
+ 
+ \< \> 
+ <MENOR, -> 
+ <ID, 0> 
+ <PuntoComa, -> 
+ <IF, -> 
+ 
+ \< \> 
+ <ParentesisAbrir, -> 
+ <ID, 2> 
+ <ParentesisCerrar, -> 
+ <ID, 1> 
+ 
+ \< \> 
+ <ASIG, -> 
+ <ENT, 4> 
+ <PuntoComa, -> 
+ <ID, 0> 
+ 
+ \< \> 
+ <ASIG, -> 
+ <ID, 0> 
+ <SUMA, -> 
+ <ID, 1> 
+ 
+ \< \> 
+ <PuntoComa, -> 
+ <Print, -> 
+ <ParentesisAbrir, -> 
+ <ID, 0> 
+ 
+ \< \> 
+ <ParentesisCerrar, -> 
+ <PuntoComa, -> 
+ <Print, -> 
+ <ParentesisAbrir, -> 
+ 
+ \< \> 
+ <ID, 1> 
+ <ParentesisCerrar, -> 
+ <PuntoComa, -> \bigskip \\
+\textbf{2:}\medskip\\
+\emph{Fuente:}
+
+var int a;
+
+var int b;
+
+var int c;
+
+print ( 'Introduce el primer operando' );
+
+input (a);
+
+print ( 'Introduce el segundo operando' );
+
+input (b);
+ 
+ function int suma (int num1, int num2)
+
+\{
+
+	return num1+num2;
+	
+\}
+
+c = suma (a, b);
+
+print (c);\medskip \\
+\emph{Tokens:}
+
+\< \> 
+ <DEC, > 
+ <TipoVarENT, > 
+ <ID, 0> 
+ <PuntoComa, > 
+ 
+ \< \> 
+ <DEC, > 
+ <TipoVarENT, > 
+ <ID, 1> 
+ <PuntoComa, > 
+ 
+ \< \> 
+ <DEC, > 
+ <TipoVarENT, > 
+ <ID, 2> 
+ <PuntoComa, >
+ 
+ \< \> 
+ <Print, > 
+ <ParentesisAbrir, > 
+ <CAD, \textnormal{"Introduce el primer operando"}> 
+ 
+ \< \> 
+ <ParentesisCerrar, > 
+ 
+ \< \> 
+ <PuntoComa, > 
+ <Input, > 
+ <ParentesisAbrir, > 
+ <ID, 0> 
+ 
+ \< \> 
+ <ParentesisCerrar, > 
+ <PuntoComa, > 
+ <Print, > 
+ <ParentesisAbrir, > 
+ 
+ \< \> 
+ <CAD, \textnormal{"Introduce el segundo operando"}> 
+ <ParentesisCerrar, > 
+ <PuntoComa, >
+ 
+ \< \> 
+ <Input, > 
+ 
+ \< \> 
+ <ParentesisAbrir, > 
+ <ID, 1> 
+ <ParentesisCerrar, > 
+ <PuntoComa, > 
+ 
+ \< \> 
+ <DECFunc, > 
+ <TipoVarENT, > 
+ <ID, 3> 
+ <ParentesisAbrir, > 
+ <TipoVarENT, >
+ 
+ \< \> 
+ <ID, 4> 
+ <Coma, > 
+ <TipoVarENT, > 
+ <ID, 5> 
+ 
+ \< \> 
+ <ParentesisCerrar, > 
+ <CorcheteAbrir, > 
+ <Return, > 
+ <ID, 4> 
+ 
+ \< \> 
+ <SUMA, > 
+ <ID, 5> 
+ <PuntoComa, > 
+ <CorcheteCerrar, > 
+ 
+ \< \> 
+ <ID, 2> 
+ <ASIG, > 
+ <ID, 3> 
+ <ParentesisAbrir, > 
+ 
+ \< \> 
+ <ID, 0> 
+ <Coma, > 
+ <ID, 1> 
+ <ParentesisCerrar, > 
+ 
+ \< \> 
+ <PuntoComa, > 
+ <Print, > 
+ <ParentesisAbrir, > 
+ <ID, 2>
+ 
+ \< \> 
+ <ParentesisCerrar, > 
+ <PuntoComa, > \bigskip\\
+ \textbf{3:}\medskip \\
+ \emph{Fuente:}
+ 
+var int a;
+
+var int b;
+
+a = 3;
+
+b = a;
+
+ if (a  $<$  b) b  =  1;
+ 
+ a = a  +  b;
+ 
+print (a);
+
+print (b);\medskip\\
+\emph{Tokens:}
+
+\< \> 
+ <DEC, > 
+ <TipoVarENT, > 
+ <ID, 0> 
+ <PuntoComa, > 
+ <DEC, > 
+ 
+ \< \> 
+ <TipoVarENT, > 
+ <ID, 1> 
+ <PuntoComa, > 
+ <ID, 0> 
+ 
+ \< \> 
+ <ASIG, > 
+ <ENT, 3> 
+ <PuntoComa, > 
+ <ID, 1> 
+ 
+ \< \> 
+ <ASIG, > 
+ <ID, 0> 
+ <PuntoComa, > 
+ <IF, > 
+ 
+ \< \> 
+ <ParentesisAbrir, > 
+ <ID, 0> 
+ <MENOR, > 
+ <ID, 1>
+ 
+ \< \> 
+ <ParentesisCerrar, > 
+ <ID, 1> 
+ <ASIG, > 
+ <ENT, 1> 
+ 
+ \< \> 
+ <PuntoComa, > 
+ <ID, 0> 
+ <ASIG, > 
+ <ID, 0> 
+ 
+ \< \> 
+ <SUMA, > 
+ <ID, 1> 
+ <PuntoComa, > 
+ <Print, > 
+ 
+ \< \> 
+ <ParentesisAbrir, > 
+ <ID, 0> 
+ <ParentesisCerrar, > 
+ <PuntoComa, > 
+ 
+ \< \> 
+ <Print, > 
+ <ParentesisAbrir, > 
+ <ID, 1> 
+ <ParentesisCerrar, > 
+ 
+ \< \> 
+ <PuntoComa, > 
+
+\end{document}
+
