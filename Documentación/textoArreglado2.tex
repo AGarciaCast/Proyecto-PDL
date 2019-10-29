@@ -177,16 +177,22 @@ Donde, c = T - {*, /}
 }
 
 \begin{lstlisting}
-Lee $\forall$ transicion menos oc
+Lee $\forall$ transicion menos o.c
 
 C:  CONCAT()
 
 $G_1$:  GEN_TOKEN(ASIGOR, -)
 
-$G_2$: if(lex $\in$ palRes)
-	GEN_TOKEN(palRes, -)
-    else if((p:= BUSCA_TS(lex))=NULL)
-	p:=INSERTAR_TS(lex)
+$G_2$: if(lex $\in$ palRes) GEN_TOKEN(palRes, -)
+else if(FlagDeclUso = Decl)
+	if (estaEnTSActual(lex)) 
+		Error("Variable ya declarada")
+	else 
+		p = INSERTAR_TS(lex)
+		GEN_TOKEN(ID, p)
+else 
+	p = BUSCA_TS(lex)
+	if (p = null) p = INSERTAR_TS(lex)
 	GEN_TOKEN(ID, p)
 
 A: num = valor(d)
