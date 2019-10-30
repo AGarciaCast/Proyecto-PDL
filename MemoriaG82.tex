@@ -294,15 +294,33 @@ $G_2$: if(lex $\in$ palRes)
 \section{Anexo de Pruebas}
 
 \textbf{Error 1: Número fuera de rango.} \\ 
-\emph{Fuente}: \\
-var int a; \\
-var int b;\\
-a = 33333;\\
-b = a;\\
- if ($a  <  b$) b  =  1; \\
-if ($b  <  a$) b  =  8;\\
- a = a  $+$  b;\\
-print (a);\\
+\emph{Fuente}:
+
+
+var int a;
+
+
+var int b;
+
+
+a = 33333;
+
+
+b = a;
+
+
+ if ($a  <  b$) b  =  1; 
+ 
+ 
+if ($b  <  a$) b  =  8;
+
+
+ a = a  $+$  b;
+ 
+ 
+print (a);
+
+
 print (b);\medskip\\
 \emph{Tokens:}\\ 
 \mbox{$<$DEC, $>$}
@@ -652,6 +670,8 @@ print (c);\medskip \\
   LEXEMA: 'num2'\bigskip\\
  \textbf{3:}\medskip \\
  \emph{Fuente:}
+ 
+ 
 var int a;
 
 var int b;
