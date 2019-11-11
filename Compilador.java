@@ -29,6 +29,10 @@ public  class Compilador {
 	//Para llevar la cuenta de la linea
 	//TODO No funciona bien
 	static int linea = 1;
+	//Tabla ACCION GOTO
+	static TablaDecisionLR TDecLR = new TablaDecisionLR();
+	//Pila de Trabajo
+	//static pilaSt = ;
 
 	public static class TS {
 
@@ -641,6 +645,32 @@ public  class Compilador {
 		}
 	}
 
+	public static class TablaDecisionLR {
+		//TODO Acciones del tipo: d1, r1, a, e  Goto: numeros  
+		private String tabla[][] = { {},{} };
+		
+		public TablaDecisionLR() {
+
+		}
+		
+		public String accion(int estado, Token<?> token) {
+			return tabla[estado][token2int(token)];
+		}
+
+		public String goto_(int estado, char noTerminal) {
+			return tabla[estado][char2int(noTerminal)];
+		}
+		
+		private int char2int(char noTerminal) {
+			// TODO Da la columna correspondiente al simbolo no terminal
+			return 0;
+		}
+
+		private int token2int(Token<?> token) {
+			// TODO Da la columna correspondiente al token
+			return 0;
+		}
+	}
 
 	public static void main(String []args){
 		//File file = new File(args[0]);
@@ -659,8 +689,30 @@ public  class Compilador {
 		}	
 		bwTS = null;	
 
-		lee();
-		while(car!='\0') ALex();
+		/*lee();
+		while(car!='\0') ALex();*/
+		
+		while(true) {
+			lee();
+			Token<?> token = ALex();
+			int s = pilaSt.peek();
+			if (TDecLR.accion(s, token).charAt(0) == 'd') {
+				pilaSt.push(token);
+				pilaSt.push(s);
+				token = ALex();
+			} else if (TDecLR.accion(s, token).charAt(0) == 'r') {
+				int numRegla = Character.getNumericValue((TDecLR.accion(s, token).charAt(1)));
+				for (int i = 0; i < 2*gramatica[numRegla][0]; i++) {
+					pilaSt.pop();
+				}
+				int s2 = pilaSt.peek();
+				int nuevoEstado = TDecLR.goto_(s2, gramatica[numRegla][1]);
+				pilaSt.push(nuevoEstado);
+				System.out.println(numRegla); //TODO Escribir en fichero
+			} else if (TDecLR.accion(s, token).charAt(0) == 'a') {
+				return;
+			} else System.out.println("Error"); //TODO
+		}
 
 		escribirTablaSimbolos(TablaSimbolosGlobal);
 
