@@ -1,0 +1,54 @@
+Terminales = { ; { } id ent cadena ( ) + < ! = |= var int boolean string print input , return function if else }
+NoTerminales = { P1 P D T F T1 A K C S L M Q S1 G X E U R V S2 }
+Axioma = P1
+Producciones = {
+P1 -> P
+P -> D P
+P -> F P
+P -> S P
+D -> var T id ;
+T -> int
+T -> string
+T -> boolean
+F -> function T1 id ( A ) { C }
+T1 -> lambda
+T1 -> T
+A -> T id K
+A -> lambda
+K -> lambda
+K -> , T id K
+C -> D C
+C -> S C
+C -> lambda
+S -> id L E ;
+S -> id ( M ) ;
+S -> print ( E ) ;
+S -> input ( id ) ;
+S -> if ( E ) S1
+S -> return X ;
+L -> |=
+L -> =
+M -> E Q
+M -> lambda
+Q -> lambda
+Q -> , E Q
+S1 -> { S2 } G
+S1 -> E ;
+G -> else { S2 }
+G -> lambda
+X -> E
+X -> lambda
+E -> E < U
+E -> U
+U -> U + R
+U -> R
+R -> ! V
+R -> V
+V -> ( E )
+V -> id
+V -> id ( M )
+V -> ent
+V -> cadena
+S2 -> S S2
+S2 -> S
+}
