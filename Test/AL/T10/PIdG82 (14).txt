@@ -1,0 +1,28 @@
+var boolean booleano;
+function boolean bisiesto (int a)	
+{	var int bis;
+	print ('Es bisiesto?');
+	input(bis);
+	return (!(a + 4 < 0));	
+}
+function int dias (int m, int a)
+{
+	var int dd;
+	print ('di cuantos dias tiene el mes ');
+	print (m);
+	input(dd);
+	if (bisiesto(a)) dd = dd + 1;
+	return dd;
+}
+function boolean esFechaCorrecta (int d, int m, int a)	
+{
+	return !(d < dias (m, a));
+}
+function demo ()	
+{
+
+	if (esFechaCorrecta(25, 10, 2018)) print (9999);
+	return;
+}
+var int aaa;
+demo();

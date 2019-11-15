@@ -1,0 +1,12 @@
+Tabla Simbolos #1:
+
+ * LEXEMA: 'texto'
+
+ * LEXEMA: 'pideTexto'
+
+ * LEXEMA: 'imprime'
+
+ * LEXEMA: 'msg'
+
+ * LEXEMA: 'textoAux'
+
