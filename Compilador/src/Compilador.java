@@ -24,6 +24,7 @@ public class Compilador {
 	static BufferedReader br;
 	static BufferedWriter bw;
 	static BufferedWriter bwTS;
+	static BufferedWriter bwSt;
 	//Para las acciones semanticas
 	static int num = 0;
 	static String lex = "";
@@ -937,12 +938,12 @@ public class Compilador {
 
 	public static void main(String []args){
 		//File file = new File(args[0]);
-		File file = new File("PIdG82 (4).txt");
+		File file = new File("ej1.txt");
 		br = null;
 		bw = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
-			bw = new BufferedWriter(new FileWriter("tokens4.txt"));
+			bw = new BufferedWriter(new FileWriter("tokens1.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -956,16 +957,21 @@ public class Compilador {
 		while(car!='\0') ALex();*/
 
 		pilaSt.push(0);
+		String parse = "A ";
 		lee();
 		Token<?> token = car=='\0'? new Token<Integer>("$") : ALex();
 		while(true) {
 			int s = pilaSt.peek();
-			if (TDecLR.accion(s, token).charAt(0) == 'd') {
+			String accion = TDecLR.accion(s, token);
+			if (accion=="") {
+				System.err.println("Error");
+				break;
+			}else if (accion.charAt(0) == 'd') {
 				pilaSt.push(token2int(token));
-				pilaSt.push(s);
+				pilaSt.push(Integer.parseInt(accion.substring(1)));
 				token = car=='\0'? new Token<Integer>("$") : ALex();
-			} else if (TDecLR.accion(s, token).charAt(0) == 'r') {
-				int numRegla = Integer.parseInt((TDecLR.accion(s, token).substring(1)));
+			} else if (accion.charAt(0) == 'r') {
+				int numRegla = Integer.parseInt(accion.substring(1));
 				for (int i = 0; i < 2*gramatica.getLongitud(numRegla); i++) {
 					pilaSt.pop();
 				}
@@ -973,22 +979,37 @@ public class Compilador {
 				pilaSt.push(noTerm2int(gramatica.getAntecedente(numRegla)));
 				int nuevoEstado = TDecLR.goto_(s2, gramatica.getAntecedente(numRegla));
 				pilaSt.push(nuevoEstado);
-				System.out.println(numRegla); //TODO Escribir en fichero
-			} else if (TDecLR.accion(s, token).charAt(0) == 'a') {
+				parse += (numRegla+1) + " ";
+			} else if (accion.charAt(0) == 'a') {
 				//FIN, pero si pongo return no llega a escribirTablaSimbolos
-				break;
-			} else {
-				System.out.println("Error"); //TODO
 				break;
 			}
 		}
-
+		
+		bwSt = null;
+		try {
+			bwSt = new BufferedWriter(new FileWriter("parse.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		try {
+			bwSt.write(parse);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		escribirTablaSimbolos(TablaSimbolosGlobal);
 
 		try {
 			br.close();
 			bw.close();
 			bwTS.close();
+			bwSt.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
