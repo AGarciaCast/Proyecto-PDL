@@ -982,7 +982,7 @@ public class Compilador {
 				pilaSt.push(noTerm2int(gramatica.getAntecedente(numRegla)));
 				int nuevoEstado = TDecLR.goto_(s2, gramatica.getAntecedente(numRegla));
 				pilaSt.push(nuevoEstado);
-				parse += (numRegla+1) + " ";
+				parse += (numRegla) + " ";
 			} else if (accion.charAt(0) == 'a') {
 				//FIN, pero si pongo return no llega a escribirTablaSimbolos
 				break;
