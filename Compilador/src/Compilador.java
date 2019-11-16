@@ -789,10 +789,10 @@ public class Compilador {
 		case "CAD":
 			salida = 6;
 			break;
-		case "ParentesisCerrar":
+		case "ParentesisAbrir":
 			salida = 7;
 			break;
-		case "ParentesisAbrir":
+		case "ParentesisCerrar":
 			salida = 8;
 			break;
 		case "SUMA":
