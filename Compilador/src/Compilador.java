@@ -905,10 +905,10 @@ public class Compilador {
 		case "U":
 			salida = 41;
 			break;
-		case "V":
+		case "R":
 			salida = 42;
 			break;
-		case "R":
+		case "V":
 			salida = 43;
 			break;
 		case "S''":
