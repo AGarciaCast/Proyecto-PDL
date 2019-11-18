@@ -1,0 +1,15 @@
+var int a;
+var int b;
+var int c;
+print ('Introduce el primer operando');
+input (a);
+print ('Introduce el segundo operando');
+input (b);
+function int suma (int num1, int num2)
+{
+	var int res;
+	res = num1+num2;
+	return res;
+}
+c = suma (a, b);
+print (c);
