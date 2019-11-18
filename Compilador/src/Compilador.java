@@ -940,12 +940,12 @@ public class Compilador {
 
 	public static void main(String []args){
 		//File file = new File(args[0]);
-		File file = new File("ej1.txt");
+		File file = new File("PIdG82 (1).txt");
 		br = null;
 		bw = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
-			bw = new BufferedWriter(new FileWriter("tokens1.txt"));
+			bw = new BufferedWriter(new FileWriter("tokens.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -991,7 +991,7 @@ public class Compilador {
 		
 		bwSt = null;
 		try {
-			bwSt = new BufferedWriter(new FileWriter("parse.txt"));
+			bwSt = new BufferedWriter(new FileWriter("parseDer.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
