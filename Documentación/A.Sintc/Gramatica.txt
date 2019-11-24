@@ -1,8 +1,7 @@
 Terminales = { ; { } id ent cadena ( ) + < ! = |= var int boolean string print input , return function if else }
-NoTerminales = { P1 P D T F T1 A K C S L M Q S1 G X E U R V S2 }
-Axioma = P1
+NoTerminales = { P D T F T1 A K C S L M Q S1 G X E U R V S2 }
+Axioma = P
 Producciones = {
-P1 -> P
 P -> D P
 P -> F P
 P -> S P
@@ -33,7 +32,7 @@ M -> lambda
 Q -> lambda
 Q -> , E Q
 S1 -> { S2 } G
-S1 -> E ;
+S1 -> S
 G -> else { S2 }
 G -> lambda
 X -> E
@@ -51,4 +50,5 @@ V -> ent
 V -> cadena
 S2 -> S S2
 S2 -> S
+P -> lambda
 }
