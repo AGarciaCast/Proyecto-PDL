@@ -1,0 +1,1036 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[absolute,overlay]{textpos}
+\include{lenguajejs.tex}
+\usepackage{listings}
+\usepackage[a4paper,bindingoffset=0.2in,%
+            left=1in,right=1in,top=1in,bottom=1in,%
+            footskip=.25in]{geometry}
+\title{Memoria de la Práctica de Procesadores de Lenguajes: Analizador Sintáctico}
+\author{Diego José Abengózar Vilar, Alejandro García Castellanos,\\ Ignacio Javier Encinas Ramos\\\\Grupo 82}
+
+\renewcommand*\contentsname{Índice}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Diseño del Analizador Sintáctico}
+
+\subsection{Gramática}
+\lstset{
+  basicstyle=\itshape,
+  xleftmargin=3em,
+  tabsize=4,
+  literate={->}{$\rightarrow$}{2}
+           {λ}{$\lambda$}{1}
+           {.}{$\bullet$}1
+}
+
+\begin{lstlisting}
+Terminales  = { ; { } id ent cadena ( ) + < ! = |= var int
+boolean string print input , return function if else }
+NoTerminales  = { P D T F T1 A K C S L M Q S1 G X E U R V S2 }
+Axioma = P
+Producciones = {
+	P -> D P
+	P -> F P
+	P -> S P
+	D -> var T id ;
+	T -> int
+	T -> string
+	T -> boolean
+	F -> function T1 id ( A ) { C }
+	T1 -> λ
+	T1 -> T
+	A -> T id K
+	A -> λ
+	K -> λ
+	K -> , T id K
+	C -> D C
+	C -> S C
+	C -> λ
+	S -> id L E ;
+	S -> id ( M ) ;
+	S -> print ( E ) ;
+	S -> input ( id ) ;
+	S -> if ( E ) S1
+	S -> return X ;
+	L -> |=
+	L -> =
+	M -> E Q
+	M -> λ
+	Q -> λ
+	Q -> , E Q
+	S1 -> { S2 } G
+	S1 -> S
+	G -> else { S2 }
+	G -> λ
+	X -> E
+	X -> λ
+	E -> E < U
+	E -> U
+	U -> U + R
+	U -> R
+	R -> ! V
+	R -> V
+	V -> ( E )
+	V -> id
+	V -> id ( M )
+	V -> ent
+	V -> cadena
+	S2 -> S S2
+	S2 -> S
+	P -> λ
+}
+
+\end{lstlisting}
+
+\subsection{Autómata Reconocedor de Prefijos Viables}
+\begin{textblock}{1}(0.5,5)
+\centering
+\includegraphics[width=20cm]{EnricoIX.pdf}
+\end{textblock}
+\newpage
+
+
+\subsubsection{Estados del autómata}
+\lstset{
+  basicstyle=\mdseries,
+  xleftmargin=0em,
+  mathescape=true
+}
+
+\begin{lstlisting}
+S$_0$={P1 -> . P, P -> . DP, P -> . SP, P -> . , D -> . var T id;,
+	F -> . function T1 id(A){C}, S -> . id L = E;, S -> . id(M);
+	S -> . print(E);, S -> . input(id);, S -> . return X;}
+S$_1$={P1 -> P . }
+S$_2$={P -> D . P, P -> . DP, P -> . SP, P -> . , D -> . var T id;,
+	F -> . function T1 id(A){C}, S -> . id L = E;, S -> . id(M);
+	S -> . print(E);, S -> . input(id);, S -> . return X;}
+S$_3$={}
+
+\end{lstlisting}
+
+\subsection{Conflictos}
+Como podemos observar en la tabla de decisión no hay ningún conflicto.
+
+Los posibles conflictos son:
+	\subsubsection*{Reducción-Reducción}
+	Podemos ver como en los posibles estados con este conflicto, S...., se verifica que 
+	
+	$\forall$ \{A $\rightarrow$ $\alpha$ $\bullet$, B $\rightarrow$ $\beta$ $\bullet$\} $\subset$ $S_x$ $\Rightarrow$ Follow(A) $\cap$ Follow(B) = $\emptyset$ (Esto lo podemos observar al no tener dos entradas de reducción en la misma celda de cada fila de $S_x$ )
+	
+	\subsubsection*{Reducción-Desplazamiento}
+	Podemos ver como en los posibles estados con este conflicto, S...., se verifica que 
+	
+	$\forall$ \{A $\rightarrow$ $\alpha$ $\bullet$ b $\gamma$, C $\rightarrow$ $\beta$ $\bullet$\} $\subset$ $S_x$ $\Rightarrow$ b $\notin$ Follow(C) (Esto lo podemos observar al no tener una entrada de desplazamiento y otra de reducción en la misma celda de cada fila de $S_x$ )
+
+
+\subsection{Matriz de Transiciones}
+\hspace*{-50pt}\setlength{\tabcolsep}{0.7\tabcolsep} \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+    \textbf{MT\_AFD} & \textbf{\textbar}  & \textbf{letra} & \textbf{digito} & \textbf{'}     & \textbf{/}     & \textbf{\_}    & \textbf{carácter} & \textbf{*}     & \textbf{delimitador} \\
+\hline
+ $\rightarrow$ 0     & 1 lee & 2 C   & 3A    & 4 lee & 5 lee & -1 error & -1 error & -1 error & 0 lee \\
+\hline
+    1     & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error \\
+\hline
+    2     & 9 G2  & 2 C   & 2 C   & 9 G2  & 9 G2  & 2 C   & 9 G2  & 9 G2  & 9 G2 \\
+\hline
+    3     & 10 G3 & 10 G3 & 3 B   & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 \\
+\hline
+    4     & 4 C   & 4 C   & 4 C   & 11 G4 & 4 C   & 4 C   & 4 C   & 4 C   & 4 C  \\
+\hline
+    5     & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & 6 lee & -1 error \\
+\hline
+    6     & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 7 lee & 6 lee \\
+\hline
+    7     & 6 lee & 6 lee & 6 lee & 6 lee & 0 lee & 6 lee & 6 lee & 7 lee & 6 lee \\
+\hline
+    \end{tabular}\hspace{-50pt}\\\\
+
+\hspace*{-70pt} \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+    \textbf{MT\_AFD}    & \textbf{;}  & \textbf{\{}     & \textbf{\}}     & \textbf{(}     & \textbf{)}     & \textbf{+}     & \textbf{\textless}     & \textbf{!}     & \textbf{=}     & \textbf{,} \\
+\hline
+$\rightarrow$ 0 & 12 G5 & 13 G6 & 14 G7 & 15 G8 & 16 G9 & 17 G10 & 18 G11 & 19 G12 & 20 G13 & 21 G14 \\
+\hline
+    1  & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & 8 G1  & -1 error \\
+\hline
+    2 & 9 G2 & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2  & 9 G2 \\
+\hline
+    3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 & 10 G3 \\
+\hline
+    4 & 4 C & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C   & 4 C \\
+\hline
+    5 & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error & -1 error \\
+\hline
+    6 & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee \\
+\hline
+    7 & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee & 6 lee \\
+\hline
+    \end{tabular}\hspace{-70pt}
+
+    
+\section{Tabla de Símbolos: Estructura e implementación}
+Contiene la información de los identificadores, de los cuales se guardan los campos: lexema, tipo y desplazamiento.
+Para las funciones, además, se guardará el número de parámetros, su tipo, la forma de paso de parámetros y el tipo del valor de retorno.
+
+La tabla de símbolos estará formada por dos matrices de tamaño dinámico; la primera contendran los indentificadores de ámbito global y la segunda del local. Así pues, esta segunda se creará al encontrar la declaración de una función y se borrará al acabar de ser declarada. También se utiliza un flag de declaración o uso (FlagDeclUso), un flag para saber cual es la tabla actual y dos más para el valor del desplazamiento en cada una de las tablas.
+
+Sin embargo, en la implementación actual sólo se usa una tabla y siempre se supone que está el FlagDeclUso = Uso, pero en el caso de que no este declarada la variable se insertará en la tabla actual, ya que requerimos de la implementacion del Analizador Semántico para poder saber cuando se cambia de ámbito y cuando se están declarando o usando identificadores. Así que, la acción semántica que genera los tokens de los identificadores quedaría temporalmente así:
+\begin{lstlisting}
+$G_2$: if(lex $\in$ palRes)
+	GEN_TOKEN(palRes, -)
+    else if((p:= BUSCA_TS(lex))=NULL)
+	p:=INSERTAR_TS(lex)
+	GEN_TOKEN(ID, p)
+\end{lstlisting}
+
+\section{Anexo de Pruebas}
+
+\textbf{Error 1: Número fuera de rango.} \\ 
+\emph{Fuente}:
+
+
+var int a;
+
+
+var int b;
+
+
+a = 33333;
+
+
+b = a;
+
+
+ if ($a  <  b$) b  =  1; 
+ 
+ 
+if ($b  <  a$) b  =  8;
+
+
+ a = a  $+$  b;
+ 
+ 
+print (a);
+
+
+print (b);\medskip\\
+\emph{Tokens:}
+
+
+\mbox{$<$DEC, $>$}
+
+
+\mbox{$<$TipoVarENT, $>$}
+
+
+\mbox{$<$ID, 0$>$}
+
+
+\mbox{$<$PuntoComa, $>$}
+
+
+\mbox{$<$DEC, $>$}
+
+
+\mbox{$<$TipoVarENT, $>$}
+
+
+\mbox{$<$ID, 1$>$}
+
+
+\mbox{$<$PuntoComa, $>$}
+
+
+\mbox{$<$ID, 0$>$}
+
+
+\mbox{$<$ASIG, $>$}\medskip\\
+\emph{Tabla Simbolos\#1:}\\
+  \mbox{*} LEXEMA: 'a'\\
+  \mbox{*} LEXEMA: 'b'\bigskip \\
+\textbf{Error 2: Transición no prevista}\medskip\\
+\emph{Fuente:} 
+
+
+var string texto; /*Comentario bueno*/
+
+ function imprime (string msg)
+ 
+\{
+
+	print (msg);
+	
+\} 
+
+/ Comentario malo*/
+
+function pideTexto () 
+
+\{. 
+
+	print ( 'Introduce un texto' ); 
+	
+	input (texto); 
+	
+\} 
+
+ pideTexto(); 
+ 
+var string textoAux;
+
+textoAux = texto;
+
+imprime (textoAux);\medskip\\
+\emph{Tokens:}
+
+
+\mbox{$<$DEC, $>$}
+
+
+\mbox{$<$TipoVarCAD, $>$}
+
+
+\mbox{$<$ID, 0$>$}
+
+
+\mbox{$<$PuntoComa, $>$}
+
+
+\mbox{$<$DECFunc, $>$} 
+
+
+\mbox{$<$ID, 1$>$}
+
+
+\mbox{$<$ParentesisAbrir, $>$}
+
+
+\mbox{$<$TipoVarCAD, $>$}
+
+
+\mbox{$<$ID, 2$>$}
+
+
+\mbox{$<$ParentesisCerrar, $>$}
+
+
+\mbox{$<$CorcheteAbrir, $>$}
+
+
+\mbox{$<$Print, $>$}
+
+
+\mbox{$<$ParentesisAbrir, $>$}
+
+
+\mbox{$<$ID, 2$>$}
+
+
+\mbox{$<$ParentesisCerrar, $>$}
+
+
+\mbox{$<$PuntoComa, $>$}
+
+\mbox{$<$CorcheteCerrar, $>$}\medskip\\
+\emph{Tabla Simbolos \#1:}\\
+ \mbox{*} LEXEMA: 'texto'\\
+ \mbox{*} LEXEMA: 'imprime'\\
+ \mbox{*} LEXEMA: 'msg'\bigskip \\
+\textbf{Error 3: Transición no prevista}\\
+\emph{Fuente:}
+
+var string texto;
+
+function pideTexto ()
+
+\{
+	print ('Introduce un texto);
+	
+	input (texto);
+	
+\}
+function imprime (string msg)
+
+\{
+
+	print ('Mensage introducido:');
+	
+	print (msg);
+	
+\}
+
+pideTexto();
+
+var string textoAux;
+
+textoAux = texto;
+
+imprime (textoAux);\medskip\\
+\emph{Tokens:}
+
+
+ \mbox{$<$DEC, $>$} 
+ 
+ 
+ \mbox{$<$TipoVarCAD, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$DECFunc, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$}
+ 
+  
+ \mbox{$<$CorcheteAbrir, $>$ }
+ 
+ 
+ \mbox{$<$Print, $>$ }
+
+ \mbox{$<$ParentesisAbrir, $>$ }
+
+$<$CAD, "\textnormal{Introduce un texto);} 
+ 
+	input (texto);
+	
+\} 
+
+\textnormal{function imprime (string msg)}
+
+\{ 
+
+	print (" $>$
+	
+	
+\mbox{$<$ID, 2$>$ }
+
+
+\mbox{$<$ID, 3$>$}\medskip\\
+\emph{Tabla Simbolos \#1:}\\
+  \mbox{*} LEXEMA: 'texto'\\
+  \mbox{*} LEXEMA: 'pideTexto'\\
+  \mbox{*} LEXEMA: 'Mensage'\\
+ \mbox{*} LEXEMA: 'introducido'\bigskip \\
+\textbf{Pruebas pasadas con éxito:}\medskip\\
+\textbf{1:}\smallskip\\
+\emph{Fuente:} \smallskip
+
+
+var int a;
+ 
+var int b;
+
+a = 3;
+
+b = a;
+
+ var boolean c;
+ 
+c = a  $<$  b;
+
+if (c) b  =  1;
+
+c = b  $<$  a;
+
+if (c) b  =  4;
+
+ a = a  +  b;
+ 
+print (a);
+
+print (b);\medskip \\
+\emph{Tokens:}
+
+\mbox{$<$DEC, $>$ }
+
+
+\mbox{$<$TipoVarENT, $>$} 
+
+
+\mbox{$<$ID, 0$>$ }
+
+
+\mbox{$<$PuntoComa, $>$} 
+
+
+\mbox{$<$DEC, $>$}
+
+
+\mbox{$<$TipoVarENT, $>$ }
+
+
+\mbox{$<$ID, 1$>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$ID, 0$>$ }
+
+
+\mbox{$<$ASIG, $>$ }
+
+
+\mbox{$<$ENT, 3$>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$ID, 1$>$ }
+
+
+\mbox{$<$ASIG, $>$ }
+
+
+\mbox{$<$ID, 0$>$} 
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$DEC, $>$ }
+
+
+\mbox{$<$TipoVarLOG, $>$ }
+
+
+\mbox{$<$ID, 2$>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$ID, 2$>$ }
+
+
+\mbox{$<$ASIG, $>$ }
+
+
+\mbox{$<$ID, 0$>$ }
+
+
+\mbox{$<$MENOR, $>$ }
+
+
+\mbox{$<$ID, 1$>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$IF, $>$ }
+
+
+\mbox{$<$ParentesisAbrir, $>$ }
+
+
+\mbox{$<$ID, 2$>$ }
+
+
+\mbox{$<$ParentesisCerrar, $>$} 
+
+
+\mbox{$<$ID, 1$>$} 
+
+
+\mbox{$<$ASIG, $>$ }
+
+
+\mbox{$<$ENT, 1$>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$ID, 2$>$ }
+
+
+\mbox{$<$ASIG, $>$ }
+
+
+\mbox{$<$ID, 1$>$ }
+
+
+\mbox{$<$MENOR, $>$ }
+
+
+\mbox{$<$ID, 0$>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$IF, $>$ }
+
+
+\mbox{$<$ParentesisAbrir, $>$ }
+
+
+\mbox{$<$ID, 2$>$ }
+
+
+\mbox{$<$ParentesisCerrar, $>$}
+
+ 
+\mbox{$<$ID, 1$>$ }
+
+
+\mbox{$<$ASIG, $>$ }
+
+
+\mbox{$<$ENT, 4$>$ }
+
+
+\mbox{$<$PuntoComa, $>$} 
+
+
+\mbox{$<$ID, 0$>$ }
+
+
+\mbox{$<$ASIG, $>$ }
+
+
+\mbox{$<$ID, 0$>$ }
+
+
+\mbox{$<$SUMA, $>$ }
+
+
+\mbox{$<$ID, 1$>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$Print, $>$ }
+
+
+\mbox{$<$ParentesisAbrir, $>$ }
+
+
+\mbox{$<$ID, 0$>$ }
+
+
+\mbox{$<$ParentesisCerrar, $>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }
+
+
+\mbox{$<$Print, $>$ }
+
+
+\mbox{$<$ParentesisAbrir, $>$ }
+
+
+\mbox{$<$ID, 1$>$ }
+
+
+\mbox{$<$ParentesisCerrar, $>$ }
+
+
+\mbox{$<$PuntoComa, $>$ }\medskip\\
+\emph{Tabla Simbolos \#1:}\\ 
+ \mbox{*} LEXEMA: 'a'\\
+ \mbox{*} LEXEMA: 'b'\\
+ \mbox{*} LEXEMA: 'c'\bigskip \\
+\textbf{2:}\medskip\\
+\emph{Fuente:}
+
+var int a;
+
+var int b;
+
+var int c;
+
+print ( 'Introduce el primer operando' );
+
+input (a);
+
+print ( 'Introduce el segundo operando' );
+
+input (b);
+ 
+ function int suma (int num1, int num2)
+
+\{
+
+	return num1+num2;
+	
+\}
+
+c = suma (a, b);
+
+print (c);\medskip \\
+\emph{Tokens:}
+
+
+ \mbox{$<$DEC, $>$ }
+ 
+ 
+ \mbox{$<$TipoVarENT, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$DEC, $>$ }
+ 
+ 
+ \mbox{$<$TipoVarENT, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$DEC, $>$ }
+ 
+ 
+ \mbox{$<$TipoVarENT, $>$ }
+ 
+ 
+ \mbox{$<$ID, 2$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$}
+ 
+ 
+ \mbox{$<$Print, $>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$CAD, \textnormal{"Introduce el primer operando"}$>$ }
+ 
+
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$Input, $>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$Print, $>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+
+ \mbox{$<$CAD, \textnormal{"Introduce el segundo operando"}$>$ }
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$Input, $>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$DECFunc, $>$ }
+ 
+ 
+ \mbox{$<$TipoVarENT, $>$ }
+ 
+ 
+ \mbox{$<$ID, 3$>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$TipoVarENT, $>$}
+ 
+ 
+ \mbox{$<$ID, 4$>$ }
+ 
+ 
+ \mbox{$<$Coma, $>$ }
+ 
+ 
+ \mbox{$<$TipoVarENT, $>$ }
+ 
+ 
+ \mbox{$<$ID, 5$>$ }
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$CorcheteAbrir, $>$ }
+ 
+ 
+ \mbox{$<$Return, $>$ }
+ 
+ 
+ \mbox{$<$ID, 4$>$ }
+ 
+ 
+ \mbox{$<$SUMA, $>$ }
+ 
+ 
+ \mbox{$<$ID, 5$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$CorcheteCerrar, $>$ }
+ 
+ 
+ \mbox{$<$ID, 2$>$ }
+ 
+ 
+ \mbox{$<$ASIG, $>$ }
+ 
+ 
+ \mbox{$<$ID, 3$>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$Coma, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$Print, $>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$ID, 2$>$}
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }\medskip\\
+\emph{Tabla Simbolos \#1:}\\ 
+  \mbox{*} LEXEMA: 'a'\\
+  \mbox{*} LEXEMA: 'b'\\
+  \mbox{*} LEXEMA: 'c'\\
+  \mbox{*} LEXEMA: 'suma'\\
+  \mbox{*} LEXEMA: 'num1'\\
+  \noindent
+  \mbox{*} LEXEMA: 'num2'\bigskip\\
+ \textbf{3:}\medskip \\
+ \emph{Fuente:}
+ 
+ 
+var int a;
+
+var int b;
+
+a = 3;
+
+b = a;
+
+ if (a  $<$  b) b  =  1;
+ 
+ a = a  +  b;
+ 
+print (a);
+
+print (b);
+\medskip\\
+\emph{Tokens:}
+
+
+ \mbox{$<$DEC, $>$ }
+ 
+ 
+ \mbox{$<$TipoVarENT, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$DEC, $>$ }
+ 
+
+ \mbox{$<$TipoVarENT, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$ASIG, $>$ }
+ 
+ 
+ \mbox{$<$ENT, 3$>$ }
+ 
+
+
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$ASIG, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$IF, $>$ }
+ 
+
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$MENOR, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$}
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$ASIG, $>$ }
+ 
+ 
+ \mbox{$<$ENT, 1$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$ASIG, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$SUMA, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$Print, $>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$ID, 0$>$ }
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$ }
+ 
+ 
+ \mbox{$<$Print, $>$ }
+ 
+ 
+ \mbox{$<$ParentesisAbrir, $>$ }
+ 
+ 
+ \mbox{$<$ID, 1$>$ }
+ 
+ 
+ \mbox{$<$ParentesisCerrar, $>$ }
+ 
+ 
+ \mbox{$<$PuntoComa, $>$}\medskip\\
+\emph{Tabla Simbolos \#1:}\\ 
+\mbox{*} LEXEMA: 'a'\\
+\mbox{*} LEXEMA: 'b' 
+
+\end{document}
