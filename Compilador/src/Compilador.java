@@ -1283,19 +1283,17 @@ public class Compilador {
 		pilaSt.push(0);
 		String parse = "A ";
 		lee();
-		Token<?> token = car == '\0' ? new Token<Integer>("$") : ALex();
+		Token<?> token = ALex();
 		while(true) {
 			int s = pilaSt.peek();
 			String accion = TDecLR.accion(s, token);
 			if (accion == "") {
 				errorSintactico(s);
-				//System.err.println("Error");
 				break;
 			} else if (accion.charAt(0) == 'd') {
 				pilaSt.push(token2int(token));
 				pilaSt.push(Integer.parseInt(accion.substring(1)));
-				//TODO SI HAY UN ESPACIO AL FINAL DEL FICHERO SE MAMA, NO PASA DE AQUÍ
-				token = car == '\0' ? new Token<Integer>("$") : ALex();
+				token = ALex();
 			} else if (accion.charAt(0) == 'r') {
 				int numRegla = Integer.parseInt(accion.substring(1));
 				for (int i = 0; i < 2*gramatica.getLongitud(numRegla); i++) {
