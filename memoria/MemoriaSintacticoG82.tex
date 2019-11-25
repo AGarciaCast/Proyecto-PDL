@@ -104,7 +104,7 @@ Producciones = {
   mathescape=true
 }
 
-\begin{lstlisting}
+\begin{lstlisting}[basicstyle=\footnotesize]
 S$_0$={P1 -> . P, P -> . DP, P -> . SP, P -> . , D -> . var T id;,
 	F -> . function T1 id(A){C}, S -> . id L E;, S -> . id(M);
 	S -> . print(E);, S -> . input(id);,  S -> . if(E) S1, 
@@ -216,35 +216,38 @@ S$_{72}$={S1 -> {. S2}G, S2 -> . S S2, S2 -> . S, S -> . id L E;,
 	S -> . id(M);, S -> . print(E);, S -> . input(id);,
 	S -> . if(E)S1, S -> . return X ;}
 S$_{73}$={S1 -> S .}
-S$_{74}$={S2 -> S . S2 , S2 -> S . , S2 -> . S S2, S2 -> . S, S -> . id L E ;,
-	S -> . id ( M ) ;, S -> . print ( E ) ;, S -> . input ( id ) ;,
-	S -> . if ( E ) S1, S -> . return X ;}
+S$_{74}$={S2 -> S . S2 , S2 -> S . , S2 -> . S S2, S2 -> . S, 
+	S -> . id L E ;, S -> . id ( M ) ;, S -> . print ( E ) ;,
+	S -> . input ( id ) ;, S -> . if ( E ) S1, S -> . return X ;}
 S$_{75}$={F -> function T1 id (K) . {C}}
 S$_{76}$={A -> T id . K , K -> ., K -> . , T id K}
 S$_{77}$={Q -> , E Q .}
 S$_{78}$={S1 -> {S2 . } G}
-S$_{79}$={S1 -> S ; .}
-S$_{80}$={F -> function T1 id (K) { . C}, C-> . D C , C-> . , D-> . var T id ; ,
-        S -> . id L E , S-> . id (M); , S-> . print (E); , S-> . input (id); , 
-        S -> . if (E) S1, S-> . return X ;}
+S$_{79}$={S2 -> S . S2, S2 -> S ., S2 -> . S S2, S -> . id L E;,
+	S -> . id(M);, S -> . print(E); S -> . if(E)S1;,
+	S -> . input(id);, S -> return X;}
+S$_{80}$={F -> function T1 id (K) { . C}, C -> . D C , C -> . ,
+	D -> . var T id ;, S -> . id L E , S -> . id (M);,
+	S -> . print (E);, S -> . input (id);, S -> . if (E) S1,
+	S -> . return X ;}
 S$_{81}$={A -> T id K .}
 S$_{82}$={K -> , . T id K, T -> . int , T -> . string, T -> . boolean}
 S$_{83}$={S1 -> {S2} . G , G -> . else {S2} , G -> .}
 S$_{84}$={F -> function T1 id (K) {C . }}
-S$_{85}$={C -> D . C, C -> . D C, C -> . S C, C -> ., D -> . var T id ;, S -> . id L E ;,
-	      S -> . id ( M ) ;, S -> . print ( E ) ;, S -> . input ( id ) ;,
-	      S -> . if ( E ) S1, S -> . return X ;}
-S$_{86}$={C -> S . C, C -> . D C, C -> . S C, C -> ., D -> . var T id ;, S -> . id L E ;,
-	      S -> . id ( M ) ;, S -> . print ( E ) ;, S -> . input ( id ) ;,
-	      S -> . if ( E ) S1, S -> . return X ;}
+S$_{85}$={C -> D . C, C -> . D C, C -> . S C, C -> ., D -> . var T id ;,
+	S -> . id L E ;, S -> . id ( M ) ;, S -> . print ( E ) ;,
+	S -> . input ( id ) ;, S -> . if ( E ) S1, S -> . return X ;}
+S$_{86}$={C -> S . C, C -> . D C, C -> . S C, C -> ., D -> . var T id ;,
+	S -> . id L E ;, S -> . id ( M ) ;, S -> . print ( E ) ;,
+	S -> . input ( id ) ;, S -> . if ( E ) S1, S -> . return X ;}
 S$_{87}$={K -> , T . id K}
 S$_{88}$={S1 -> {S2} G .}
 S$_{89}$={G -> else . {S2}}
 S$_{90}$={F -> function T1 id (K) {C} .}
 S$_{91}$={K -> , T id . K, K -> ., K -> . , T id K}
-S$_{92}$={G -> else { . S2}, S2 -> . S S2, S2 -> . S, S -> . id L E ;, S -> . id ( M ) ; ,
-	S -> . print ( E ) ;, S -> . input ( id ) ;, S -> . if ( E ) S1
-	S -> . return X ;}
+S$_{92}$={G -> else { . S2}, S2 -> . S S2, S2 -> . S, S -> . id L E ;,
+	S -> . id ( M ) ; , S -> . print ( E ) ;, S -> . input(id);,
+	S -> . if ( E ) S1, S -> . return X ;}
 S$_{93}$={K -> , T id K .}  
 S$_{94}$={G -> else { S2 . }}
 S$_{95}$={G -> else { S2 } .}
