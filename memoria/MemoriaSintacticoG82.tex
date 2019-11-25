@@ -109,7 +109,7 @@ S$_0$={P1 -> . P, P -> . DP, P -> . SP, P -> . , D -> . var T id;,
 	F -> . function T1 id(A){C}, S -> . id L E;, S -> . id(M);
 	S -> . print(E);, S -> . input(id);,  S -> . if(E) S1, 
 	S -> . return X;}
-S$_1$={P1 -> P . }
+S$_1$={P1 -> P .}
 S$_2$={P -> D . P, P -> . DP, P -> . SP, P -> . , D -> . var T id;,
 	F -> . function T1 id(A){C}, S -> . id L E;, S -> . id(M);
 	S -> . print(E);, S -> . input(id);, S -> . if(E) S1, 
@@ -172,7 +172,49 @@ S$_{39}$={S -> id L . E, E -> . E < U, E -> . U, U -> . U + R,
 	U -> . R, R -> . ! V, R -> . V, V -> . (E), V -> . id,
 	V -> . id(M), V -> . ent, V -> . cadena}
 S$_{40}$={S -> id (M . );}
-
+S$_{41}$={M -> E . Q, E -> E . < U, Q -> ., Q -> . ,EQ}
+S$_{42}$={S -> print(E .);, E -> E . < U}
+S$_{43}$={S -> input(id .);}
+S$_{44}$={S -> if(E .) S1, E -> E . < U}
+S$_{45}$={S -> return X; .}
+S$_{46}$={E -> E < . U, U -> . R, U -> . U + R, R-> . ! V, R -> . V
+	V -> . (E), V -> . id, V -> . id(M), V -> . ent, V -> . cadena}
+S$_{47}$={U -> U + . R, R -> . ! V, V -> . (E), V -> . id(M), 
+	V -> . ent, V -> . cadena}
+S$_{48}$={R -> ! V .}
+S$_{49}$={V -> (E .), E -> E . < U}
+S$_{50}$={V -> id(. M), M -> . E Q, M -> ., E -> . E < U, E -> . U, 
+	U -> . U + R, U -> . R, R -> . ! V, R -> . V, V -> . (E),
+	V -> . id, V -> . id(M), V -> . ent, V -> . cadena}
+S$_{51}$={F -> function T1 id(. A){C}, A -> . T id K, A -> ., T -> . int,
+	T -> . string, T -> . boolean}
+S$_{52}$={S -> id L E . ;, E -> E . < U}
+S$_{53}$={S -> id(M) . ;}
+S$_{54}$={M -> E Q .}
+S$_{55}$={Q -> , . E Q, E -> . E < U, E -> . U, 
+	U -> . U + R, U -> . R, R -> . ! V, R -> . V, V -> . (E),
+	V -> . id, V -> . id(M), V -> . ent, V -> . cadena}
+S$_{56}$={S -> print(E) . ;}
+S$_{57}$={S -> input(id) . ;}
+S$_{58}$={S -> if(E) . S1, S1 -> . {S2}G, S1 -> . S, S -> . id L E;,
+	S -> . id(M);, S -> . print(E);, S -> . input(id);,
+	S -> . if(E)S1, S -> . return X ;}
+S$_{59}$={E -> E < U ., U -> U . + R}
+S$_{60}$={U -> U + R .}
+S$_{61}$={V -> (E) .}
+S$_{62}$={V -> id(M .)}
+S$_{63}$={M -> E . Q, E -> E . < U, Q -> ., Q -> . ,EQ}
+S$_{64}$={F -> function T1 id(A .){C}}
+S$_{65}$={A -> T . id K}
+S$_{66}$={S -> id L E ; .}
+S$_{67}$={S -> id (M); .}
+S$_{68}$={Q -> ,E . Q, E -> E . < U, Q -> ., Q -> . ,EQ}
+S$_{69}$={S -> print(E); .}
+S$_{70}$={S -> input(id); .}
+S$_{71}$={S -> if(E) S1 .}
+S$_{72}$={S1 -> {. S2}G, S2 -> . S S2, S2 -> . S, S -> . id L E;,
+	S -> . id(M);, S -> . print(E);, S -> . input(id);,
+	S -> . if(E)S1, S -> . return X ;}
 \end{lstlisting}
 
 \subsection{Conflictos}
