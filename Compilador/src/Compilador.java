@@ -37,6 +37,11 @@ public class Compilador {
 	static Stack<Integer> pilaSt = new Stack<Integer>();
 	//Gramatica
 	static Gramatica gramatica = new Gramatica();
+	//Tipo Error
+	static final int ERR_LEX = 0;
+	static final int ERR_ST = 1;
+	static final int ERR_SE = 2;
+
 
 	public static class TS {
 
@@ -347,7 +352,7 @@ public class Compilador {
 			estado = MT_AFD.estado(estado, car);
 			if(estado == -1){
 				//Manda mensaje de error, escribe la tabla de simbolos y sale del programa
-				error(1);
+				gestorErrores(ERR_LEX, 1);
 			} else {
 
 				switch(accion){
@@ -430,7 +435,7 @@ public class Compilador {
 		}
 	}
 
-	public static void error(int codError) {
+	/*public static void error(int codError) {
 		switch (codError) {
 		case 0:
 			break;
@@ -452,7 +457,7 @@ public class Compilador {
 			e.printStackTrace();
 		}
 		System.exit(1);
-	}
+	}*/
 
 
 	private static void A(){
@@ -522,7 +527,7 @@ public class Compilador {
 	}
 
 	private static Token<Integer> G3(){
-		if (num >= Math.pow(2, 15)) error(2); //return new Token<Integer>("ENT_ERROR", -1);
+		if (num >= Math.pow(2, 15)) gestorErrores(ERR_LEX, 2); //return new Token<Integer>("ENT_ERROR", -1);
 		return new Token<Integer>("ENT", num);
 	}
 
@@ -643,6 +648,7 @@ public class Compilador {
 
 		try {
 			bwTS.write(output);
+			bwTS.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1027,7 +1033,7 @@ public class Compilador {
 
 		private int[] longitudes = {1, 2, 2, 2, 4, 1, 1, 1, 9, 0, 1, 3, 0, 0, 4, 2, 2, 0, 4, 5, 5, 5, 5, 3, 1, 1, 2, 0, 0, 3, 4, 1,
 				4, 0, 1, 0, 3, 1, 3, 1, 2, 1, 3, 1, 4, 1, 1, 2, 1, 0};
-		
+
 		public Gramatica(){
 
 		}
@@ -1040,6 +1046,204 @@ public class Compilador {
 			return antecedentes[numRegla];
 		}
 	}
+
+	public static void errorSintactico(int estado) {
+		switch (estado) {
+		case 0:
+		case 4:
+		case 7: 
+		case 14:
+		case 85: 
+		case 86: 
+		case 96: 
+		case 97:
+			gestorErrores(ERR_ST,1);
+			break;
+		case 1:
+			gestorErrores(ERR_ST,-1);
+			break;
+		case 2: 
+		case 5: 
+		case 12:
+		case 15: 
+		case 37:
+		case 98:
+			gestorErrores(ERR_ST,2);
+			break;
+
+		case 3:
+		case 6:
+		case 13:
+		case 19:
+		case 38:
+		case 51: 
+		case 64: 
+		case 65:
+		case 75:
+		case 76:
+		case 80:
+		case 81:
+		case 82:
+		case 84:
+		case 87:
+		case 90:
+		case 91:
+		case 93:
+			gestorErrores(ERR_ST, 3);
+			break;
+		case 8:
+		case 24: 
+		case 42: 
+		case 56: 
+		case 69: 
+			gestorErrores(ERR_ST, 4);
+			break;
+		case 9:
+		case 25:
+		case 43:
+		case 57:
+		case 70:
+			gestorErrores (ERR_ST, 5);
+			break;
+		case 10:
+		case 26:
+		case 44:
+		case 58: 
+		case 71:
+		case 73:
+			gestorErrores (ERR_ST, 6);
+			break;
+
+		case 11:
+		case 27:
+		case 28:
+		case 45:
+			gestorErrores (ERR_ST, 7);
+			break;
+
+		case 16:
+		case 17:
+		case 18:
+		case 20: 
+			gestorErrores (ERR_ST, 8);
+			break;
+
+		case 21:
+		case 23:
+		case 39:
+		case 52:
+		case 66:
+			gestorErrores (ERR_ST, 9);
+			break;
+		case 22:
+		case 40:
+		case 41:
+		case 53:
+		case 54:
+		case 55:
+		case 63:
+		case 67:
+		case 68:
+		case 77:
+			gestorErrores (ERR_ST, 10);
+			break;
+		case 29:
+		case 30:
+		case 31:
+		case 32:
+		case 33:
+		case 34:
+		case 35:
+		case 36:
+		case 46:
+		case 47:
+		case 48:
+		case 49:
+		case 50:
+		case 59:
+		case 60:
+		case 61:
+		case 62:
+		case 74:
+			gestorErrores (ERR_ST, 11);
+			break;
+		case 72:
+		case 78:
+		case 79:
+		case 83:
+		case 88:
+		case 89:
+		case 92:
+		case 94:
+		case 95:
+		case 99: 
+			gestorErrores (ERR_ST, 12);
+			break;
+		}
+	}
+
+
+	public static void gestorErrores(int tipo, int error) {
+		String msg = "Error";
+		if (tipo == ERR_LEX){
+			msg += " Lexico: ";
+			switch (error) {
+			case 0:
+				break;
+			case 1:
+				msg += "Transicion no prevista.";
+				break;
+			case 2:
+				msg += "Número fuera de rango.";
+				break;
+			}
+		} else if (tipo == ERR_ST) {
+			msg += " Sintáctico: ";
+			switch(error) {
+			case -1:
+				msg += "No se pudo derivar la raíz."; 
+			case 1:
+				msg += "Sentencia no válida.";
+			case 2: 
+				msg += "Declaración incorrecta de variable.";
+			case 3:
+				msg += "Declaración incorrecta de función.";
+			case 4:
+				msg += "Sentencia print incorrecta.";
+			case 5:
+				msg += "Sentencia input incorrecta.";
+			case 6:
+				msg += "Sentencia condicional simple incorrecta.";
+			case 7:
+				msg += "Sentencia return incorrecta.";
+			case 8:
+				msg += "Tipo incorrecto.";
+			case 9:
+				msg += "Asignación incorrecta.";
+			case 10:
+				msg += "Llamada a función incorrecta.";
+			case 11:
+				msg += "Expresión incorrecta.";
+			case 12:
+				msg += "Sentencia condicional compuesta incorrecta."; 
+			} 
+		} else  msg += " Semántico: ";
+
+		msg += "  Linea: " + linea;
+
+		escribirTablaSimbolos(TablaSimbolosGlobal);
+		try {
+			br.close();
+			bw.close();
+			bwTS.close();
+			bwSt.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.exit(1);
+	}
+
 
 	public static void main(String []args){
 		//File file = new File(args[0]);
@@ -1069,7 +1273,8 @@ public class Compilador {
 			int s = pilaSt.peek();
 			String accion = TDecLR.accion(s, token);
 			if (accion == "") {
-				System.err.println("Error");
+				errorSintactico(s);
+				//System.err.println("Error");
 				break;
 			} else if (accion.charAt(0) == 'd') {
 				pilaSt.push(token2int(token));
