@@ -2,7 +2,7 @@
 \contentsline {subsection}{\numberline {1.1}Gramática}{2}% 
 \contentsline {subsection}{\numberline {1.2}Autómata Reconocedor de Prefijos Viables}{3}% 
 \contentsline {subsubsection}{\numberline {1.2.1}Estados del autómata}{4}% 
-\contentsline {subsection}{\numberline {1.3}Conflictos}{4}% 
-\contentsline {subsection}{\numberline {1.4}Matriz de Transiciones}{4}% 
-\contentsline {section}{\numberline {2}Tabla de Símbolos: Estructura e implementación}{5}% 
-\contentsline {section}{\numberline {3}Anexo de Pruebas}{5}% 
+\contentsline {subsection}{\numberline {1.3}Conflictos}{6}% 
+\contentsline {subsection}{\numberline {1.4}Matriz de Transiciones}{6}% 
+\contentsline {section}{\numberline {2}Tabla de Símbolos: Estructura e implementación}{7}% 
+\contentsline {section}{\numberline {3}Anexo de Pruebas}{7}% 
