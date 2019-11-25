@@ -106,13 +106,72 @@ Producciones = {
 
 \begin{lstlisting}
 S$_0$={P1 -> . P, P -> . DP, P -> . SP, P -> . , D -> . var T id;,
-	F -> . function T1 id(A){C}, S -> . id L = E;, S -> . id(M);
-	S -> . print(E);, S -> . input(id);, S -> . return X;}
+	F -> . function T1 id(A){C}, S -> . id L E;, S -> . id(M);
+	S -> . print(E);, S -> . input(id);,  S -> . if(E) S1, 
+	S -> . return X;}
 S$_1$={P1 -> P . }
 S$_2$={P -> D . P, P -> . DP, P -> . SP, P -> . , D -> . var T id;,
-	F -> . function T1 id(A){C}, S -> . id L = E;, S -> . id(M);
-	S -> . print(E);, S -> . input(id);, S -> . return X;}
-S$_3$={}
+	F -> . function T1 id(A){C}, S -> . id L E;, S -> . id(M);
+	S -> . print(E);, S -> . input(id);, S -> . if(E) S1, 
+	S -> . return X;}
+S$_3$={P -> F . P, P -> . DP, P -> . FP, P -> . SP, P -> .,
+	D -> . var T id;,F -> . function T1 id(A){C}, 
+	S -> . id L E;, S -> . id(M);, S -> . print(E);, 
+	S -> . input(id);, S -> . if(E) S1, S -> . return X;}
+S$_4$={P -> S . P, P -> . DP, P -> . FP, P -> . SP, P -> ., 
+	D -> . var T id;, F -> . function T1 id(A){C}, 
+	S -> . id L E;, S -> . id(M);, S -> . print(E);, 
+	S -> . input(id);, S -> . if(E) S1, S -> . return X;}
+S$_5$={D -> var . T id;, T -> . int, T -> . string, T -> . boolean}
+S$_6$={F -> function . T1 id(A){C}, T1 -> ., T1 -> . T, 
+	T -> . int, T -> . string, T -> . boolean}
+S$_7$={S -> id . L E;, S -> id . (M);, L -> |=, L -> . =}
+S$_8$={S -> print . (E);}
+S$_9$={S -> input . (id);}
+S$_{10}$={S -> if . (E) S1}
+S$_{11}$={S -> return . X;, X -> ., X -> . E, E -> . E < U, E -> . U,
+	U -> . U + R, U -> . R, R -> . ! V, R -> . V, V -> . (E),
+	V -> . id, V -> . id(M), V -> . ent, V -> . cadena}
+S$_{12}$={P -> DP .}
+S$_{13}$={P -> FP .}
+S$_{14}$={P -> SP .}
+S$_{15}$={D -> var T . id;}
+S$_{16}$={T -> int .}
+S$_{17}$={T -> string .}
+S$_{18}$={T -> boolean .}
+S$_{19}$={F -> function T1 . id(A){C}}
+S$_{20}$={T1 -> T .}
+S$_{21}$={L -> = .}
+S$_{22}$={S -> id ( . M);, M -> . E Q, M -> ., E -> . E < U, E -> . U,
+	U -> . U + R, U -> . R, R -> . ! V, R -> . V, V -> . (E),
+	V -> . id, V -> . id(M), V -> . ent, V -> . cadena}
+S$_{23}$={L -> |= .}
+S$_{24}$={S -> print ( . E);, E -> . E < U, E -> . U, U -> . U + R,
+	U -> . R, R -> . ! V, R -> . V, V -> . (E), V -> . id,
+	V -> . id(M), V -> . ent, V -> . cadena}
+S$_{25}$={S -> input ( . id)}
+S$_{26}$={S -> if ( . E) S1, E -> . E < U, E -> . U, U -> . U + R,
+	U -> . R, R -> . ! V, R -> . V, V -> . (E), V -> . id,
+	V -> . id(M), V -> . ent, V -> . cadena}
+S$_{27}$={S -> return X . ;}
+S$_{28}$={X -> E ., E -> E . < U}
+S$_{29}$={E -> U ., U -> U . + R}
+S$_{30}$={U -> R .}
+S$_{31}$={R -> ! . V, V -> . (E), V -> . id, V -> . id(M), 
+	V -> . ent, V -> . cadena}
+S$_{32}$={R -> V .}
+S$_{33}$={V -> ( . E), E -> . E < U, E -> . U, U -> . U + R,
+	U -> . R, R -> . ! V, R -> . V, V -> . (E), V -> . id,
+	V -> . id(M), V -> . ent, V -> . cadena}
+S$_{34}$={V -> id ., V -> id . (M)}
+S$_{35}$={V -> ent .}
+S$_{36}$={V -> cadena .}
+S$_{37}$={D -> var T id .;}
+S$_{38}$={F -> function T1 id . (A){C}}
+S$_{39}$={S -> id L . E, E -> . E < U, E -> . U, U -> . U + R,
+	U -> . R, R -> . ! V, R -> . V, V -> . (E), V -> . id,
+	V -> . id(M), V -> . ent, V -> . cadena}
+S$_{40}$={S -> id (M . );}
 
 \end{lstlisting}
 
