@@ -1203,35 +1203,50 @@ public class Compilador {
 			switch(error) {
 			case -1:
 				msg += "No se pudo derivar la raíz."; 
+				break;
 			case 1:
 				msg += "Sentencia no válida.";
+				break;
 			case 2: 
 				msg += "Declaración incorrecta de variable.";
+				break;
 			case 3:
 				msg += "Declaración incorrecta de función.";
+				break;
 			case 4:
 				msg += "Sentencia print incorrecta.";
+				break;
 			case 5:
 				msg += "Sentencia input incorrecta.";
+				break;
 			case 6:
 				msg += "Sentencia condicional simple incorrecta.";
+				break;
 			case 7:
 				msg += "Sentencia return incorrecta.";
+				break;
 			case 8:
 				msg += "Tipo incorrecto.";
+				break;
 			case 9:
 				msg += "Asignación incorrecta.";
+				break;
 			case 10:
 				msg += "Llamada a función incorrecta.";
+				break;
 			case 11:
 				msg += "Expresión incorrecta.";
+				break;
 			case 12:
 				msg += "Sentencia condicional compuesta incorrecta."; 
+				break;
 			} 
 		} else  msg += " Semántico: ";
 
 		msg += "  Linea: " + linea;
 
+		System.out.println(msg);
+		
 		escribirTablaSimbolos(TablaSimbolosGlobal);
 		try {
 			br.close();
