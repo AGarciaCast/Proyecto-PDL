@@ -299,7 +299,7 @@ public class Compilador {
 			//Si esta leyendo un comentario y se encuentra el final o una cadena (sin cerrar)
 			if (car == '\0' && (estado == 6 || estado == 7 || estado == 4)) return -1;
 			//o si estaba leyendo espacios al final
-			if (car == '\0' && estado == 0) error(0);
+			if (car == '\0' && estado == 0) return -2; //error(0);
 			return matriz[estado][char2int(car)].getEstado();
 		}
 
@@ -347,6 +347,7 @@ public class Compilador {
 		num = 0;
 		Token<?> token = null;
 		while (estado < 8){
+			if (estado == -2) return new Token<Integer>("$");
 			//System.out.println("est:" + estado + " car: " + car);
 			String accion = MT_AFD.accion(estado, car);
 			estado = MT_AFD.estado(estado, car);
@@ -1236,7 +1237,6 @@ public class Compilador {
 			br.close();
 			bw.close();
 			bwTS.close();
-			bwSt.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
