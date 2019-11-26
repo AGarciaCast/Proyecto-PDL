@@ -254,7 +254,7 @@ E: cont = cont + 1
 $G_3$: if(num $>=$ $2^{15}$) Error("Numero se sale del rango")
     else GEN_TOKEN(ENT, num)
 
-$G_4:$ if(num $>$ 64) Error("Exceso de caracteres en la cadena")
+$G_4:$ if(cont $>$ 64) Error("Exceso de caracteres en la cadena")
      else GEN_TOKEN(CAD, lex)
 
 $G_5:$ GEN_TOKEN(PuntoComa, -)
