@@ -262,7 +262,6 @@ public class Compilador {
 				case '*':  
 					return 7;
 				case '\r': //cr
-					linea++;
 				case ' ':  
 				case '\t':
 				case '\n': 
@@ -348,6 +347,7 @@ public class Compilador {
 		Token<?> token = null;
 		while (estado < 8){
 			if (estado == -2) return new Token<Integer>("$");
+                        linea = car=='\n' ? linea +1 : l铆nea;
 			//System.out.println("est:" + estado + " car: " + car);
 			String accion = MT_AFD.accion(estado, car);
 			estado = MT_AFD.estado(estado, car);
@@ -1195,23 +1195,23 @@ public class Compilador {
 				msg += "Transicion no prevista.";
 				break;
 			case 2:
-				msg += "N鷐ero fuera de rango.";
+				msg += "N煤mero fuera de rango.";
 				break;
 			}
 		} else if (tipo == ERR_ST) {
-			msg += " Sint醕tico: ";
+			msg += " Sint谩ctico: ";
 			switch(error) {
 			case -1:
-				msg += "No se pudo derivar la ra韟."; 
+				msg += "No se pudo derivar la ra铆z."; 
 				break;
 			case 1:
-				msg += "Sentencia no v醠ida.";
+				msg += "Sentencia no v谩lida.";
 				break;
 			case 2: 
-				msg += "Declaraci髇 incorrecta de variable.";
+				msg += "Declaraci贸n incorrecta de variable.";
 				break;
 			case 3:
-				msg += "Declaraci髇 incorrecta de funci髇.";
+				msg += "Declaraci贸n incorrecta de funci贸n.";
 				break;
 			case 4:
 				msg += "Sentencia print incorrecta.";
@@ -1229,19 +1229,19 @@ public class Compilador {
 				msg += "Tipo incorrecto.";
 				break;
 			case 9:
-				msg += "Asignaci髇 incorrecta.";
+				msg += "Asignaci贸n incorrecta.";
 				break;
 			case 10:
-				msg += "Llamada a funci髇 incorrecta.";
+				msg += "Llamada a funci贸n incorrecta.";
 				break;
 			case 11:
-				msg += "Expresi髇 incorrecta.";
+				msg += "Expresi贸n incorrecta.";
 				break;
 			case 12:
 				msg += "Sentencia condicional compuesta incorrecta."; 
 				break;
 			} 
-		} else  msg += " Sem醤tico: ";
+		} else  msg += " Sem谩ntico: ";
 
 		msg += "  Linea: " + linea;
 
