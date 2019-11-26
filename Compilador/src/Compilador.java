@@ -27,6 +27,7 @@ public class Compilador {
 	static BufferedWriter bwSt;
 	//Para las acciones semanticas
 	static int num = 0;
+	static int cont = 0;
 	static String lex = "";
 	//Para llevar la cuenta de la linea
 	//TODO No funciona bien
@@ -197,7 +198,7 @@ public class Compilador {
 			matriz[0][char2int('|')] = new ParEstadoAccion(1, "lee");
 			matriz[0][char2int('a')] = new ParEstadoAccion(2, "C");
 			matriz[0][char2int('1')] = new ParEstadoAccion(3, "A");
-			matriz[0][char2int('\'')] = new ParEstadoAccion(4, "lee");
+			matriz[0][char2int('\'')] = new ParEstadoAccion(4, "D");
 			matriz[0][char2int('/')] = new ParEstadoAccion(5, "lee");
 			matriz[0][char2int('_')] = new ParEstadoAccion(-1, "error");
 			matriz[0][char2int('.')] = new ParEstadoAccion(-1, "error");
@@ -219,7 +220,7 @@ public class Compilador {
 			for (int i = 0; i < 19; i++) matriz[3][i] = new ParEstadoAccion(10, "G3");
 			matriz[3][char2int('1')] = new ParEstadoAccion(3, "B");
 
-			for (int i = 0; i < 19; i++) matriz[4][i] = new ParEstadoAccion(4, "C");
+			for (int i = 0; i < 19; i++) matriz[4][i] = new ParEstadoAccion(4, "E");
 			matriz[4][char2int('\'')] = new ParEstadoAccion(11, "G4");
 
 			for (int i = 0; i < 19; i++) matriz[5][i] = new ParEstadoAccion(-1, "error");
@@ -347,7 +348,7 @@ public class Compilador {
 		Token<?> token = null;
 		while (estado < 8){
 			if (estado == -2) return new Token<Integer>("$");
-                        linea = car=='\n' ? linea +1 : línea;
+            linea = car == '\n' ? linea + 1 : linea;
 			//System.out.println("est:" + estado + " car: " + car);
 			String accion = MT_AFD.accion(estado, car);
 			estado = MT_AFD.estado(estado, car);
@@ -368,6 +369,12 @@ public class Compilador {
 					break;
 				case "C":
 					C();
+					break;
+				case "D":
+					D();
+					break;
+				case "E":
+					E();
 					break;
 				case "G1":
 					token = G1();
@@ -473,13 +480,25 @@ public class Compilador {
 		lee();
 	}
 
-
 	private static void C(){
 		//Ojo al orden
 		lex += car;
 		lee();
 	}
 
+	private static void D(){
+		//Ojo al orden
+		cont = 0;
+		lee();
+	}
+	
+	private static void E(){
+		//Ojo al orden
+		cont++;
+		lex += car;
+		lee();
+	}
+	
 	private static Token<Integer> G1(){
 		lee();
 		return new Token<Integer>("ASIGOR");
@@ -528,13 +547,14 @@ public class Compilador {
 	}
 
 	private static Token<Integer> G3(){
-		if (num >= Math.pow(2, 15)) gestorErrores(ERR_LEX, 2); //return new Token<Integer>("ENT_ERROR", -1);
+		if (num >= Math.pow(2, 15)) gestorErrores(ERR_LEX, 2);
 		return new Token<Integer>("ENT", num);
 	}
 
 	private static Token<String> G4(){
 		lee();
-		return new Token<String>("CAD", lex /*+ "\0"*/);
+		if (cont > 64) gestorErrores(ERR_LEX, 3);
+		return new Token<String>("CAD", lex);
 	}
 
 	private static Token<Integer> G5(){
@@ -1189,13 +1209,14 @@ public class Compilador {
 		if (tipo == ERR_LEX){
 			msg += " Lexico: ";
 			switch (error) {
-			case 0:
-				break;
 			case 1:
 				msg += "Transicion no prevista.";
 				break;
 			case 2:
-				msg += "Número fuera de rango.";
+				msg += "Numero fuera de rango.";
+				break;
+			case 3:
+				msg += "Exceso de caracteres en la cadena.";
 				break;
 			}
 		} else if (tipo == ERR_ST) {
