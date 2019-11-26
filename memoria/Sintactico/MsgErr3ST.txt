@@ -1,0 +1,1 @@
+> Error Sintactico: Sentencia condicional compuesta incorrecta.  Linea: 14
