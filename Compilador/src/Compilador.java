@@ -1220,19 +1220,19 @@ public class Compilador {
 				break;
 			}
 		} else if (tipo == ERR_ST) {
-			msg += " Sintáctico: ";
+			msg += " Sintactico: ";
 			switch(error) {
 			case -1:
-				msg += "No se pudo derivar la raíz."; 
+				msg += "No se pudo derivar la raiz."; 
 				break;
 			case 1:
-				msg += "Sentencia no válida.";
+				msg += "Sentencia no valida.";
 				break;
 			case 2: 
-				msg += "Declaración incorrecta de variable.";
+				msg += "Declaracion incorrecta de variable.";
 				break;
 			case 3:
-				msg += "Declaración incorrecta de función.";
+				msg += "Declaracion incorrecta de funcion.";
 				break;
 			case 4:
 				msg += "Sentencia print incorrecta.";
@@ -1250,19 +1250,19 @@ public class Compilador {
 				msg += "Tipo incorrecto.";
 				break;
 			case 9:
-				msg += "Asignación incorrecta.";
+				msg += "Asignacion incorrecta.";
 				break;
 			case 10:
-				msg += "Llamada a función incorrecta.";
+				msg += "Llamada a funcion incorrecta.";
 				break;
 			case 11:
-				msg += "Expresión incorrecta.";
+				msg += "Expresion incorrecta.";
 				break;
 			case 12:
 				msg += "Sentencia condicional compuesta incorrecta."; 
 				break;
 			} 
-		} else  msg += " Semántico: ";
+		} else  msg += " Semantico: ";
 
 		msg += "  Linea: " + linea;
 
