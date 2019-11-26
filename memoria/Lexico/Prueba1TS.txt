@@ -1,0 +1,8 @@
+Tabla Simbolos #1:
+
+ * LEXEMA: 'a'
+
+ * LEXEMA: 'b'
+
+ * LEXEMA: 'c'
+
