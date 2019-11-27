@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.19)  27 NOV 2019 19:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.19)  27 NOV 2019 19:49
 entering extended mode
 **./MemoriaSintacticoG82.tex
 (MemoriaSintacticoG82.tex
@@ -472,8 +472,13 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 189.
  [4] [5]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 324.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 322.
  [6]
+Underfull \hbox (badness 10000) in paragraph at lines 334--335
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 336--337
 
  []
@@ -489,12 +494,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 340--341
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 342--343
+Underfull \hbox (badness 10000) in paragraph at lines 342--344
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--346
+Underfull \hbox (badness 10000) in paragraph at lines 345--346
 
  []
 
@@ -529,29 +534,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 357--358
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 359--360
+Underfull \hbox (badness 10000) in paragraph at lines 359--361
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 361--363
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 364--365
+Underfull \hbox (badness 10000) in paragraph at lines 362--363
 
  []
 
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 478.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 476.
 
-Overfull \hbox (45.87074pt too wide) in paragraph at lines 372--481
+Overfull \hbox (45.87074pt too wide) in paragraph at lines 370--479
  []|  [] 
  []
 
 
-Overfull \hbox (45.87074pt too wide) in paragraph at lines 487--596
+Overfull \hbox (45.87074pt too wide) in paragraph at lines 485--594
  []|  [] 
  []
 
@@ -563,232 +563,232 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
 <Prueba1Arbol.pdf, id=56, 597.19106pt x 845.07718pt>
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf>
-Package pdftex.def Info: Prueba1Arbol.pdf  used on input line 616.
+Package pdftex.def Info: Prueba1Arbol.pdf  used on input line 614.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf>
-Package pdftex.def Info: Prueba1Arbol.pdf  used on input line 616.
+Package pdftex.def Info: Prueba1Arbol.pdf  used on input line 614.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 <Prueba1Arbol.pdf, id=59, page=1, 597.19106pt x 845.07718pt>
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 616.
+Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 614.
 (pdftex.def)             Requested size: 438.51413pt x 620.53755pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 616.
+Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 614.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [11]
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 616.
+Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 614.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 616.
+Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 614.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 616.
+Package pdftex.def Info: Prueba1Arbol.pdf , page1 used on input line 614.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 
 [12 <./Prueba1Arbol.pdf>]
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf>
-Package pdftex.def Info: Prueba1Arbol.pdf  used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf  used on input line 615.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf>
-Package pdftex.def Info: Prueba1Arbol.pdf  used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf  used on input line 615.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 <Prueba1Arbol.pdf, id=97, page=2, 597.19106pt x 845.07718pt>
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 615.
 (pdftex.def)             Requested size: 438.51413pt x 620.53755pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 615.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 615.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 615.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf , page2 used on input line 615.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [13 <./Prueba1Arbol.pdf>]
 <Prueba1Arbol.pdf, id=136, page=3, 597.19106pt x 845.07718pt>
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 3>
-Package pdftex.def Info: Prueba1Arbol.pdf , page3 used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf , page3 used on input line 615.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 3>
-Package pdftex.def Info: Prueba1Arbol.pdf , page3 used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf , page3 used on input line 615.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba1Arbol.pdf Graphic file (type pdf)
 <use Prueba1Arbol.pdf, page 3>
-Package pdftex.def Info: Prueba1Arbol.pdf , page3 used on input line 617.
+Package pdftex.def Info: Prueba1Arbol.pdf , page3 used on input line 615.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [14 <./Prueba1Arbol.pdf>]
 (Prueba2ST.txt) (Prueba2Parse.txt)
 <Prueba2Arbol.pdf, id=170, 597.19106pt x 845.07718pt>
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf>
-Package pdftex.def Info: Prueba2Arbol.pdf  used on input line 623.
+Package pdftex.def Info: Prueba2Arbol.pdf  used on input line 621.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf>
-Package pdftex.def Info: Prueba2Arbol.pdf  used on input line 623.
+Package pdftex.def Info: Prueba2Arbol.pdf  used on input line 621.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 <Prueba2Arbol.pdf, id=173, page=1, 597.19106pt x 845.07718pt>
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 623.
+Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 621.
 (pdftex.def)             Requested size: 438.51413pt x 620.53755pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 623.
+Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 621.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [15]
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 623.
+Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 621.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 623.
+Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 621.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 623.
+Package pdftex.def Info: Prueba2Arbol.pdf , page1 used on input line 621.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [16 <./Prueba2Arbol.pdf>]
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf>
-Package pdftex.def Info: Prueba2Arbol.pdf  used on input line 624.
+Package pdftex.def Info: Prueba2Arbol.pdf  used on input line 622.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf>
-Package pdftex.def Info: Prueba2Arbol.pdf  used on input line 624.
+Package pdftex.def Info: Prueba2Arbol.pdf  used on input line 622.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 <Prueba2Arbol.pdf, id=215, page=2, 597.19106pt x 845.07718pt>
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 624.
+Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 622.
 (pdftex.def)             Requested size: 438.51413pt x 620.53755pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 624.
+Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 622.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 624.
+Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 622.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 624.
+Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 622.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba2Arbol.pdf Graphic file (type pdf)
 <use Prueba2Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 624.
+Package pdftex.def Info: Prueba2Arbol.pdf , page2 used on input line 622.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [17 <./Prueba2Arbol.pdf>] (Prueba3ST.txt) (Prueba3Parse.txt)
 <Prueba3Arbol.pdf, id=247, 597.19106pt x 845.07718pt>
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf>
-Package pdftex.def Info: Prueba3Arbol.pdf  used on input line 631.
+Package pdftex.def Info: Prueba3Arbol.pdf  used on input line 629.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf>
-Package pdftex.def Info: Prueba3Arbol.pdf  used on input line 631.
+Package pdftex.def Info: Prueba3Arbol.pdf  used on input line 629.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 <Prueba3Arbol.pdf, id=250, page=1, 597.19106pt x 845.07718pt>
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 631.
+Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 629.
 (pdftex.def)             Requested size: 438.51413pt x 620.53755pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 631.
+Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 629.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [18]
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 631.
+Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 629.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 631.
+Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 629.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 1>
-Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 631.
+Package pdftex.def Info: Prueba3Arbol.pdf , page1 used on input line 629.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [19 <./Prueba3Arbol.pdf>]
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf>
-Package pdftex.def Info: Prueba3Arbol.pdf  used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf  used on input line 630.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf>
-Package pdftex.def Info: Prueba3Arbol.pdf  used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf  used on input line 630.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 <Prueba3Arbol.pdf, id=295, page=2, 597.19106pt x 845.07718pt>
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 630.
 (pdftex.def)             Requested size: 438.51413pt x 620.53755pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 2>
-Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page2 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 
 [20 <./Prueba3Arbol.pdf>]
 <Prueba3Arbol.pdf, id=327, page=3, 597.19106pt x 845.07718pt>
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 3>
-Package pdftex.def Info: Prueba3Arbol.pdf , page3 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page3 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 3>
-Package pdftex.def Info: Prueba3Arbol.pdf , page3 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page3 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 3>
-Package pdftex.def Info: Prueba3Arbol.pdf , page3 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page3 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [21 <./Prueba3Arbol.pdf>]
 <Prueba3Arbol.pdf, id=359, page=4, 597.19106pt x 845.07718pt>
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 4>
-Package pdftex.def Info: Prueba3Arbol.pdf , page4 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page4 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 4>
-Package pdftex.def Info: Prueba3Arbol.pdf , page4 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page4 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Prueba3Arbol.pdf Graphic file (type pdf)
 <use Prueba3Arbol.pdf, page 4>
-Package pdftex.def Info: Prueba3Arbol.pdf , page4 used on input line 632.
+Package pdftex.def Info: Prueba3Arbol.pdf , page4 used on input line 630.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [22 <./Prueba3Arbol.pdf>]
 (MemoriaSintacticoG82.aux)
@@ -820,7 +820,7 @@ lejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy1
 amsfonts/cm/cmti10.pfb><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fo
 nts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/Alejandro/AppData/Local/Progr
 ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on MemoriaSintacticoG82.pdf (22 pages, 464967 bytes).
+Output written on MemoriaSintacticoG82.pdf (22 pages, 464845 bytes).
 PDF statistics:
  424 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
