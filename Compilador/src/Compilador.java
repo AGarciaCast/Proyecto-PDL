@@ -157,20 +157,22 @@ public class Compilador {
 	}
 
 
-	
-	public String buscaTipoTS(int posi){
+	public static String buscaTipoTS(int posi){
 		//TODO
-		return  null ;
+		return null;
 	}
 	
-	public String[] buscaTipoTSLista(String lexema){
-		
-		 
+	public static String[] buscaTipoTSLista(String lexema){
 		//TODO
-
-			return null;
+		return null;
 		
 	}
+	
+	public static String porFunc(String tipo, String tipo2) {
+		//TODO
+		return null;
+	}
+	
 	//Filas de la TS: lexema, tipo, despl., NArgs, tipoArgs, tipoDevuelto
 	//El ALex. solo mete el lexema
 	public static class TSElem {
@@ -1287,8 +1289,13 @@ public class Compilador {
 				msg += "Sentencia condicional compuesta incorrecta."; 
 				break;
 			} 
-		} else  msg += " Semantico: ";
-
+		} else if (tipo == ERR_SE) {
+			msg += " Semantico: ";
+			switch(error) {
+			
+			}
+		}
+		
 		msg += "  Linea: " + linea;
 
 		System.out.println(msg);
@@ -1628,7 +1635,161 @@ public class Compilador {
 			tope=pilaSem.pop();
 			nuevoElem.setTipo=tope.getTipo();
 		break;
+		
+		case 40:
+			tope = pilaSem.pop();
+			pilaSem.pop();
+			if (tope.getTipo() == "logico") {
+				nuevoElem.setTipo("logico");
+			} else {
+				gestorErrores(ERR_SE,16);
+			}
+			break;
+			
+		case 41:
+			tope = pilaSem.pop();
+			nuevoElem.setTipo(tope.getTipo());
+			break;
+			
+		case 42:
+			pilaSem.pop();
+			tope1 = pilaSem.pop();
+			pilaSem.pop();
+			nuevoElem.setTipo(tope1.getTipo());
+			break;
+			
+		case 43:
+			tope = pilaSem.pop();
+			nuevoElem.setTipo(buscaTipoTS(tope.getPosi()));
+			break;
+		
+		case 44:
+			pilaSem.pop();
+			tope1 = pilaSem.pop();
+			pilaSem.pop();
+			tope3 = pilaSem.pop();
+			String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
+			for (String t : tipos ) {		
+				if (buscaTipoTS(tope3.getPosi()) == porFunc(tope1.getTipo(), t)){
+					nuevoElem.setTipo(t); //TODO porFunc
+				} else {
+					gestorErrores(ERR_SE,17);
+				}
+			}
+			break;
+		
+		case 45:
+			pilaSem.pop();
+			nuevoElem.setTipo("entero");
+			break;
+			
+		case 46:
+			pilaSem.pop();
+			nuevoElem.setTipo("cadena");
+			break;
+		
+		case 47:
+			tope = pilaSem.pop();
+			tope1 = pilaSem.pop();
+			if (tope1.getTipo() != "tipo_error") {
+				nuevoElem.setTipo(tope.getTipo());
+			} else {
+				gestorErrores(ERR_SE, 18);
+			}
+			
+			if (tope1.getTipoRet() == "tipo_vacio") {
+				nuevoElem.setTipoRet(tope.getTipoRet());
+			} else if (tope.getTipoRet() == "tipo_vacio") {
+				nuevoElem.setTipoRet(tope1.getTipoRet());
+			} else {
+				gestorErrores(ERR_SE, 19);
+			}
+			break;
+		
+		case 48:
+			tope = pilaSem.pop();
+			nuevoElem.setTipo(tope.getTipo());
+			nuevoElem.setTipoRet(tope.getTipoRet());
+			break;
+		
+		case 49:
+			nuevoElem.setTipoRet("tipo vacio");
+			break;
+		
+		case 50:
+			TablaSimbolosGlobal = new TS();
+			desplG = 0;
+			TablaSimbolosActual = TablaSimbolosGlobal;
+			break;
+			
+		case 51:
+			zona_decl = false;
+			break;
+			
+		case 52:
+			zona_decl = true;
+			break;
+			
+		case 53:
+			TablaSimbolosLocal = new TS();
+			desplL = 0;
+			TablaSimbolosActual = TablaSimbolosLocal;
+			break;
+			
+		case 54:
+			tope = pilaSem.pop();
+			tope1 = pilaSem.pop();
+			tope2 = pilaSem.pop();
+			tope3 = pilaSem.pop();
+			tope4 = pilaSem.pop();
+			tope5 = pilaSem.pop();
+			tope6 = pilaSem.pop();
+			tope7 = pilaSem.pop();
+			tope8 = pilaSem.pop();
+			tope9 = pilaSem.pop();
+			TablaSimbolosActual.getTabla().get(tope8.getPosi()).setTipo(porFunc(tope5.getTipo(), tope9.getTipo()));
+			zona_decl = false;
+			pilaSem.push(tope9);
+			pilaSem.push(tope8);
+			pilaSem.push(tope7);
+			pilaSem.push(tope6);
+			pilaSem.push(tope5);
+			pilaSem.push(tope4);
+			pilaSem.push(tope3);
+			pilaSem.push(tope2);
+			pilaSem.push(tope1);
+			pilaSem.push(tope);
+			break;
+			
+		case 55:
+			tope = pilaSem.pop();
+			tope1 = pilaSem.pop();
+			tope2 = pilaSem.pop();
+			tope3 = pilaSem.pop();
+			TablaSimbolosActual.getTabla().get(tope2.getPosi()).setTipo(tope3.getTipo());
+			TablaSimbolosActual.getTabla().get(tope2.getPosi()).setDesplazamiento(desplL);
+			desplL += tope2.getTamano();
+			pilaSem.push(tope3);
+			pilaSem.push(tope2);
+			pilaSem.push(tope1);
+			pilaSem.push(tope);
+			break;
+			
+		case 56:
+			tope = pilaSem.pop();
+			tope1 = pilaSem.pop();
+			tope2 = pilaSem.pop();
+			tope3 = pilaSem.pop();
+			TablaSimbolosActual.getTabla().get(tope2.getPosi()).setTipo(tope3.getTipo());
+			TablaSimbolosActual.getTabla().get(tope2.getPosi()).setDesplazamiento(desplL);
+			desplL += tope2.getTamano();
+			pilaSem.push(tope3);
+			pilaSem.push(tope2);
+			pilaSem.push(tope1);
+			pilaSem.push(tope);
+			break;
 		}
+		
 		pilaSem.push(nuevoElem);
 	}
 	
