@@ -1468,6 +1468,166 @@ public class Compilador {
 			
 			nuevoElem.setTipoRet("tipo_vacio");
 			break; 
+		
+		case 21:
+			pilaSem.pop();
+			pilaSem.pop();
+			tope2=pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			if(BuscaTipoTS(tope2).equals("entero") || BuscaTipoTS(tope2).equals("cadena"))
+				nuevoElem.setTipo("tipo_ok");
+			else
+				gestorErrores(ERR_SE,6)
+				
+			nuevoElem.setTipoRet("tipo_vacio");
+		break;
+			
+		case 22:
+			tope=pilaSem.pop()
+			pilaSem.pop();
+			tope2=pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			if(tope2.getTipo().equals("logico"))
+				nuevoElem.setTipo(tope.getTipo);
+			else
+				gestorErrores(ERR_SE,7);
+			nuevoElem.setTipoRet(tope.getTipoRet());
+		break;
+				
+		case 23:
+			//TODO
+		break;
+				
+		case 24:
+		
+		break;
+		
+		case 25:
+		
+		break;
+		
+		case 26:
+			tope=pilaSem.pop();
+			tope1=pilaSem.pop();
+			if(!tope1.getTipo.equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
+				if(tope.getTipo().equals("tipo_"))
+					nuevoElem.setTipo(tope1.getTipo());
+				else
+					//TODO
+				
+			else
+				gestorErrores(ERR_SE,10);
+				
+		break;
+				
+		case 27:
+			nuevoElem.setTipo("tipo_vacio");
+		break;
+		
+		case 28:
+			nuevoElem.setTipo("tipo_vacio");
+		break;
+		
+		case 29:
+			tope=pilaSem.pop();
+			tope1=pilaSem.pop();
+			pilaSem.pop();
+			if(!tope1.getTipo.equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
+				if(tope.getTipo().equals("tipo_")){
+					pilaSem.pop();
+					nuevoElem.setTipo(pilaSem.pop().getTipo());
+				}
+				else
+							//TODO
+
+			else
+				gestorErrores(ERR_SE,11);
+		break;
+				
+		case 30:
+			tope=pilaSem.pop();
+			pilaSem.pop();
+			tope2=pilaSem.pop();
+			pilaSem.pop();
+			if(!tope2.getTipo().equals("tipo_error"))
+				if(!tope.getTipo.equals("tipo_error"))
+					nuevoElem.setTipo(tope2.getTipo());
+				else
+					gestorErrores(ERR_SE,13);
+			else
+				gestorErrores(ERR_SE,12);
+				
+			if(tope2.getTipoRet().equals(tope.getTipoRet()))
+				nuevoElem.setTipoRet(tope.getTipoRet());
+				
+			else
+				//ERROR
+				
+		break;
+				
+		case 31:
+			tope=pilaSem.pop();
+			nuevoElem.setTipo(tope.getTipo());
+			nuevoElem.setTipoRet(tope.getTipoRet());
+		break;
+		
+		case 32:
+			pilaSem.pop();
+			tope1=pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			nuevoElem.setTipo(tope1.getTipo());
+			nuevoElem.setTipoRet(tope1.getTipoRet());
+		break;
+		
+		case 33:
+			nuevoElem.setTipo("tipo_vacio");
+			nuevoElem.setTipoRet("tipo_vacio");
+		break;
+		
+		case 34:
+			tope=pilaSem.pop();
+			nuevoElem.setTipo(tope.getTipo());
+		break;
+				
+		case 35:
+			nuevoElem.setTipo("tipo_vacio");
+		break;
+				
+		case 36:
+			tope=pilaSem.pop();
+			pilaSem.pop();
+			tope2=pilaSem.pop();
+			if(tope.getTipo().equals(tope.getTipo()) && tope.getTipo().equals("entero"));
+				nuevoElem.setTipo("logico");
+				
+			else
+				gestorErrores(ERR_SE,14);
+				
+		break;
+				
+		case 37:
+			tope=pilaSem.pop();
+			nuevoElem.setTipo(tope.getTipo());
+		break;
+				
+		case 38:
+			tope=pilaSem.pop();
+			pilaSem.pop();
+			tope2=pilaSem.pop();
+			if(tope2.getTipo().equals(tope2.getTipo()) && tope2.getTipo().equals("entero"))
+				nuevoElem.setTipo("entero");
+			else
+				gestorErrores(ERR_SE,15);
+				
+		break;
+				
+		case 39:
+			tope=pilaSem.pop();
+			nuevoElem.setTipo=tope.getTipo();
+		break;
 		}
 		pilaSem.push(nuevoElem);
 	}
