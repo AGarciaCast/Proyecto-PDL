@@ -1330,7 +1330,7 @@ public class Compilador {
 	
 	
 	public static void accionSemantica(int numRegla) {
-		ElemSem tope,tope1,tope2,tope3,tope9;
+		ElemSem tope, tope1, tope2, tope3, tope4, tope5, tope6, tope7, tope8, tope9;
 		ElemSem nuevoElem = new ElemSem();
 		switch(numRegla) {
 		case 0:
@@ -1482,22 +1482,22 @@ public class Compilador {
 			tope2=pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
-			if(BuscaTipoTS(tope2).equals("entero") || BuscaTipoTS(tope2).equals("cadena"))
+			if(buscaTipoTS(tope2.getPosi()).equals("entero") || buscaTipoTS(tope2.getPosi()).equals("cadena"))
 				nuevoElem.setTipo("tipo_ok");
 			else
-				gestorErrores(ERR_SE,6)
+				gestorErrores(ERR_SE,6);
 				
 			nuevoElem.setTipoRet("tipo_vacio");
 		break;
 			
 		case 22:
-			tope=pilaSem.pop()
+			tope=pilaSem.pop();
 			pilaSem.pop();
 			tope2=pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
 			if(tope2.getTipo().equals("logico"))
-				nuevoElem.setTipo(tope.getTipo);
+				nuevoElem.setTipo(tope.getTipo());
 			else
 				gestorErrores(ERR_SE,7);
 			nuevoElem.setTipoRet(tope.getTipoRet());
@@ -1518,7 +1518,7 @@ public class Compilador {
 		case 26:
 			tope=pilaSem.pop();
 			tope1=pilaSem.pop();
-			if(!tope1.getTipo.equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
+			if(!tope1.getTipo().equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
 				if(tope.getTipo().equals("tipo_"))
 					nuevoElem.setTipo(tope1.getTipo());
 				else
@@ -1541,7 +1541,7 @@ public class Compilador {
 			tope=pilaSem.pop();
 			tope1=pilaSem.pop();
 			pilaSem.pop();
-			if(!tope1.getTipo.equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
+			if(!tope1.getTipo().equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
 				if(tope.getTipo().equals("tipo_")){
 					pilaSem.pop();
 					nuevoElem.setTipo(pilaSem.pop().getTipo());
@@ -1559,7 +1559,7 @@ public class Compilador {
 			tope2=pilaSem.pop();
 			pilaSem.pop();
 			if(!tope2.getTipo().equals("tipo_error"))
-				if(!tope.getTipo.equals("tipo_error"))
+				if(!tope.getTipo().equals("tipo_error"))
 					nuevoElem.setTipo(tope2.getTipo());
 				else
 					gestorErrores(ERR_SE,13);
@@ -1607,9 +1607,8 @@ public class Compilador {
 			tope=pilaSem.pop();
 			pilaSem.pop();
 			tope2=pilaSem.pop();
-			if(tope.getTipo().equals(tope.getTipo()) && tope.getTipo().equals("entero"));
-				nuevoElem.setTipo("logico");
-				
+			if(tope.getTipo().equals(tope.getTipo()) && tope.getTipo().equals("entero"))
+				nuevoElem.setTipo("logico");	
 			else
 				gestorErrores(ERR_SE,14);
 				
@@ -1633,13 +1632,13 @@ public class Compilador {
 				
 		case 39:
 			tope=pilaSem.pop();
-			nuevoElem.setTipo=tope.getTipo();
+			nuevoElem.setTipo(tope.getTipo());
 		break;
 		
 		case 40:
 			tope = pilaSem.pop();
 			pilaSem.pop();
-			if (tope.getTipo() == "logico") {
+			if (tope.getTipo().equals("logico")) {
 				nuevoElem.setTipo("logico");
 			} else {
 				gestorErrores(ERR_SE,16);
@@ -1691,15 +1690,15 @@ public class Compilador {
 		case 47:
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
-			if (tope1.getTipo() != "tipo_error") {
+			if (!tope1.getTipo().equals("tipo_error")) {
 				nuevoElem.setTipo(tope.getTipo());
 			} else {
 				gestorErrores(ERR_SE, 18);
 			}
 			
-			if (tope1.getTipoRet() == "tipo_vacio") {
+			if (tope1.getTipoRet().equals("tipo_vacio")) {
 				nuevoElem.setTipoRet(tope.getTipoRet());
-			} else if (tope.getTipoRet() == "tipo_vacio") {
+			} else if (tope.getTipoRet().equals("tipo_vacio")) {
 				nuevoElem.setTipoRet(tope1.getTipoRet());
 			} else {
 				gestorErrores(ERR_SE, 19);
