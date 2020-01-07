@@ -49,34 +49,75 @@ public class Compilador {
 	static boolean zona_decl = true;
 
 	public static class ElemSem {
+		private List<String> tipoLista=null;
 		private String tipo;
 		private int tamano;
 		private int posi;
+		private int num;
+		private String cadena;
+		private String tipoRet;
 		
 		public ElemSem() {
 			
 		}
 		
+		public int getNum() {
+			return num;
+		}
+
+		public void setNum(int num) {
+			this.num = num;
+		}
+
+		public String getCadena() {
+			return cadena;
+		}
+
+		public void setCadena(String cadena) {
+			this.cadena = cadena;
+		}
+
+		public String getTipoRet() {
+			return tipoRet;
+		}
+
+		public void setTipoRet(String tipoRet) {
+			this.tipoRet = tipoRet;
+		}
+
+		public List<String> getTipoLista() {
+			return tipoLista;
+		}
+		
 		public String getTipo() {
 			return tipo;
 		}
+		
 		public int getTamano() {
 			return tamano;
 		}
+		
 		public int getPosi() {
 			return posi;
 		}
+		
 		public void setTipo(String tipo) {
 			this.tipo = tipo;
 		}
+		
+		public void setTipoLista(String tipo) {
+			if (this.tipoLista==null) this.tipoLista=new ArrayList<String>();
+			this.tipoLista.add(tipo);
+		}
+		
 		public void setTamano(int tamano) {
 			this.tamano = tamano;
 		}
+		
 		public void setPosi(int posi) {
 			this.posi = posi;
 		}
-		
-		//TODO mas atributos
+
 	}
 	
 	public static class TS {
@@ -96,10 +137,10 @@ public class Compilador {
 			}
 			return posTS == tabla.size() ? -1 : posTS;
 		}
-
+		//posi >0 
 		public int anadeTS(){
 			tabla.add(new TSElem(lex));
-			return tabla.size() - 1;
+			return (tabla.size() - 1); //*(TablaSimbolosActual==TablaSimbolosLocal? -1 : 1);
 		}
 
 		public List<TSElem> getTabla() {
@@ -115,6 +156,21 @@ public class Compilador {
 		//TODO
 	}
 
+
+	
+	public String buscaTipoTS(int posi){
+		//TODO
+		return  null ;
+	}
+	
+	public String[] buscaTipoTSLista(String lexema){
+		
+		 
+		//TODO
+
+			return null;
+		
+	}
 	//Filas de la TS: lexema, tipo, despl., NArgs, tipoArgs, tipoDevuelto
 	//El ALex. solo mete el lexema
 	public static class TSElem {
@@ -1249,30 +1305,51 @@ public class Compilador {
 		System.exit(1);
 	}
 
-	public static void meterEnPilaSemantica(int numToken, Token<?> token) {
+	public static void meterEnPilaSemanticaToken(int numToken, Token<?> token) {
+		ElemSem nuevoElem = new ElemSem();
 		switch(numToken) {
-		case 0:
-			ElemSem nuevoElem = new ElemSem();
-			pilaSem.push(nuevoElem);
-			break;
-		case 3:
-			nuevoElem = new ElemSem();
-			nuevoElem.setPosi((int) token.getAtributo());//El atributo aqui deberia ser la posicion segun el codigo que tenemos en ALex()
-			pilaSem.push(nuevoElem);
-			break;
-			//TODO
+			case 3:
+				nuevoElem.setPosi((int) token.getAtributo());//El atributo aqui deberia ser la posicion segun el codigo que tenemos en ALex()
+				break;
+			case 4:
+				nuevoElem.setCadena((String) token.getAtributo());
+				break;
+			case 5:
+				nuevoElem.setNum((int) token.getAtributo());
+				break;
 		}
+		pilaSem.push(nuevoElem);
 	}
 	
+	
 	public static void accionSemantica(int numRegla) {
+		ElemSem tope,tope1,tope2,tope3,tope9;
+		ElemSem nuevoElem = new ElemSem();
 		switch(numRegla) {
 		case 0:
 			libera(TablaSimbolosGlobal); //TODO
 			break;
+		case 1:
+		case 2:
+		case 15:
+			tope = pilaSem.pop();
+			pilaSem.pop();
+			nuevoElem.setTipoRet(tope.getTipoRet());
+			break;
+		case 3:
+			tope = pilaSem.pop();
+			tope1 = pilaSem.pop();
+			if (tope1.getTipoRet().equals("tipo_vacio"))
+				nuevoElem.setTipoRet(tope.getTipoRet());
+			else 
+				gestorErrores(ERR_SE,1);
+			break;
 		case 4:
 			pilaSem.pop();
-			ElemSem tope1 = pilaSem.pop();
-			ElemSem tope2 = pilaSem.pop();
+			tope1 = pilaSem.pop();
+			tope2 = pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
 			TablaSimbolosActual.getTabla().get(tope1.getPosi()).setTipo(tope2.getTipo());
 			if (TablaSimbolosActual == TablaSimbolosGlobal) {
 				TablaSimbolosActual.getTabla().get(tope1.getPosi()).setDesplazamiento(desplG);
@@ -1285,12 +1362,114 @@ public class Compilador {
 			break;
 		case 5:
 			pilaSem.pop();
-			ElemSem nuevoElem = new ElemSem();
 			nuevoElem.setTipo("entero");
 			nuevoElem.setTamano(1);
-			pilaSem.push(nuevoElem);
 			break;
+		case 6:
+			pilaSem.pop();
+			nuevoElem.setTipo("cadena");
+			nuevoElem.setTamano(1);
+			break;
+		case 7:
+			pilaSem.pop();
+			nuevoElem.setTipo("logico");
+			nuevoElem.setTamano(1);
+			break;
+		case 8:
+			tope1=null;
+			tope9=null;
+			for(int i =0; i<12;i++){
+				if(i==1) tope1=pilaSem.pop();
+				else if(i==9) tope9=pilaSem.pop();
+				else pilaSem.pop();
+			}
+			if(tope1!=null && tope9!=null && !tope1.getTipoRet().equals(tope9.getTipoRet())) gestorErrores(ERR_SE,2);
+			TablaSimbolosActual = TablaSimbolosGlobal;
+			libera(TablaSimbolosGlobal);
+			break;
+		case 9:
+		case 12:
+		case 13:
+			nuevoElem.setTipo("tipo_vacio");
+			break;
+		case 10:
+			tope=pilaSem.pop();
+			nuevoElem.setTipo(tope.getTipo());
+			break;
+		case 11:
+			tope = pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			tope3 = pilaSem.pop();
+			if (tope.getTipo().equals("tipo_vacio")) 
+				nuevoElem.setTipo(tope3.getTipo());
+			else
+				nuevoElem.setTipoLista(tope3.getTipo());
+			break;
+		case 14:
+			tope = pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			tope3 = pilaSem.pop();
+			pilaSem.pop();
+			/*
+			 * NO ES NECESARIO
+			 * 
+			 if (tope.getTipo().equals("tipo_vacio")) 
+				nuevoElem.setTipoLista(tope3.getTipo()); 
+			else
+				nuevoElem.setTipoLista(tope3.getTipo());
+			 */
+			nuevoElem.setTipoLista(tope3.getTipo()); //<-- este ya crea ademas de añadir
+			break;
+		case 16:
+			tope = pilaSem.pop();
+			tope1 = pilaSem.pop();
+			if (tope1.getTipoRet().equals(tope.getTipoRet()))
+				nuevoElem.setTipoRet(tope1.getTipoRet());
+			else if (tope1.getTipoRet().equals("tipo_vacio"))
+				nuevoElem.setTipoRet(tope.getTipoRet());
+			else if (tope.getTipoRet().equals("tipo_vacio"))
+				nuevoElem.setTipoRet(tope1.getTipoRet());
+			else 
+				gestorErrores(ERR_SE,3);
+			break;
+		case 17:
+			nuevoElem.setTipoRet("tipo_vacio");
+			break;
+		case 18:
+			pilaSem.pop();
+			tope1=pilaSem.pop();
+			pilaSem.pop();
+			tope3 = pilaSem.pop();
+			//TODO
+			nuevoElem.setTipoRet("tipo_vacio");
+			break;
+		case 19:
+			pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			//TODO
+			nuevoElem.setTipoRet("tipo_vacio");
+			break;
+		case 20:
+			pilaSem.pop();
+			pilaSem.pop();
+			tope2=pilaSem.pop();
+			pilaSem.pop();
+			pilaSem.pop();
+			
+			if (tope2.getTipo().equals("entero") || tope2.getTipo().equals("cadena"))
+				nuevoElem.setTipo("tipo_ok");
+			else 
+				gestorErrores(ERR_SE,5);
+			
+			nuevoElem.setTipoRet("tipo_vacio");
+			break; 
 		}
+		pilaSem.push(nuevoElem);
 	}
 	
 	public static void main(String []args){
@@ -1326,7 +1505,7 @@ public class Compilador {
 			} else if (accion.charAt(0) == 'd') {
 				pilaSt.push(token2int(token));
 				pilaSt.push(Integer.parseInt(accion.substring(1)));
-				meterEnPilaSemantica(token2int(token), token); // <-----
+				meterEnPilaSemanticaToken(token2int(token), token); // <-----
 				token = ALex();
 			} else if (accion.charAt(0) == 'r') {
 				int numRegla = Integer.parseInt(accion.substring(1));
