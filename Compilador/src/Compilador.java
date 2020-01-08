@@ -1542,7 +1542,7 @@ public class Compilador {
 			tope1=pilaSem.pop();
 			pilaSem.pop();
 			if(!tope1.getTipo().equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
-				if(tope.getTipo().equals("tipo_")){
+				if(tope.getTipo().equals("tipo_vacio")){
 					pilaSem.pop();
 					nuevoElem.setTipo(pilaSem.pop().getTipo());
 				}
