@@ -149,8 +149,12 @@ public class Compilador {
 			return tabla;
 		}
 		
-		public TSElem get(int posi) {
-			return tabla.get(posi);
+		public TSElem get(int pos) {
+			return tabla.get(pos);
+		}
+		
+		public int size() {
+			return tabla.size();
 		}
 		
 		public int getNum() {
@@ -175,7 +179,7 @@ public class Compilador {
 		}
 		if(resultado == null){
 			int posTS=0;
-			List<TSElem> tabla = TablaSimbolosGlobal.getTabla();
+			TS tabla = TablaSimbolosGlobal;
 			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lexema)){
 				posTS++;
 			}
@@ -770,7 +774,7 @@ public class Compilador {
 		String cabecera = "Tabla Simbolos #" + tablaSimbolos.getNum() + ":\n";
 		String output = cabecera + "\n";
 
-		for (int i = 0; i < tablaSimbolos.getTabla().size(); i++) {
+		for (int i = 0; i < tablaSimbolos.size(); i++) {
 			String lineaLexema = " * LEXEMA: \'" + tablaSimbolos.get(i).getLexema() + "\'\n";
 
 			String atributos = "";
@@ -1848,7 +1852,7 @@ public class Compilador {
 			tope4 = pilaSem.pop();
 			tope5 = pilaSem.pop();
 			tope6 = pilaSem.pop();
-			TablaSimbolosActual.get(tope5.getPosi()).setTipo(parFunc(tope2.getTipoLista(), tope6.getTipo()));
+			TablaSimbolosActual.get(Integer.parseInt(tope5.getPosi().substring(1))).setTipo(parFunc(tope2.getTipoLista(), tope6.getTipo()));
 			zona_decl = false;
 			pilaSem.push(tope6);
 			pilaSem.push(tope5);
@@ -1864,8 +1868,8 @@ public class Compilador {
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
 			tope2 = pilaSem.pop();
-			TablaSimbolosActual.get(tope1.getPosi()).setTipo(tope2.getTipo());
-			TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplL);
+			TablaSimbolosActual.get(Integer.parseInt(tope1.getPosi().substring(1))).setTipo(tope2.getTipo());
+			TablaSimbolosActual.get(Integer.parseInt(tope1.getPosi().substring(1))).setDesplazamiento(desplL);
 			desplL += tope1.getTamano();
 			pilaSem.push(tope2);
 			pilaSem.push(tope1);
