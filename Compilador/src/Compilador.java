@@ -49,7 +49,7 @@ public class Compilador {
 	static boolean zona_decl = true;
 
 	public static class ElemSem {
-		private List<String> tipoLista=null;
+		private List<String> tipoLista = null;
 		private String tipo;
 		private int tamano;
 		private int posi;
@@ -106,9 +106,10 @@ public class Compilador {
 		}
 		
 		public void setTipoLista(String tipo) {
-			if (this.tipoLista==null) this.tipoLista=new ArrayList<String>();
+			if (this.tipoLista == null) this.tipoLista = new ArrayList<String>();
 			this.tipoLista.add(tipo);
 		}
+		
 		
 		public void setTamano(int tamano) {
 			this.tamano = tamano;
@@ -146,6 +147,10 @@ public class Compilador {
 		public List<TSElem> getTabla() {
 			return tabla;
 		}
+		
+		public TSElem get(int posi) {
+			return tabla.get(posi);
+		}
 
 		public int getId() {
 			return id;
@@ -153,7 +158,8 @@ public class Compilador {
 	}
 	
 	public static void libera(TS tablaSimbolos) {
-		//TODO
+		escribirTablaSimbolos(tablaSimbolos);
+		tablaSimbolos = null;
 	}
 
 
@@ -168,9 +174,15 @@ public class Compilador {
 		
 	}
 	
-	public static String porFunc(String tipo, String tipo2) {
-		//TODO
-		return null;
+	//Copia los argumentos a un string con el tipo de retorno al final
+	public static String parFunc(List<String> listaArgs, String tipoRetorno) {
+		String salida = "";
+		for (int i = 0; i < listaArgs.size()-1; i++) {
+			salida += listaArgs.get(i) + " x ";
+		}
+		salida += listaArgs.get(listaArgs.size()-1);
+		salida += " --> " + tipoRetorno;
+		return salida;
 	}
 	
 	//Filas de la TS: lexema, tipo, despl., NArgs, tipoArgs, tipoDevuelto
@@ -249,6 +261,7 @@ public class Compilador {
 		public void setTipoDevuelto(String tipoDevuelto) {
 			this.tipoDevuelto = tipoDevuelto;
 		}
+
 	}
 
 	//Contenido de la MatrizTransiciones
@@ -737,23 +750,23 @@ public class Compilador {
 
 			String atributos = "";
 
-			if (tablaSimbolos.getTabla().get(i).getTipo() != null) 
+			if (tablaSimbolos.get(i).getTipo() != null) 
 				atributos += "  + Tipo: \'" + tablaSimbolos.getTabla().get(i).getTipo() +"\'\n";
 
-			if (tablaSimbolos.getTabla().get(i).getDesplazamiento() != -1)
+			if (tablaSimbolos.get(i).getDesplazamiento() != -1)
 				atributos += "  + Despl: " + tablaSimbolos.getTabla().get(i).getDesplazamiento() +"\n";
 
-			if (tablaSimbolos.getTabla().get(i).getNArgs() != -1)
+			if (tablaSimbolos.get(i).getNArgs() != -1)
 				atributos += "  + numParam: " + tablaSimbolos.getTabla().get(i).getNArgs() +"\n";
 
-			for (int j = 0; j < tablaSimbolos.getTabla().get(i).getNArgs(); j++) {
-				if (tablaSimbolos.getTabla().get(i).getTipoArgs(j) != null)
-					atributos += "  + TipoParam" + j + ": \'" + tablaSimbolos.getTabla().get(i).getTipoArgs(j) +"\'\n";
-				if (tablaSimbolos.getTabla().get(i).getModoArgs(j) != null)
-					atributos += "  + ModoParam" + j + ": \'" + tablaSimbolos.getTabla().get(i).getModoArgs(j) +"\'\n";
+			for (int j = 0; j < tablaSimbolos.get(i).getNArgs(); j++) {
+				if (tablaSimbolos.get(i).getTipoArgs(j) != null)
+					atributos += "  + TipoParam" + j + ": \'" + tablaSimbolos.get(i).getTipoArgs(j) +"\'\n";
+				if (tablaSimbolos.get(i).getModoArgs(j) != null)
+					atributos += "  + ModoParam" + j + ": \'" + tablaSimbolos.get(i).getModoArgs(j) +"\'\n";
 			}
-			if (tablaSimbolos.getTabla().get(i).getTipoDevuelto() != null)
-				atributos += "  + TipoRetorno: \'" + tablaSimbolos.getTabla().get(i).getTipoDevuelto() +"\'\n";
+			if (tablaSimbolos.get(i).getTipoDevuelto() != null)
+				atributos += "  + TipoRetorno: \'" + tablaSimbolos.get(i).getTipoDevuelto() +"\'\n";
 
 			/* Que es esto?
 			 * atributos += "  + EtiqFuncion: \'" + tablaSimbolos.getTabla().get(i).getEtiq() +"\'\n";
@@ -1359,10 +1372,10 @@ public class Compilador {
 			pilaSem.pop();
 			TablaSimbolosActual.getTabla().get(tope1.getPosi()).setTipo(tope2.getTipo());
 			if (TablaSimbolosActual == TablaSimbolosGlobal) {
-				TablaSimbolosActual.getTabla().get(tope1.getPosi()).setDesplazamiento(desplG);
+				TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplG);
 				desplG += tope2.getTamano();
 			} else {
-				TablaSimbolosActual.getTabla().get(tope1.getPosi()).setDesplazamiento(desplL);
+				TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplL);
 				desplL += tope2.getTamano();
 			}
 			zona_decl = false;
@@ -1427,7 +1440,7 @@ public class Compilador {
 			else
 				nuevoElem.setTipoLista(tope3.getTipo());
 			 */
-			nuevoElem.setTipoLista(tope3.getTipo()); //<-- este ya crea ademas de añadir
+			nuevoElem.setTipoLista(tope3.getTipo()); //<-- este ya crea ademas de anadir
 			break;
 		case 16:
 			tope = pilaSem.pop();
@@ -1608,7 +1621,7 @@ public class Compilador {
 			pilaSem.pop();
 			tope2=pilaSem.pop();
 			if(tope.getTipo().equals(tope.getTipo()) && tope.getTipo().equals("entero"))
-				nuevoElem.setTipo("logico");	
+				nuevoElem.setTipo("logico");
 			else
 				gestorErrores(ERR_SE,14);
 				
@@ -1668,9 +1681,9 @@ public class Compilador {
 			pilaSem.pop();
 			tope3 = pilaSem.pop();
 			String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
-			for (String t : tipos ) {		
-				if (buscaTipoTS(tope3.getPosi()) == porFunc(tope1.getTipo(), t)){
-					nuevoElem.setTipo(t); //TODO porFunc
+			for (String t : tipos) {		
+				if (buscaTipoTS(tope3.getPosi()).equals(parFunc(tope1.getTipoLista(), t))){
+					nuevoElem.setTipo(t);
 				} else {
 					gestorErrores(ERR_SE,17);
 				}
@@ -1743,14 +1756,8 @@ public class Compilador {
 			tope4 = pilaSem.pop();
 			tope5 = pilaSem.pop();
 			tope6 = pilaSem.pop();
-			tope7 = pilaSem.pop();
-			tope8 = pilaSem.pop();
-			tope9 = pilaSem.pop();
-			TablaSimbolosActual.getTabla().get(tope8.getPosi()).setTipo(porFunc(tope5.getTipo(), tope9.getTipo()));
+			TablaSimbolosActual.get(tope5.getPosi()).setTipo(parFunc(tope2.getTipoLista(), tope6.getTipo()));
 			zona_decl = false;
-			pilaSem.push(tope9);
-			pilaSem.push(tope8);
-			pilaSem.push(tope7);
 			pilaSem.push(tope6);
 			pilaSem.push(tope5);
 			pilaSem.push(tope4);
@@ -1764,11 +1771,9 @@ public class Compilador {
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
 			tope2 = pilaSem.pop();
-			tope3 = pilaSem.pop();
-			TablaSimbolosActual.getTabla().get(tope2.getPosi()).setTipo(tope3.getTipo());
-			TablaSimbolosActual.getTabla().get(tope2.getPosi()).setDesplazamiento(desplL);
-			desplL += tope2.getTamano();
-			pilaSem.push(tope3);
+			TablaSimbolosActual.get(tope1.getPosi()).setTipo(tope2.getTipo());
+			TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplL);
+			desplL += tope1.getTamano();
 			pilaSem.push(tope2);
 			pilaSem.push(tope1);
 			pilaSem.push(tope);
@@ -1778,11 +1783,9 @@ public class Compilador {
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
 			tope2 = pilaSem.pop();
-			tope3 = pilaSem.pop();
-			TablaSimbolosActual.getTabla().get(tope2.getPosi()).setTipo(tope3.getTipo());
-			TablaSimbolosActual.getTabla().get(tope2.getPosi()).setDesplazamiento(desplL);
-			desplL += tope2.getTamano();
-			pilaSem.push(tope3);
+			TablaSimbolosActual.get(tope1.getPosi()).setTipo(tope2.getTipo());
+			TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplL);
+			desplL += tope1.getTamano();
 			pilaSem.push(tope2);
 			pilaSem.push(tope1);
 			pilaSem.push(tope);
