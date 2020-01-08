@@ -14,10 +14,10 @@ public class Compilador {
 	static char car;
 	static MatrizTransiciones MT_AFD = new MatrizTransiciones();
 	//ID de cada tabla, al crear una nueva se le asigna el valor y se aumenta para tablas posteriores
-	static int idTS = 1;
+	static int numTS = 1;
 	//Solo dos Tablas porque no hay anidamiento
 	//De momento solo trabajo con la Global
-	static TS TablaSimbolosGlobal; //TODO crearlas en la acc. semanticas
+	static TS TablaSimbolosGlobal; 
 	static TS TablaSimbolosLocal;
 	static TS TablaSimbolosActual = null;
 	//Escribir en ficheros
@@ -30,7 +30,6 @@ public class Compilador {
 	static int cont = 0;
 	static String lex = "";
 	//Para llevar la cuenta de la linea
-	//TODO No funciona bien
 	static int linea = 1;
 	//Tabla ACCION GOTO
 	static TablaDecisionLR TDecLR = new TablaDecisionLR();
@@ -49,10 +48,10 @@ public class Compilador {
 	static boolean zona_decl = true;
 
 	public static class ElemSem {
-		private List<String> tipoLista = null;
+		private List<String> tipoLista=null;
 		private String tipo;
 		private int tamano;
-		private int posi;
+		private String posi;
 		private int num;
 		private String cadena;
 		private String tipoRet;
@@ -97,7 +96,7 @@ public class Compilador {
 			return tamano;
 		}
 		
-		public int getPosi() {
+		public String getPosi() {
 			return posi;
 		}
 		
@@ -106,16 +105,15 @@ public class Compilador {
 		}
 		
 		public void setTipoLista(String tipo) {
-			if (this.tipoLista == null) this.tipoLista = new ArrayList<String>();
+			if (this.tipoLista==null) this.tipoLista=new ArrayList<String>();
 			this.tipoLista.add(tipo);
 		}
-		
 		
 		public void setTamano(int tamano) {
 			this.tamano = tamano;
 		}
 		
-		public void setPosi(int posi) {
+		public void setPosi(String posi) {
 			this.posi = posi;
 		}
 
@@ -123,47 +121,66 @@ public class Compilador {
 	
 	public static class TS {
 
-		private int id; 
+		private String id; 
+		private int num;
 		private List<TSElem> tabla;
 
-		public TS(){
-			id = idTS++;
+		public TS(String id){
+			this.num=numTS++;
+			this.id = id;
 			tabla = new ArrayList<TSElem>();
 		}
-
-		public int buscaTS(String lexema){
+		
+		
+		public String buscaTS(String lexema){
 			int posTS=0;
 			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lexema)){
 				posTS++;
 			}
-			return posTS == tabla.size() ? -1 : posTS;
+			return posTS == tabla.size() ? null : id+posTS;
 		}
-		//posi >0 
-		public int anadeTS(){
+		
+		public String anadeTS(String lex){
 			tabla.add(new TSElem(lex));
-			return (tabla.size() - 1); //*(TablaSimbolosActual==TablaSimbolosLocal? -1 : 1);
+			return id+(tabla.size() - 1); 
 		}
 
 		public List<TSElem> getTabla() {
 			return tabla;
 		}
 		
-		public TSElem get(int posi) {
-			return tabla.get(posi);
+		public int getNum() {
+			return num;
 		}
-
-		public int getId() {
+		
+		public String getId() {
 			return id;
 		}
 	}
 	
-	public static void libera(TS tablaSimbolos) {
-		escribirTablaSimbolos(tablaSimbolos);
-		tablaSimbolos = null;
+	
+	public static String buscaTS(String lexema){
+		String resultado = null;
+		if(TablaSimbolosActual==TablaSimbolosLocal){
+			int posTS=0;
+			List<TSElem> tabla = TablaSimbolosLocal.getTabla();
+			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lexema)){
+				posTS++;
+			}
+			resultado= posTS == tabla.size() ? null : TablaSimbolosLocal.getId()+posTS;
+		}
+		if(resultado == null){
+			int posTS=0;
+			List<TSElem> tabla = TablaSimbolosGlobal.getTabla();
+			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lexema)){
+				posTS++;
+			}
+			resultado= posTS == tabla.size() ? null : TablaSimbolosGlobal.getId()+posTS;
+		}
+		return resultado;
 	}
 
-
-	public static String buscaTipoTS(int posi){
+	public static String buscaTipoTS(String string){
 		//TODO
 		return null;
 	}
@@ -174,15 +191,9 @@ public class Compilador {
 		
 	}
 	
-	//Copia los argumentos a un string con el tipo de retorno al final
-	public static String parFunc(List<String> listaArgs, String tipoRetorno) {
-		String salida = "";
-		for (int i = 0; i < listaArgs.size()-1; i++) {
-			salida += listaArgs.get(i) + " x ";
-		}
-		salida += listaArgs.get(listaArgs.size()-1);
-		salida += " --> " + tipoRetorno;
-		return salida;
+	public static String porFunc(String tipo, String tipo2) {
+		//TODO
+		return null;
 	}
 	
 	//Filas de la TS: lexema, tipo, despl., NArgs, tipoArgs, tipoDevuelto
@@ -261,7 +272,6 @@ public class Compilador {
 		public void setTipoDevuelto(String tipoDevuelto) {
 			this.tipoDevuelto = tipoDevuelto;
 		}
-
 	}
 
 	//Contenido de la MatrizTransiciones
@@ -616,43 +626,48 @@ public class Compilador {
 	}
 
 	//palRes es un conjunto de Strings
-	private static Token<Integer> G2(){
+	private static Token<String> G2(){
 		switch(lex){
 		case "var":
-			return new Token<Integer>("DEC");
+			return new Token<String>("DEC");
 		case "int":
-			return new Token<Integer>("TipoVarENT");
+			return new Token<String>("TipoVarENT");
 		case "boolean":
-			return new Token<Integer>("TipoVarLOG");
+			return new Token<String>("TipoVarLOG");
 		case "string":
-			return new Token<Integer>("TipoVarCAD");
+			return new Token<String>("TipoVarCAD");
 		case "print":
-			return new Token<Integer>("Print");
+			return new Token<String>("Print");
 		case "input":
-			return new Token<Integer>("Input");
+			return new Token<String>("Input");
 		case "return":
-			return new Token<Integer>("Return");
+			return new Token<String>("Return");
 		case "function":
-			return new Token<Integer>("DECFunc");
+			return new Token<String>("DECFunc");
 		case "if":
-			return new Token<Integer>("IF");
+			return new Token<String>("IF");
 		case "else":
-			return new Token<Integer>("ELSE");
+			return new Token<String>("ELSE");
 		default:
 			int p;
-			if ((p = TablaSimbolosGlobal.buscaTS(lex)) == -1) {
-				p = TablaSimbolosGlobal.anadeTS();
-				/*	Para testear el volcado de la tabla de simbolos
-				 * TablaSimbolosGlobal.getTabla().get(p).setDesplazamiento(0);
-					TablaSimbolosGlobal.getTabla().get(p).setTipo("boolean");
-					TablaSimbolosGlobal.getTabla().get(p).setTipoDevuelto("int");
-					TablaSimbolosGlobal.getTabla().get(p).setNArgs(2);
-					TablaSimbolosGlobal.getTabla().get(p).setTipoArgs("String", 0);
-					TablaSimbolosGlobal.getTabla().get(p).setTipoArgs("char", 1);
-					TablaSimbolosGlobal.getTabla().get(p).setModoArgs("valor", 0);
-					TablaSimbolosGlobal.getTabla().get(p).setModoArgs("ref", 1);*/
+			String posi=null;
+			if (zona_decl){
+				if(TablaSimbolosActual.buscaTS(lex)!=null)
+					gestorErrores(ERR_LEX,4);
+				else
+					posi=TablaSimbolosActual.anadeTS(lex);
+			}else{
+				posi = buscaTS(lex);
+				if (posi == null){
+					posi = TablaSimbolosGlobal.anadeTS(lex);
+					p = Integer.parseInt(posi.substring(1));
+					TablaSimbolosActual.getTabla().get(p).setTipo("entero");
+					TablaSimbolosActual.getTabla().get(p).setDesplazamiento(desplG);
+					desplG ++;
+				}
 			}
-			return new Token<Integer>("ID", p);
+			
+			return new Token<String>("ID", posi);
 		}
 	}
 
@@ -732,7 +747,7 @@ public class Compilador {
 		}
 	}
 
-	private static void escribirTablaSimbolos(TS tablaSimbolos){
+	private static void liberaTS(TS tablaSimbolos){
 		//Necesito resetear el writer para escribir cada tabla en un fichero
 		String file = "TS" + tablaSimbolos.getId() + ".txt";
 		try {
@@ -742,7 +757,7 @@ public class Compilador {
 			e1.printStackTrace();
 		}
 
-		String cabecera = "Tabla Simbolos #" + tablaSimbolos.getId() + ":\n";
+		String cabecera = "Tabla Simbolos #" + tablaSimbolos.getNum() + ":\n";
 		String output = cabecera + "\n";
 
 		for (int i = 0; i < tablaSimbolos.getTabla().size(); i++) {
@@ -750,23 +765,23 @@ public class Compilador {
 
 			String atributos = "";
 
-			if (tablaSimbolos.get(i).getTipo() != null) 
+			if (tablaSimbolos.getTabla().get(i).getTipo() != null) 
 				atributos += "  + Tipo: \'" + tablaSimbolos.getTabla().get(i).getTipo() +"\'\n";
 
-			if (tablaSimbolos.get(i).getDesplazamiento() != -1)
+			if (tablaSimbolos.getTabla().get(i).getDesplazamiento() != -1)
 				atributos += "  + Despl: " + tablaSimbolos.getTabla().get(i).getDesplazamiento() +"\n";
 
-			if (tablaSimbolos.get(i).getNArgs() != -1)
+			if (tablaSimbolos.getTabla().get(i).getNArgs() != -1)
 				atributos += "  + numParam: " + tablaSimbolos.getTabla().get(i).getNArgs() +"\n";
 
-			for (int j = 0; j < tablaSimbolos.get(i).getNArgs(); j++) {
-				if (tablaSimbolos.get(i).getTipoArgs(j) != null)
-					atributos += "  + TipoParam" + j + ": \'" + tablaSimbolos.get(i).getTipoArgs(j) +"\'\n";
-				if (tablaSimbolos.get(i).getModoArgs(j) != null)
-					atributos += "  + ModoParam" + j + ": \'" + tablaSimbolos.get(i).getModoArgs(j) +"\'\n";
+			for (int j = 0; j < tablaSimbolos.getTabla().get(i).getNArgs(); j++) {
+				if (tablaSimbolos.getTabla().get(i).getTipoArgs(j) != null)
+					atributos += "  + TipoParam" + j + ": \'" + tablaSimbolos.getTabla().get(i).getTipoArgs(j) +"\'\n";
+				if (tablaSimbolos.getTabla().get(i).getModoArgs(j) != null)
+					atributos += "  + ModoParam" + j + ": \'" + tablaSimbolos.getTabla().get(i).getModoArgs(j) +"\'\n";
 			}
-			if (tablaSimbolos.get(i).getTipoDevuelto() != null)
-				atributos += "  + TipoRetorno: \'" + tablaSimbolos.get(i).getTipoDevuelto() +"\'\n";
+			if (tablaSimbolos.getTabla().get(i).getTipoDevuelto() != null)
+				atributos += "  + TipoRetorno: \'" + tablaSimbolos.getTabla().get(i).getTipoDevuelto() +"\'\n";
 
 			/* Que es esto?
 			 * atributos += "  + EtiqFuncion: \'" + tablaSimbolos.getTabla().get(i).getEtiq() +"\'\n";
@@ -776,7 +791,12 @@ public class Compilador {
 
 			output += lineaLexema + atributos;
 		}
-
+		
+		if (TablaSimbolosGlobal==tablaSimbolos)
+			TablaSimbolosGlobal=null;
+		else 
+			TablaSimbolosLocal=null;
+		
 		try {
 			bwTS.write(output);
 			bwTS.close();
@@ -1258,6 +1278,9 @@ public class Compilador {
 			case 3:
 				msg += "Exceso de caracteres en la cadena.";
 				break;
+			case 4:
+				msg += "Variable ya declarada.";
+				break;
 			}
 		} else if (tipo == ERR_ST) {
 			msg += " Sintactico: ";
@@ -1312,8 +1335,8 @@ public class Compilador {
 		msg += "  Linea: " + linea;
 
 		System.out.println(msg);
-		
-		escribirTablaSimbolos(TablaSimbolosGlobal);
+		liberaTS(TablaSimbolosActual);
+		liberaTS(TablaSimbolosGlobal);
 		try {
 			br.close();
 			bw.close();
@@ -1329,7 +1352,7 @@ public class Compilador {
 		ElemSem nuevoElem = new ElemSem();
 		switch(numToken) {
 			case 3:
-				nuevoElem.setPosi((int) token.getAtributo());//El atributo aqui deberia ser la posicion segun el codigo que tenemos en ALex()
+				nuevoElem.setPosi((String) token.getAtributo());//El atributo aqui deberia ser la posicion segun el codigo que tenemos en ALex()
 				break;
 			case 4:
 				nuevoElem.setCadena((String) token.getAtributo());
@@ -1345,9 +1368,10 @@ public class Compilador {
 	public static void accionSemantica(int numRegla) {
 		ElemSem tope, tope1, tope2, tope3, tope4, tope5, tope6, tope7, tope8, tope9;
 		ElemSem nuevoElem = new ElemSem();
+		int posi;
 		switch(numRegla) {
 		case 0:
-			libera(TablaSimbolosGlobal); //TODO
+			liberaTS(TablaSimbolosGlobal); //TODO
 			break;
 		case 1:
 		case 2:
@@ -1370,12 +1394,13 @@ public class Compilador {
 			tope2 = pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
-			TablaSimbolosActual.getTabla().get(tope1.getPosi()).setTipo(tope2.getTipo());
+			posi = Integer.parseInt(tope1.getPosi().substring(1));
+			TablaSimbolosActual.getTabla().get(posi).setTipo(tope2.getTipo());
 			if (TablaSimbolosActual == TablaSimbolosGlobal) {
-				TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplG);
+				TablaSimbolosActual.getTabla().get(posi).setDesplazamiento(desplG);
 				desplG += tope2.getTamano();
 			} else {
-				TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplL);
+				TablaSimbolosActual.getTabla().get(posi).setDesplazamiento(desplL);
 				desplL += tope2.getTamano();
 			}
 			zona_decl = false;
@@ -1405,7 +1430,7 @@ public class Compilador {
 			}
 			if(tope1!=null && tope9!=null && !tope1.getTipoRet().equals(tope9.getTipoRet())) gestorErrores(ERR_SE,2);
 			TablaSimbolosActual = TablaSimbolosGlobal;
-			libera(TablaSimbolosGlobal);
+			liberaTS(TablaSimbolosGlobal);
 			break;
 		case 9:
 		case 12:
@@ -1440,7 +1465,7 @@ public class Compilador {
 			else
 				nuevoElem.setTipoLista(tope3.getTipo());
 			 */
-			nuevoElem.setTipoLista(tope3.getTipo()); //<-- este ya crea ademas de anadir
+			nuevoElem.setTipoLista(tope3.getTipo()); //<-- este ya crea ademas de añadir
 			break;
 		case 16:
 			tope = pilaSem.pop();
@@ -1495,6 +1520,7 @@ public class Compilador {
 			tope2=pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
+			
 			if(buscaTipoTS(tope2.getPosi()).equals("entero") || buscaTipoTS(tope2.getPosi()).equals("cadena"))
 				nuevoElem.setTipo("tipo_ok");
 			else
@@ -1532,12 +1558,12 @@ public class Compilador {
 			tope=pilaSem.pop();
 			tope1=pilaSem.pop();
 			if(!tope1.getTipo().equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
-				if(tope.getTipo().equals("tipo_"))
+				if(tope.getTipo().equals("tipo_vacio"))
 					nuevoElem.setTipo(tope1.getTipo());
 				else
 					//TODO
 				
-			else
+			//else
 				gestorErrores(ERR_SE,10);
 				
 		break;
@@ -1562,7 +1588,7 @@ public class Compilador {
 				else
 							//TODO
 
-			else
+			//else
 				gestorErrores(ERR_SE,11);
 		break;
 				
@@ -1621,7 +1647,7 @@ public class Compilador {
 			pilaSem.pop();
 			tope2=pilaSem.pop();
 			if(tope.getTipo().equals(tope.getTipo()) && tope.getTipo().equals("entero"))
-				nuevoElem.setTipo("logico");
+				nuevoElem.setTipo("logico");	
 			else
 				gestorErrores(ERR_SE,14);
 				
@@ -1681,9 +1707,9 @@ public class Compilador {
 			pilaSem.pop();
 			tope3 = pilaSem.pop();
 			String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
-			for (String t : tipos) {		
-				if (buscaTipoTS(tope3.getPosi()).equals(parFunc(tope1.getTipoLista(), t))){
-					nuevoElem.setTipo(t);
+			for (String t : tipos ) {		
+				if (buscaTipoTS(tope3.getPosi()) == porFunc(tope1.getTipo(), t)){
+					nuevoElem.setTipo(t); //TODO porFunc
 				} else {
 					gestorErrores(ERR_SE,17);
 				}
@@ -1729,7 +1755,7 @@ public class Compilador {
 			break;
 		
 		case 50:
-			TablaSimbolosGlobal = new TS();
+			TablaSimbolosGlobal = new TS("G");
 			desplG = 0;
 			TablaSimbolosActual = TablaSimbolosGlobal;
 			break;
@@ -1743,7 +1769,7 @@ public class Compilador {
 			break;
 			
 		case 53:
-			TablaSimbolosLocal = new TS();
+			TablaSimbolosLocal = new TS("L");
 			desplL = 0;
 			TablaSimbolosActual = TablaSimbolosLocal;
 			break;
@@ -1756,8 +1782,15 @@ public class Compilador {
 			tope4 = pilaSem.pop();
 			tope5 = pilaSem.pop();
 			tope6 = pilaSem.pop();
-			TablaSimbolosActual.get(tope5.getPosi()).setTipo(parFunc(tope2.getTipoLista(), tope6.getTipo()));
+			tope7 = pilaSem.pop();
+			tope8 = pilaSem.pop();
+			tope9 = pilaSem.pop();
+			posi = Integer.parseInt(tope8.getPosi().substring(1));
+			TablaSimbolosActual.getTabla().get(posi).setTipo(porFunc(tope5.getTipo(), tope9.getTipo()));
 			zona_decl = false;
+			pilaSem.push(tope9);
+			pilaSem.push(tope8);
+			pilaSem.push(tope7);
 			pilaSem.push(tope6);
 			pilaSem.push(tope5);
 			pilaSem.push(tope4);
@@ -1771,9 +1804,12 @@ public class Compilador {
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
 			tope2 = pilaSem.pop();
-			TablaSimbolosActual.get(tope1.getPosi()).setTipo(tope2.getTipo());
-			TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplL);
-			desplL += tope1.getTamano();
+			tope3 = pilaSem.pop();
+			posi = Integer.parseInt(tope2.getPosi().substring(1));
+			TablaSimbolosActual.getTabla().get(posi).setTipo(tope3.getTipo());
+			TablaSimbolosActual.getTabla().get(posi).setDesplazamiento(desplL);
+			desplL += tope2.getTamano();
+			pilaSem.push(tope3);
 			pilaSem.push(tope2);
 			pilaSem.push(tope1);
 			pilaSem.push(tope);
@@ -1783,9 +1819,12 @@ public class Compilador {
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
 			tope2 = pilaSem.pop();
-			TablaSimbolosActual.get(tope1.getPosi()).setTipo(tope2.getTipo());
-			TablaSimbolosActual.get(tope1.getPosi()).setDesplazamiento(desplL);
-			desplL += tope1.getTamano();
+			tope3 = pilaSem.pop();
+			posi = Integer.parseInt(tope2.getPosi().substring(1));
+			TablaSimbolosActual.getTabla().get(posi).setTipo(tope3.getTipo());
+			TablaSimbolosActual.getTabla().get(posi).setDesplazamiento(desplL);
+			desplL += tope2.getTamano();
+			pilaSem.push(tope3);
 			pilaSem.push(tope2);
 			pilaSem.push(tope1);
 			pilaSem.push(tope);
@@ -1864,7 +1903,7 @@ public class Compilador {
 			e.printStackTrace();
 		}
 		
-		escribirTablaSimbolos(TablaSimbolosGlobal);
+		//escribirTablaSimbolos(TablaSimbolosGlobal);
 
 		try {
 			br.close();
