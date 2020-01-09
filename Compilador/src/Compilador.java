@@ -188,16 +188,18 @@ public class Compilador {
 		return resultado;
 	}
 
-	public static String buscaTipoTS(String string){
-		//TODO
-		return null;
+
+	public static String buscaTipoTS(String posi){
+		int p = Integer.parseInt(posi.substring(1));
+		return TablaSimbolosActual.get(p).getTipo();
 	}
 	
-	public static String[] buscaTipoTSLista(String lexema){
-		//TODO
-		return null;
-		
-	}
+	///Creo que este ya es inutil, porque los de tipo funcion los meto
+	//  con un string del tipo A1 x A2 .. --> R creado en parFunc
+	/* public static String buscaTipoTSLista(String posi){
+		int p = Integer.parseInt(posi.substring(1));
+		return TablaSimbolosActual.get(p).getTipo();	
+	}*/
 	
 	//Copia los argumentos a un string con el tipo de retorno al final
 	public static String parFunc(List<String> listaArgs, String tipoRetorno) {
@@ -763,7 +765,7 @@ public class Compilador {
 
 	private static void liberaTS(TS tablaSimbolos){
 		//Necesito resetear el writer para escribir cada tabla en un fichero
-		String file = "TS" + tablaSimbolos.getId() + ".txt";
+		String file = "TS" + tablaSimbolos.getNum() + ".txt";
 		try {
 			bwTS = new BufferedWriter(new FileWriter(file));
 		} catch (IOException e1) {
@@ -1535,7 +1537,7 @@ public class Compilador {
 			else
 				nuevoElem.setTipoLista(tope3.getTipo());
 			 */
-			nuevoElem.setTipoLista(tope3.getTipo()); //<-- este ya crea ademas de añadir
+			nuevoElem.setTipoLista(tope3.getTipo()); //<-- este ya crea ademas de anadir
 			break;
 		case 16:
 			tope = pilaSem.pop();
@@ -1563,11 +1565,16 @@ public class Compilador {
 		case 19:
 			pilaSem.pop();
 			pilaSem.pop();
+			tope2 = pilaSem.pop();
 			pilaSem.pop();
-			pilaSem.pop();
-			pilaSem.pop();
-			//TODO
-			nuevoElem.setTipoRet("tipo_vacio");
+			tope4 = pilaSem.pop();
+			String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
+			for (String t : tipos) {		
+				if (buscaTipoTS(tope4.getPosi()).equals(parFunc(tope2.getTipoLista(), t))){
+					nuevoElem.setTipo("tipo_ok");
+				}
+			}
+			if (!nuevoElem.getTipo().equals("tipo_ok")) gestorErrores(ERR_SE,4);
 			break;
 		case 20:
 			pilaSem.pop();
@@ -1779,7 +1786,7 @@ public class Compilador {
 			String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
 			for (String t : tipos ) {		
 				if (buscaTipoTS(tope3.getPosi()).equals(parFunc(tope1.getTipoLista(), t))){
-					nuevoElem.setTipo(t); //TODO porFunc
+					nuevoElem.setTipo(t);
 				} else {
 					gestorErrores(ERR_SE,17);
 				}
