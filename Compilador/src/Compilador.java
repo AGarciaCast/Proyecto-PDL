@@ -1438,6 +1438,7 @@ public class Compilador {
 	
 	
 	public static void accionSemantica(int numRegla) {
+		String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
 		ElemSem tope, tope1, tope2, tope3, tope4, tope5, tope6, tope7, tope8, tope9;
 		ElemSem nuevoElem = new ElemSem();
 		int posi;
@@ -1568,7 +1569,6 @@ public class Compilador {
 			tope2 = pilaSem.pop();
 			pilaSem.pop();
 			tope4 = pilaSem.pop();
-			String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
 			for (String t : tipos) {		
 				if (buscaTipoTS(tope4.getPosi()).equals(parFunc(tope2.getTipoLista(), t))){
 					nuevoElem.setTipo("tipo_ok");
@@ -1783,7 +1783,6 @@ public class Compilador {
 			tope1 = pilaSem.pop();
 			pilaSem.pop();
 			tope3 = pilaSem.pop();
-			String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
 			for (String t : tipos ) {		
 				if (buscaTipoTS(tope3.getPosi()).equals(parFunc(tope1.getTipoLista(), t))){
 					nuevoElem.setTipo(t);
