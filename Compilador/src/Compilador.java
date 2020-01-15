@@ -1907,7 +1907,7 @@ public class Compilador {
 		/*lee();
 		while(car!='\0') ALex();*/
 
-		pilaSt.push(0);
+		pilaSt.push(-1);
 		String parse = "A ";
 		lee();
 		Token<?> token = ALex();
