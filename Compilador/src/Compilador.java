@@ -44,7 +44,7 @@ public class Compilador {
 	static Stack<ElemSem> pilaSem = new Stack<ElemSem>();
 	static int desplG;
 	static int desplL;
-	static boolean zona_decl = true;
+	static boolean zona_decl;
 
 	public static class ElemSem {
 		private List<String> tipoLista=null;
@@ -103,8 +103,13 @@ public class Compilador {
 			this.tipo = tipo;
 		}
 		
-		public void setTipoLista(String tipo) {
+		public void anadirTipoLista(String tipo) {
 			if (this.tipoLista==null) this.tipoLista=new ArrayList<String>();
+			this.tipoLista.add(tipo);
+		}
+		
+		public void setTipoLista(List<String> lista, String tipo) {
+			this.tipoLista = lista;
 			this.tipoLista.add(tipo);
 		}
 		
@@ -190,10 +195,21 @@ public class Compilador {
 
 	public static String buscaTipoTS(String posi){
 		int p = Integer.parseInt(posi.substring(1));
-		//Si no esta en la tabla local mira en la global
-		if (TablaSimbolosActual == TablaSimbolosLocal && p >= TablaSimbolosActual.size()) 
-			return TablaSimbolosGlobal.get(p).getTipo();
-		return TablaSimbolosActual.get(p).getTipo();
+		String tipo;
+		if (posi.charAt(0) == 'G') {
+			tipo = TablaSimbolosGlobal.get(p).getTipo();
+			if (tipo == "funcion") {
+				List<String> lista = new ArrayList<>(Arrays.asList(TablaSimbolosGlobal.get(p).getTipoArgs()));
+				tipo = parFunc(lista, TablaSimbolosGlobal.get(p).getTipoDevuelto());
+			}
+		} else {
+			tipo = TablaSimbolosActual.get(p).getTipo();
+			if (tipo == "funcion") {
+				List<String> lista = new ArrayList<>(Arrays.asList(TablaSimbolosActual.get(p).getTipoArgs()));
+				tipo = parFunc(lista, TablaSimbolosActual.get(p).getTipoDevuelto());
+			}
+		}
+		return tipo;
 	}
 	
 	///Creo que este ya es inutil, porque los de tipo funcion los meto
@@ -274,6 +290,10 @@ public class Compilador {
 
 		public String getTipoArgs(int index) {
 			return tipoArgs[index];
+		}
+		
+		public String[] getTipoArgs() {
+			return tipoArgs;
 		}
 
 		public void setTipoArgs(String tipo, int index) {
@@ -771,14 +791,7 @@ public class Compilador {
 	}
 
 	private static void liberaTS(TS tablaSimbolos){
-		//Necesito resetear el writer para escribir cada tabla en un fichero
-		String file = "TS" + tablaSimbolos.getNum() + ".txt";
-		try {
-			bwTS = new BufferedWriter(new FileWriter(file));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		//Necesito resetear el writer para escribir cada tabla en un fichero	
 
 		String cabecera = "Tabla Simbolos #" + tablaSimbolos.getNum() + ":\n";
 		String output = cabecera + "\n";
@@ -822,7 +835,7 @@ public class Compilador {
 		
 		try {
 			bwTS.write(output);
-			bwTS.close();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -834,9 +847,9 @@ public class Compilador {
 				{"","","","r50","","","","","","","","","","r50","","","","r50","r50","","r50","r50","r50","","r50","100","","","","","","","","","","","","","","","","","","","","0","","","","","","",""},
 				{"","","","d7","","","","","","","","","","d101","","","","d8","d9","","d11","d102","d10","","r49","","1","2","","3","","","","","4","","","","","","","","","","","","","","","","","",""},
 				{"","","","","","","","","","","","","","","","","","","","","","","","","r0","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
-				{"","","","d7","","","","","","","","","","d5","","","","d8","d9","","d11","d6","d10","","r49","","12","2","","3","","","","","4","","","","","","","","","","","","","","","","","",""},
-				{"","","","d7","","","","","","","","","","d5","","","","d8","d9","","d11","d6","d10","","r49","","13","2","","3","","","","","4","","","","","","","","","","","","","","","","","",""},
-				{"","","","d7","","","","","","","","","","d5","","","","d8","d9","","d11","d6","d10","","r49","","14","2","","3","","","","","4","","","","","","","","","","","","","","","","","",""},
+				{"","","","d7","","","","","","","","","","d101","","","","d8","d9","","d11","d102","d10","","r49","","12","2","","3","","","","","4","","","","","","","","","","","","","","","","","",""},
+				{"","","","d7","","","","","","","","","","d101","","","","d8","d9","","d11","d102","d10","","r49","","13","2","","3","","","","","4","","","","","","","","","","","","","","","","","",""},
+				{"","","","d7","","","","","","","","","","d101","","","","d8","d9","","d11","d102","d10","","r49","","14","2","","3","","","","","4","","","","","","","","","","","","","","","","","",""},
 				{"","","","","","","","","","","","","","","d16","d18","d17","","","","","","","","","","","","15","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","","r9","","","","","","","","","","","d16","d18","d17","","","","","","","","","","","","20","","19","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","","","","","d22","","","","","d21","d23","","","","","","","","","","","","","","","","","","","","","","","39","","","","","","","","","","","","","","","","",""},
@@ -912,13 +925,13 @@ public class Compilador {
 				{"","","","","","","","r29","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","d83","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","r48","d7","","","","","","","","","","","","","","d8","d9","","d11","","d10","","","","","","","","","","","","79","","","","","","","","","","","","","","","","","","99"},
-				{"","","r17","d7","","","","","","","","","","d5","","","","d8","d9","","d11","","d10","","","","","85","","","","","","84","86","","","","","","","","","","","","","","","","","",""},
+				{"","","r17","d7","","","","","","","","","","d101","","","","d8","d9","","d11","","d10","","","","","85","","","","","","84","86","","","","","","","","","","","","","","","","","",""},
 				{"","","","","","","","r11","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","","","","","","","","","","","","","d16","d18","d17","","","","","","","","","","","","87","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","r33","r33","","","","","","","","","","r33","","","","r33","r33","","r33","r33","r33","d89","r33","","","","","","","","","","","","","","","88","","","","","","","","","","","","",""},
 				{"","","d90","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
-				{"","","r17","d7","","","","","","","","","","d5","","","","d8","d9","","d11","","d10","","","","","","","","","","","96","86","","","","","","","","","","","","","","","","","",""},
-				{"","","r17","d7","","","","","","","","","","d5","","","","d8","d9","","d11","","d10","","","","","85","","","","","","97","86","","","","","","","","","","","","","","","","","",""},
+				{"","","r17","d7","","","","","","","","","","d101","","","","d8","d9","","d11","","d10","","","","","","","","","","","96","86","","","","","","","","","","","","","","","","","",""},
+				{"","","r17","d7","","","","","","","","","","d101","","","","d8","d9","","d11","","d10","","","","","85","","","","","","97","86","","","","","","","","","","","","","","","","","",""},
 				{"","","","d106","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","r30","r30","","","","","","","","","","r30","","","","r30","r30","","r30","r30","r30","","r30","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","d92","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
@@ -939,7 +952,7 @@ public class Compilador {
 				{"","r54","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","75","","",""},
 				{"","","","","","","","r55","","","","","","","","","","","","r55","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","76","",""},
 				{"","","","","","","","r56","","","","","","","","","","","","r56","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","91",""}
-		};
+				};
 
 		public TablaDecisionLR() {
 
@@ -1415,7 +1428,7 @@ public class Compilador {
 
 		System.out.println(msg);
 		liberaTS(TablaSimbolosActual);
-		liberaTS(TablaSimbolosGlobal);
+		if (TablaSimbolosGlobal != null) liberaTS(TablaSimbolosGlobal);
 		try {
 			br.close();
 			bw.close();
@@ -1503,14 +1516,14 @@ public class Compilador {
 		case 8:
 			tope1=null;
 			tope9=null;
-			for(int i =0; i<12;i++){
+			for(int i = 0; i<12;i++){
 				if(i==1) tope1=pilaSem.pop();
 				else if(i==9) tope9=pilaSem.pop();
 				else pilaSem.pop();
 			}
 			if(tope1!=null && tope9!=null && !tope1.getTipoRet().equals(tope9.getTipo())) gestorErrores(ERR_SE,2);
 			TablaSimbolosActual = TablaSimbolosGlobal;
-			liberaTS(TablaSimbolosGlobal);
+			liberaTS(TablaSimbolosLocal);
 			break;
 		case 9:
 		case 12:
@@ -1526,10 +1539,10 @@ public class Compilador {
 			pilaSem.pop();
 			pilaSem.pop();
 			tope3 = pilaSem.pop();
-			if (tope.getTipo() == null || tope.getTipo().equals("tipo_vacio")) 
+			if (tope.getTipo() != null && tope.getTipo().equals("tipo_vacio")) 
 				nuevoElem.setTipo(tope3.getTipo());
 			else
-				nuevoElem.setTipoLista(tope3.getTipo());
+				nuevoElem.setTipoLista(tope.getTipoLista(), tope3.getTipo());
 			break;
 		case 14:
 			tope = pilaSem.pop();
@@ -1537,20 +1550,15 @@ public class Compilador {
 			pilaSem.pop();
 			tope3 = pilaSem.pop();
 			pilaSem.pop();
-			/*
-			 * NO ES NECESARIO
-			 * 
-			 if (tope.getTipo().equals("tipo_vacio")) 
-				nuevoElem.setTipoLista(tope3.getTipo()); 
+			if (tope.getTipo() != null && tope.getTipo().equals("tipo_vacio")) 
+				nuevoElem.anadirTipoLista(tope3.getTipo());
 			else
-				nuevoElem.setTipoLista(tope3.getTipo());
-			 */
-			nuevoElem.setTipoLista(tope3.getTipo()); //<-- este ya crea ademas de anadir
+				nuevoElem.setTipoLista(tope.getTipoLista(), tope3.getTipo());
 			break;
 		case 16:
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
-			if (tope1.getTipoRet().equals(tope.getTipoRet()))  //<---- TODO ERROR NULL PONTER 
+			if (tope1.getTipoRet().equals(tope.getTipoRet())) 
 				nuevoElem.setTipoRet(tope1.getTipoRet());
 			else if (tope1.getTipoRet().equals("tipo_vacio"))
 				nuevoElem.setTipoRet(tope.getTipoRet());
@@ -1620,11 +1628,12 @@ public class Compilador {
 		break;
 			
 		case 22:
-			tope=pilaSem.pop();
+			tope = pilaSem.pop();
 			pilaSem.pop();
-			tope2=pilaSem.pop();
+			tope2 = pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
+	
 			if(tope2.getTipo().equals("logico"))
 				nuevoElem.setTipo(tope.getTipo());
 			else
@@ -1645,17 +1654,20 @@ public class Compilador {
 				
 		case 24:
 		case 25:
+			pilaSem.pop();
 		break;
 		
 		case 26:
 			tope=pilaSem.pop();
 			tope1=pilaSem.pop();
-			if(!tope1.getTipo().equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
-				if(tope.getTipo().equals("tipo_vacio"))
+			System.out.println(tope.getTipoLista());
+			System.out.println(tope1.getTipo());
+			if(!tope1.getTipo().equals("tipo_error") && (tope.getTipoLista() != null || !tope.getTipo().equals("tipo_error"))) {
+				if(tope.getTipo() != null && tope.getTipo().equals("tipo_vacio"))
 					nuevoElem.setTipo(tope1.getTipo());
 				else
-					nuevoElem.setTipoLista(tope1.getTipo());
-				
+					nuevoElem.setTipoLista(tope.getTipoLista(), tope1.getTipo());
+			}
 			else
 				gestorErrores(ERR_SE,10);	
 		break;
@@ -1672,12 +1684,12 @@ public class Compilador {
 			tope=pilaSem.pop();
 			tope1=pilaSem.pop();
 			pilaSem.pop();
-			if(!tope1.getTipo().equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
+			if(!tope1.getTipo().equals("tipo_error") && (tope.getTipoLista() != null || !tope.getTipo().equals("tipo_error"))) {
 				if(tope.getTipo().equals("tipo_vacio"))
-					nuevoElem.setTipo(tope1.getTipo());
+					nuevoElem.anadirTipoLista(tope1.getTipo());
 				else
-					nuevoElem.setTipoLista(tope1.getTipo());
-
+					nuevoElem.setTipoLista(tope.getTipoLista(), tope1.getTipo());
+			}
 			else
 				gestorErrores(ERR_SE,11);
 		break;
@@ -1736,11 +1748,10 @@ public class Compilador {
 			tope=pilaSem.pop();
 			pilaSem.pop();
 			tope2=pilaSem.pop();
-			if(tope.getTipo().equals(tope.getTipo()) && tope.getTipo().equals("entero"))
+			if(tope.getTipo().equals(tope2.getTipo()) && tope.getTipo().equals("entero"))
 				nuevoElem.setTipo("logico");	
 			else
-				gestorErrores(ERR_SE,14);
-				
+				gestorErrores(ERR_SE,14);	
 		break;
 				
 		case 37:
@@ -1752,7 +1763,7 @@ public class Compilador {
 			tope=pilaSem.pop();
 			pilaSem.pop();
 			tope2=pilaSem.pop();
-			if(tope2.getTipo().equals(tope2.getTipo()) && tope2.getTipo().equals("entero"))
+			if(tope.getTipo().equals(tope2.getTipo()) && tope2.getTipo().equals("entero"))
 				nuevoElem.setTipo("entero");
 			else
 				gestorErrores(ERR_SE,15);
@@ -1876,16 +1887,17 @@ public class Compilador {
 			tope5 = pilaSem.pop();
 			//Mirar si los argumentos son realmente una lista...
 			if (tope1.getTipoLista() != null) {
-				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo(parFunc(tope1.getTipoLista(), tope5.getTipo()));
+				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo("funcion");
 				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setNArgs(tope1.getTipoLista().size());
 				for (int i = 0; i < tope1.getTipoLista().size(); i++) {
 					TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoArgs(tope1.getTipoLista().get(i), i);
 				}
 			} else {
-				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo(parFunc(tope1.getTipo(), tope5.getTipo()));
+				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo("funcion");
 				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setNArgs(1);
 				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoArgs(tope1.getTipo(), 0);
 			}
+			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setDesplazamiento(-1);
 			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoDevuelto(tope5.getTipo());
 			zona_decl = false;
 			pilaSem.push(tope5);
@@ -1920,14 +1932,14 @@ public class Compilador {
 		try {
 			br = new BufferedReader(new FileReader(file));
 			bw = new BufferedWriter(new FileWriter("tokens.txt"));
+			bwTS = new BufferedWriter(new FileWriter("TablaSimbolos.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		bwTS = null;	
+		}		
 
 		/*lee();
 		while(car!='\0') ALex();*/
@@ -1956,7 +1968,7 @@ public class Compilador {
 				pilaSt.push(noTerm2int(gramatica.getAntecedente(numRegla)));
 				int nuevoEstado = TDecLR.goto_(s2, gramatica.getAntecedente(numRegla));
 				pilaSt.push(nuevoEstado);
-				parse += (numRegla) + " ";
+				parse += (numRegla+1) + " ";
 				accionSemantica(numRegla); // <-----
 			} else if (accion.charAt(0) == 'a') {
 				//FIN, pero si pongo return no llega a escribirTablaSimbolos
