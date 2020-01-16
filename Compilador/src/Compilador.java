@@ -1508,7 +1508,7 @@ public class Compilador {
 				else if(i==9) tope9=pilaSem.pop();
 				else pilaSem.pop();
 			}
-			if(tope1!=null && tope9!=null && !tope1.getTipoRet().equals(tope9.getTipoRet())) gestorErrores(ERR_SE,2);
+			if(tope1!=null && tope9!=null && !tope1.getTipoRet().equals(tope9.getTipo())) gestorErrores(ERR_SE,2);
 			TablaSimbolosActual = TablaSimbolosGlobal;
 			liberaTS(TablaSimbolosGlobal);
 			break;
@@ -1640,7 +1640,7 @@ public class Compilador {
 				nuevoElem.setTipo("tipo_ok");
 			else 
 				gestorErrores(ERR_SE,8);
-			nuevoElem.setTipoRet(tope1.getTipoRet());
+			nuevoElem.setTipoRet(tope1.getTipo());
 		break;
 				
 		case 24:
@@ -1877,9 +1877,16 @@ public class Compilador {
 			//Mirar si los argumentos son realmente una lista...
 			if (tope1.getTipoLista() != null) {
 				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo(parFunc(tope1.getTipoLista(), tope5.getTipo()));
+				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setNArgs(tope1.getTipoLista().size());
+				for (int i = 0; i < tope1.getTipoLista().size(); i++) {
+					TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoArgs(tope1.getTipoLista().get(i), i);
+				}
 			} else {
 				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo(parFunc(tope1.getTipo(), tope5.getTipo()));
+				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setNArgs(1);
+				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoArgs(tope1.getTipo(), 0);
 			}
+			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoDevuelto(tope5.getTipo());
 			zona_decl = false;
 			pilaSem.push(tope5);
 			pilaSem.push(tope4);
