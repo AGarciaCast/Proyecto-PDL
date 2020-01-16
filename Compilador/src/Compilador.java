@@ -1522,7 +1522,7 @@ public class Compilador {
 			pilaSem.pop();
 			pilaSem.pop();
 			tope3 = pilaSem.pop();
-			if (tope.getTipo().equals("tipo_vacio")) 
+			if (tope.getTipo() == null || tope.getTipo().equals("tipo_vacio")) 
 				nuevoElem.setTipo(tope3.getTipo());
 			else
 				nuevoElem.setTipoLista(tope3.getTipo());
@@ -1546,7 +1546,7 @@ public class Compilador {
 		case 16:
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
-			if (tope1.getTipoRet().equals(tope.getTipoRet()))
+			if (tope1.getTipoRet().equals(tope.getTipoRet()))  //<---- TODO ERROR NULL PONTER 
 				nuevoElem.setTipoRet(tope1.getTipoRet());
 			else if (tope1.getTipoRet().equals("tipo_vacio"))
 				nuevoElem.setTipoRet(tope.getTipoRet());
@@ -1580,6 +1580,7 @@ public class Compilador {
 				}
 			}
 			if (!nuevoElem.getTipo().equals("tipo_ok")) gestorErrores(ERR_SE,4);
+			nuevoElem.setTipoRet("tipo_vacio");
 			break;
 		case 20:
 			pilaSem.pop();
