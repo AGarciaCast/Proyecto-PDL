@@ -16,7 +16,6 @@ public class Compilador {
 	//ID de cada tabla, al crear una nueva se le asigna el valor y se aumenta para tablas posteriores
 	static int numTS = 1;
 	//Solo dos Tablas porque no hay anidamiento
-	//De momento solo trabajo con la Global
 	static TS TablaSimbolosGlobal; 
 	static TS TablaSimbolosLocal;
 	static TS TablaSimbolosActual = null;
@@ -205,12 +204,17 @@ public class Compilador {
 	}*/
 	
 	//Copia los argumentos a un string con el tipo de retorno al final
-	public static String parFunc(List<String> listaArgs, String tipoRetorno) {
+	public static <E> String parFunc(E listaArgs, String tipoRetorno) {
 		String salida = "";
-		for (int i = 0; i < listaArgs.size()-1; i++) {
-			salida += listaArgs.get(i) + " x ";
-		}
-		salida += listaArgs.get(listaArgs.size()-1);
+		if(listaArgs instanceof List<?>){
+			for (int i = 0; i < ((List<String>) listaArgs).size()-1; i++) {
+				salida += ((List<String>) listaArgs).get(i) + " x ";
+			}
+			salida += ((List<String>) listaArgs).get(((List<String>) listaArgs).size()-1);
+		}else if(listaArgs instanceof String){
+			salida += listaArgs;
+		}else
+			return null;
 		salida += " --> " + tipoRetorno;
 		return salida;
 	}
@@ -1447,7 +1451,7 @@ public class Compilador {
 		int posi;
 		switch(numRegla) {
 		case 0:
-			liberaTS(TablaSimbolosGlobal); //TODO
+			liberaTS(TablaSimbolosGlobal); 
 			break;
 		case 1:
 		case 2:
@@ -1563,7 +1567,10 @@ public class Compilador {
 			tope1=pilaSem.pop();
 			pilaSem.pop();
 			tope3 = pilaSem.pop();
-			//TODO
+			if(tope1.getTipo().equals(buscaTipoTS(tope3.getPosi())) && !tope1.getTipo().equals("tipo_error"))
+				nuevoElem.setTipo("tipo_ok");
+			else
+				gestorErrores(ERR_SE,3);//TODO ver que num es
 			nuevoElem.setTipoRet("tipo_vacio");
 			break;
 		case 19:
