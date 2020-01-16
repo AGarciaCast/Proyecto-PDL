@@ -171,7 +171,7 @@ public class Compilador {
 		String resultado = null;
 		if(TablaSimbolosActual==TablaSimbolosLocal){
 			int posTS=0;
-			List<TSElem> tabla = TablaSimbolosLocal.getTabla();
+			TS tabla = TablaSimbolosLocal;
 			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lexema)){
 				posTS++;
 			}
@@ -191,6 +191,9 @@ public class Compilador {
 
 	public static String buscaTipoTS(String posi){
 		int p = Integer.parseInt(posi.substring(1));
+		//Si no esta en la tabla local mira en la global
+		if (TablaSimbolosActual == TablaSimbolosLocal && p >= TablaSimbolosActual.size()) 
+			return TablaSimbolosGlobal.get(p).getTipo();
 		return TablaSimbolosActual.get(p).getTipo();
 	}
 	
@@ -675,7 +678,7 @@ public class Compilador {
 			}else{
 				posi = buscaTS(lex);
 				if (posi == null){
-					posi = TablaSimbolosGlobal.anadeTS(lex);
+					posi = TablaSimbolosActual.anadeTS(lex);
 					p = Integer.parseInt(posi.substring(1));
 					TablaSimbolosActual.get(p).setTipo("entero");
 					TablaSimbolosActual.get(p).setDesplazamiento(desplG);
@@ -1426,10 +1429,10 @@ public class Compilador {
 			case 3:
 				nuevoElem.setPosi((String) token.getAtributo());//El atributo aqui deberia ser la posicion segun el codigo que tenemos en ALex()
 				break;
-			case 4:
+			case 5:
 				nuevoElem.setCadena((String) token.getAtributo());
 				break;
-			case 5:
+			case 4:
 				nuevoElem.setNum((int) token.getAtributo());
 				break;
 		}
@@ -1570,7 +1573,9 @@ public class Compilador {
 			pilaSem.pop();
 			tope4 = pilaSem.pop();
 			for (String t : tipos) {		
-				if (buscaTipoTS(tope4.getPosi()).equals(parFunc(tope2.getTipoLista(), t))){
+				//Mirar si era realmente una lista...
+				boolean condicion = tope2.getTipoLista() != null ? buscaTipoTS(tope4.getPosi()).equals(parFunc(tope2.getTipoLista(), t)) : buscaTipoTS(tope4.getPosi()).equals(parFunc(tope2.getTipo(), t));
+				if (condicion){
 					nuevoElem.setTipo("tipo_ok");
 				}
 			}
@@ -1620,15 +1625,18 @@ public class Compilador {
 		break;
 				
 		case 23:
-			//TODO
+			pilaSem.pop();
+			tope1 = pilaSem.pop();
+			pilaSem.pop();
+			if (!tope1.getTipo().equals("tipo_error")) 
+				nuevoElem.setTipo("tipo_ok");
+			else 
+				gestorErrores(ERR_SE,8);
+			nuevoElem.setTipoRet(tope1.getTipoRet());
 		break;
 				
 		case 24:
-		
-		break;
-		
 		case 25:
-		
 		break;
 		
 		case 26:
@@ -1638,11 +1646,10 @@ public class Compilador {
 				if(tope.getTipo().equals("tipo_vacio"))
 					nuevoElem.setTipo(tope1.getTipo());
 				else
-					//TODO
+					nuevoElem.setTipoLista(tope1.getTipo());
 				
-			//else
-				gestorErrores(ERR_SE,10);
-				
+			else
+				gestorErrores(ERR_SE,10);	
 		break;
 				
 		case 27:
@@ -1658,14 +1665,12 @@ public class Compilador {
 			tope1=pilaSem.pop();
 			pilaSem.pop();
 			if(!tope1.getTipo().equals("tipo_error") && !tope.getTipo().equals("tipo_error")) //!
-				if(tope.getTipo().equals("tipo_vacio")){
-					pilaSem.pop();
-					nuevoElem.setTipo(pilaSem.pop().getTipo());
-				}
+				if(tope.getTipo().equals("tipo_vacio"))
+					nuevoElem.setTipo(tope1.getTipo());
 				else
-							//TODO
+					nuevoElem.setTipoLista(tope1.getTipo());
 
-			//else
+			else
 				gestorErrores(ERR_SE,11);
 		break;
 				
@@ -1783,13 +1788,17 @@ public class Compilador {
 			tope1 = pilaSem.pop();
 			pilaSem.pop();
 			tope3 = pilaSem.pop();
-			for (String t : tipos ) {		
-				if (buscaTipoTS(tope3.getPosi()).equals(parFunc(tope1.getTipoLista(), t))){
+			boolean error = true;
+			for (String t : tipos) {
+				//Comprobar si la lista es realmente una lista...
+				boolean condicion = tope1.getTipoLista() != null ? buscaTipoTS(tope3.getPosi()).equals(parFunc(tope1.getTipoLista(), t)) : buscaTipoTS(tope3.getPosi()).equals(parFunc(tope1.getTipo(), t));
+				if (condicion){
 					nuevoElem.setTipo(t);
-				} else {
-					gestorErrores(ERR_SE,17);
+					error = false;
+					break;
 				}
 			}
+			if (error) gestorErrores(ERR_SE,17);
 			break;
 		
 		case 45:
@@ -1837,7 +1846,7 @@ public class Compilador {
 			break;
 			
 		case 51:
-			zona_decl = false;
+			zona_decl = true;
 			break;
 			
 		case 52:
@@ -1857,10 +1866,13 @@ public class Compilador {
 			tope3 = pilaSem.pop();
 			tope4 = pilaSem.pop();
 			tope5 = pilaSem.pop();
-			tope6 = pilaSem.pop();
-			TablaSimbolosActual.get(Integer.parseInt(tope5.getPosi().substring(1))).setTipo(parFunc(tope2.getTipoLista(), tope6.getTipo()));
+			//Mirar si los argumentos son realmente una lista...
+			if (tope1.getTipoLista() != null) {
+				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo(parFunc(tope1.getTipoLista(), tope5.getTipo()));
+			} else {
+				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo(parFunc(tope1.getTipo(), tope5.getTipo()));
+			}
 			zona_decl = false;
-			pilaSem.push(tope6);
 			pilaSem.push(tope5);
 			pilaSem.push(tope4);
 			pilaSem.push(tope3);
@@ -1873,11 +1885,9 @@ public class Compilador {
 		case 56:
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
-			tope2 = pilaSem.pop();
-			TablaSimbolosActual.get(Integer.parseInt(tope1.getPosi().substring(1))).setTipo(tope2.getTipo());
-			TablaSimbolosActual.get(Integer.parseInt(tope1.getPosi().substring(1))).setDesplazamiento(desplL);
+			TablaSimbolosActual.get(Integer.parseInt(tope.getPosi().substring(1))).setTipo(tope1.getTipo());
+			TablaSimbolosActual.get(Integer.parseInt(tope.getPosi().substring(1))).setDesplazamiento(desplL);
 			desplL += tope1.getTamano();
-			pilaSem.push(tope2);
 			pilaSem.push(tope1);
 			pilaSem.push(tope);
 			break;
