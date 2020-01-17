@@ -1136,8 +1136,11 @@ public class Compilador {
 		case "MM7":
 			salida = 51;
 			break;
-		case "S''":
+		case "MM8":
 			salida = 52;
+			break;
+		case "S''":
+			salida = 53;
 			break;
 		}
 		return salida;
@@ -1146,10 +1149,10 @@ public class Compilador {
 	public static class Gramatica{
 		private String[] antecedentes = {"P''", "P'", "P", "P", "P", "D", "T", "T", "T", "F", "T'", "T'", "A", "A", "K", "K", "C", "C", "C",
 				"S", "S", "S", "S", "S", "S", "L", "L", "M", "M", "Q", "Q", "S'", "S'", "G", "G", "X", "X", "E", "E", "U", "U", "R", "R",
-				"V", "V", "V", "V", "V", "S''", "S''", "P", "MM1", "MM2", "MM3", "MM4", "MM5", "MM6", "MM7"};
+				"V", "V", "V", "V", "V", "S''", "S''", "P", "MM1", "MM2", "MM3", "MM4", "MM5", "MM6", "MM7", "MM8"};
 
-		private int[] longitudes = {1, 2, 2, 2, 2, 5, 1, 1, 1, 12, 0, 1, 4, 0, 0, 5, 2, 2, 0, 4, 5, 5, 5, 5, 3, 1, 1, 2, 0, 0, 3, 4, 1,
-				4, 0, 1, 0, 3, 1, 3, 1, 2, 1, 3, 1, 4, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+		private int[] longitudes = {1, 2, 2, 2, 2, 6, 1, 1, 1, 12, 0, 1, 4, 0, 0, 5, 2, 2, 0, 4, 5, 5, 5, 5, 3, 1, 1, 2, 0, 0, 3, 4, 1,
+				4, 0, 1, 0, 3, 1, 3, 1, 2, 1, 3, 1, 4, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 		public Gramatica(){
 
@@ -1919,7 +1922,10 @@ public class Compilador {
 			pilaSem.push(tope1);
 			pilaSem.push(tope);
 			break;
-
+			
+		case 57:
+			zona_decl = false;
+			break;
 		}
 		
 		pilaSem.push(nuevoElem);
