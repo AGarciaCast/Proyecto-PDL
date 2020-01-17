@@ -212,13 +212,6 @@ public class Compilador {
 		return tipo;
 	}
 	
-	///Creo que este ya es inutil, porque los de tipo funcion los meto
-	//  con un string del tipo A1 x A2 .. --> R creado en parFunc
-	/* public static String buscaTipoTSLista(String posi){
-		int p = Integer.parseInt(posi.substring(1));
-		return TablaSimbolosActual.get(p).getTipo();	
-	}*/
-	
 	//Copia los argumentos a un string con el tipo de retorno al final
 	public static <E> String parFunc(E listaArgs, String tipoRetorno) {
 		String salida = "";
@@ -434,7 +427,7 @@ public class Compilador {
 					return 5;
 				case '*':  
 					return 7;
-				case '\r': //cr
+				case '\r':
 				case ' ':  
 				case '\t':
 				case '\n': 
@@ -505,11 +498,6 @@ public class Compilador {
 		public E getAtributo() {
 			return atributo;
 		}
-
-		public void setAtributo(E atributo) {
-			this.atributo = atributo;
-		}
-
 	}
 
 	public static Token<?> ALex (){
@@ -614,30 +602,6 @@ public class Compilador {
 			e.printStackTrace();
 		}
 	}
-
-	/*public static void error(int codError) {
-		switch (codError) {
-		case 0:
-			break;
-		case 1:
-			System.err.println("Error: transicion no prevista." + "  Linea: " + linea);
-			break;
-		case 2:
-			System.err.println("Error: numero fuera de rango." + "  Linea: " + linea);
-			break;
-		}
-		escribirTablaSimbolos(TablaSimbolosGlobal);
-		//Sin esto, no vuelca nada en el fichero en caso de error
-		try {
-			br.close();
-			bw.close();
-			bwTS.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.exit(1);
-	}*/
 
 
 	private static void A(){
@@ -1457,7 +1421,7 @@ public class Compilador {
 	
 	public static void accionSemantica(int numRegla) {
 		String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
-		ElemSem tope, tope1, tope2, tope3, tope4, tope5, tope6, tope7, tope8, tope9;
+		ElemSem tope, tope1, tope2, tope3, tope4, tope5, tope9;
 		ElemSem nuevoElem = new ElemSem();
 		int posi;
 		switch(numRegla) {
@@ -1883,21 +1847,22 @@ public class Compilador {
 			tope3 = pilaSem.pop();
 			tope4 = pilaSem.pop();
 			tope5 = pilaSem.pop();
+			TSElem tope4_posi = TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1)));
 			//Mirar si los argumentos son realmente una lista...
 			if (tope1.getTipoLista() != null) {
-				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo("funcion");
-				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setNArgs(tope1.getTipoLista().size());
+				tope4_posi.setTipo("funcion");
+				tope4_posi.setNArgs(tope1.getTipoLista().size());
 				for (int i = 0; i < tope1.getTipoLista().size(); i++) {
-					TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoArgs(tope1.getTipoLista().get(i), i);
+					tope4_posi.setTipoArgs(tope1.getTipoLista().get(i), i);
 				}
 			} else {
-				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipo("funcion");
-				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setNArgs(1);
-				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoArgs(tope1.getTipo(), 0);
+				tope4_posi.setTipo("funcion");
+				tope4_posi.setNArgs(1);
+				tope4_posi.setTipoArgs(tope1.getTipo(), 0);
 			}
-			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setDesplazamiento(-1);
-			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setEtiq("" + TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).getLexema() + "" + tope4.getPosi().substring(1));
-			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoDevuelto(tope5.getTipo());
+			tope4_posi.setDesplazamiento(-1);
+			tope4_posi.setEtiq("" + tope4_posi.getLexema() + "" + tope4.getPosi().substring(1));
+			tope4_posi.setTipoDevuelto(tope5.getTipo());
 			zona_decl = false;
 			pilaSem.push(tope5);
 			pilaSem.push(tope4);
