@@ -54,11 +54,11 @@ public class Compilador {
 		private int num;
 		private String cadena;
 		private String tipoRet;
-		
+
 		public ElemSem() {
-			
+
 		}
-		
+
 		public int getNum() {
 			return num;
 		}
@@ -86,43 +86,43 @@ public class Compilador {
 		public List<String> getTipoLista() {
 			return tipoLista;
 		}
-		
+
 		public String getTipo() {
 			return tipo;
 		}
-		
+
 		public int getTamano() {
 			return tamano;
 		}
-		
+
 		public String getPosi() {
 			return posi;
 		}
-		
+
 		public void setTipo(String tipo) {
 			this.tipo = tipo;
 		}
-		
+
 		public void anadirTipoLista(String tipo) {
 			if (this.tipoLista==null) this.tipoLista=new ArrayList<String>();
 			this.tipoLista.add(tipo);
 		}
-		
+
 		public void setTipoLista(List<String> lista, String tipo) {
 			this.tipoLista = lista;
 			this.tipoLista.add(tipo);
 		}
-		
+
 		public void setTamano(int tamano) {
 			this.tamano = tamano;
 		}
-		
+
 		public void setPosi(String posi) {
 			this.posi = posi;
 		}
 
 	}
-	
+
 	public static class TS {
 
 		private String id; 
@@ -134,8 +134,8 @@ public class Compilador {
 			this.id = id;
 			tabla = new ArrayList<TSElem>();
 		}
-		
-		
+
+
 		public String buscaTS(String lexema){
 			int posTS=0;
 			while (posTS<tabla.size() && !tabla.get(posTS).getLexema().equals(lexema)){
@@ -143,7 +143,7 @@ public class Compilador {
 			}
 			return posTS == tabla.size() ? null : id+posTS;
 		}
-		
+
 		public String anadeTS(String lex){
 			tabla.add(new TSElem(lex));
 			return id+(tabla.size() - 1); 
@@ -152,25 +152,25 @@ public class Compilador {
 		public List<TSElem> getTabla() {
 			return tabla;
 		}
-		
+
 		public TSElem get(int pos) {
 			return tabla.get(pos);
 		}
-		
+
 		public int size() {
 			return tabla.size();
 		}
-		
+
 		public int getNum() {
 			return num;
 		}
-		
+
 		public String getId() {
 			return id;
 		}
 	}
-	
-	
+
+
 	public static String buscaTS(String lexema){
 		String resultado = null;
 		if(TablaSimbolosActual==TablaSimbolosLocal){
@@ -211,7 +211,7 @@ public class Compilador {
 		}
 		return tipo;
 	}
-	
+
 	//Copia los argumentos a un string con el tipo de retorno al final
 	public static <E> String parFunc(E listaArgs, String tipoRetorno) {
 		String salida = "";
@@ -227,7 +227,7 @@ public class Compilador {
 		salida += " --> " + tipoRetorno;
 		return salida;
 	}
-	
+
 	//Filas de la TS: lexema, tipo, despl., NArgs, tipoArgs, tipoDevuelto
 	//El ALex. solo mete el lexema
 	public static class TSElem {
@@ -285,7 +285,7 @@ public class Compilador {
 		public String getTipoArgs(int index) {
 			return tipoArgs[index];
 		}
-		
+
 		public String[] getTipoArgs() {
 			return tipoArgs;
 		}
@@ -508,7 +508,7 @@ public class Compilador {
 		Token<?> token = null;
 		while (estado < 8){
 			if (estado == -2) return new Token<Integer>("$");
-            linea = car == '\n' ? linea + 1 : linea;
+			linea = car == '\n' ? linea + 1 : linea;
 			//System.out.println("est:" + estado + " car: " + car);
 			String accion = MT_AFD.accion(estado, car);
 			estado = MT_AFD.estado(estado, car);
@@ -627,14 +627,14 @@ public class Compilador {
 		cont = 0;
 		lee();
 	}
-	
+
 	private static void E(){
 		//Ojo al orden
 		cont++;
 		lex += car;
 		lee();
 	}
-	
+
 	private static Token<Integer> G1(){
 		lee();
 		return new Token<Integer>("ASIGOR");
@@ -682,7 +682,7 @@ public class Compilador {
 					desplG ++;
 				}
 			}
-			
+
 			return new Token<String>("ID", posi);
 		}
 	}
@@ -783,15 +783,15 @@ public class Compilador {
 				if (tablaSimbolos.get(i).getTipoArgs(0) != null && tablaSimbolos.get(i).getTipoArgs(0).equals("tipo_vacio")) {
 					atributos += "  + numParam: 0\n";
 				} else {
-				atributos += "  + numParam: " + tablaSimbolos.get(i).getNArgs() +"\n";
+					atributos += "  + numParam: " + tablaSimbolos.get(i).getNArgs() +"\n";
 				}
 			}
-				
+
 			for (int j = 0; j < tablaSimbolos.get(i).getNArgs(); j++) {
 				if (tablaSimbolos.get(i).getTipoArgs(j) != null && !tablaSimbolos.get(i).getTipoArgs(j).equals("tipo_vacio"))
 					atributos += "  + TipoParam" + (j+1) + ": \'" + tablaSimbolos.get(i).getTipoArgs(j) +"\'\n";
 				//if (tablaSimbolos.get(i).getModoArgs(j) != null)
-					atributos += "  + ModoParam" + (j+1) + ": \'Valor\'\n";
+				atributos += "  + ModoParam" + (j+1) + ": \'Valor\'\n";
 			}
 			if (tablaSimbolos.get(i).getTipoDevuelto() != null)
 				atributos += "  + TipoRetorno: \'" +(tablaSimbolos.get(i).getTipoDevuelto().equals("tipo_vacio") ? "void" : tablaSimbolos.get(i).getTipoDevuelto())+"\'\n";
@@ -803,15 +803,15 @@ public class Compilador {
 
 			output += lineaLexema + atributos;
 		}
-		
+
 		if (TablaSimbolosGlobal==tablaSimbolos)
 			TablaSimbolosGlobal=null;
 		else 
 			TablaSimbolosLocal=null;
-		
+
 		try {
 			bwTS.write(output);
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -929,7 +929,7 @@ public class Compilador {
 				{"","","","","","","","r55","","","","","","","","","","","","r55","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","76","","",""},
 				{"","","","","","","","r56","","","","","","","","","","","","r56","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","91","",""},
 				{"r57","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","37",""}
-				};
+		};
 
 		public TablaDecisionLR() {
 
@@ -1026,7 +1026,7 @@ public class Compilador {
 		}
 		return salida-1;
 	}
-	
+
 	//Para la columna de la tabla de decision y para meterlo en la pila de trabajo
 	private static int noTerm2int(String noTerminal) {
 		int salida = -1;
@@ -1385,7 +1385,7 @@ public class Compilador {
 				break;
 			}
 		}
-		
+
 		msg += "  Linea: " + linea;
 
 		System.out.println(msg);
@@ -1405,20 +1405,20 @@ public class Compilador {
 	public static void meterEnPilaSemanticaToken(int numToken, Token<?> token) {
 		ElemSem nuevoElem = new ElemSem();
 		switch(numToken) {
-			case 3:
-				nuevoElem.setPosi((String) token.getAtributo());//El atributo aqui deberia ser la posicion segun el codigo que tenemos en ALex()
-				break;
-			case 5:
-				nuevoElem.setCadena((String) token.getAtributo());
-				break;
-			case 4:
-				nuevoElem.setNum((int) token.getAtributo());
-				break;
+		case 3:
+			nuevoElem.setPosi((String) token.getAtributo());//El atributo aqui deberia ser la posicion segun el codigo que tenemos en ALex()
+			break;
+		case 5:
+			nuevoElem.setCadena((String) token.getAtributo());
+			break;
+		case 4:
+			nuevoElem.setNum((int) token.getAtributo());
+			break;
 		}
 		pilaSem.push(nuevoElem);
 	}
-	
-	
+
+
 	public static void accionSemantica(int numRegla) {
 		String[] tipos = {"entero", "logico", "cadena", "tipo_vacio"};
 		ElemSem tope, tope1, tope2, tope3, tope4, tope5, tope9;
@@ -1565,44 +1565,44 @@ public class Compilador {
 			tope2=pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
-			
+
 			if (tope2.getTipo().equals("entero") || tope2.getTipo().equals("cadena"))
 				nuevoElem.setTipo("tipo_ok");
 			else 
 				gestorErrores(ERR_SE,4);
-			
+
 			nuevoElem.setTipoRet("tipo_vacio");
 			break; 
-		
+
 		case 21:
 			pilaSem.pop();
 			pilaSem.pop();
 			tope2=pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
-			
+
 			if(buscaTipoTS(tope2.getPosi()).equals("entero") || buscaTipoTS(tope2.getPosi()).equals("cadena"))
 				nuevoElem.setTipo("tipo_ok");
 			else
 				gestorErrores(ERR_SE,4);
-				
+
 			nuevoElem.setTipoRet("tipo_vacio");
-		break;
-			
+			break;
+
 		case 22:
 			tope = pilaSem.pop();
 			pilaSem.pop();
 			tope2 = pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
-	
+
 			if(tope2.getTipo().equals("logico"))
 				nuevoElem.setTipo(tope.getTipo());
 			else
 				gestorErrores(ERR_SE,5);
 			nuevoElem.setTipoRet(tope.getTipoRet());
-		break;
-				
+			break;
+
 		case 23:
 			pilaSem.pop();
 			tope1 = pilaSem.pop();
@@ -1612,13 +1612,13 @@ public class Compilador {
 			else 
 				gestorErrores(ERR_SE,6);
 			nuevoElem.setTipoRet(tope1.getTipo());
-		break;
-				
+			break;
+
 		case 24:
 		case 25:
 			pilaSem.pop();
-		break;
-		
+			break;
+
 		case 26:
 			tope=pilaSem.pop();
 			tope1=pilaSem.pop();
@@ -1632,16 +1632,16 @@ public class Compilador {
 			}
 			else
 				gestorErrores(ERR_SE,7);	
-		break;
-				
+			break;
+
 		case 27:
 			nuevoElem.setTipo("tipo_vacio");
-		break;
-		
+			break;
+
 		case 28:
 			nuevoElem.setTipo("tipo_vacio");
-		break;
-		
+			break;
+
 		case 29:
 			tope=pilaSem.pop();
 			tope1=pilaSem.pop();
@@ -1654,8 +1654,8 @@ public class Compilador {
 			}
 			else
 				gestorErrores(ERR_SE,7);
-		break;
-				
+			break;
+
 		case 30:
 			tope=pilaSem.pop();
 			pilaSem.pop();
@@ -1671,18 +1671,18 @@ public class Compilador {
 			}
 			if(tope2.getTipoRet().equals(tope.getTipoRet()) || tope.getTipoRet().equals("tipo_vacio"))
 				nuevoElem.setTipoRet(tope2.getTipoRet());
-				
+
 			else
 				gestorErrores(ERR_SE, 10);
-				
-		break;
-				
+
+			break;
+
 		case 31:
 			tope=pilaSem.pop();
 			nuevoElem.setTipo(tope.getTipo());
 			nuevoElem.setTipoRet(tope.getTipoRet());
-		break;
-		
+			break;
+
 		case 32:
 			pilaSem.pop();
 			tope1=pilaSem.pop();
@@ -1690,22 +1690,22 @@ public class Compilador {
 			pilaSem.pop();
 			nuevoElem.setTipo(tope1.getTipo());
 			nuevoElem.setTipoRet(tope1.getTipoRet());
-		break;
-		
+			break;
+
 		case 33:
 			nuevoElem.setTipo("tipo_vacio");
 			nuevoElem.setTipoRet("tipo_vacio");
-		break;
-		
+			break;
+
 		case 34:
 			tope=pilaSem.pop();
 			nuevoElem.setTipo(tope.getTipo());
-		break;
-				
+			break;
+
 		case 35:
 			nuevoElem.setTipo("tipo_vacio");
-		break;
-				
+			break;
+
 		case 36:
 			tope=pilaSem.pop();
 			pilaSem.pop();
@@ -1714,13 +1714,13 @@ public class Compilador {
 				nuevoElem.setTipo("logico");	
 			else
 				gestorErrores(ERR_SE,11);	
-		break;
-				
+			break;
+
 		case 37:
 			tope=pilaSem.pop();
 			nuevoElem.setTipo(tope.getTipo());
-		break;
-				
+			break;
+
 		case 38:
 			tope=pilaSem.pop();
 			pilaSem.pop();
@@ -1729,14 +1729,14 @@ public class Compilador {
 				nuevoElem.setTipo("entero");
 			else
 				gestorErrores(ERR_SE,11);
-				
-		break;
-				
+
+			break;
+
 		case 39:
 			tope=pilaSem.pop();
 			nuevoElem.setTipo(tope.getTipo());
-		break;
-		
+			break;
+
 		case 40:
 			tope = pilaSem.pop();
 			pilaSem.pop();
@@ -1746,24 +1746,24 @@ public class Compilador {
 				gestorErrores(ERR_SE,11);
 			}
 			break;
-			
+
 		case 41:
 			tope = pilaSem.pop();
 			nuevoElem.setTipo(tope.getTipo());
 			break;
-			
+
 		case 42:
 			pilaSem.pop();
 			tope1 = pilaSem.pop();
 			pilaSem.pop();
 			nuevoElem.setTipo(tope1.getTipo());
 			break;
-			
+
 		case 43:
 			tope = pilaSem.pop();
 			nuevoElem.setTipo(buscaTipoTS(tope.getPosi()));
 			break;
-		
+
 		case 44:
 			pilaSem.pop();
 			tope1 = pilaSem.pop();
@@ -1781,17 +1781,17 @@ public class Compilador {
 			}
 			if (error) gestorErrores(ERR_SE,4);
 			break;
-		
+
 		case 45:
 			pilaSem.pop();
 			nuevoElem.setTipo("entero");
 			break;
-			
+
 		case 46:
 			pilaSem.pop();
 			nuevoElem.setTipo("cadena");
 			break;
-		
+
 		case 47:
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
@@ -1800,7 +1800,7 @@ public class Compilador {
 			} else {
 				gestorErrores(ERR_SE, 12);
 			}
-			
+
 			if (tope1.getTipoRet().equals("tipo_vacio")) {
 				nuevoElem.setTipoRet(tope.getTipoRet());
 			} else if (tope.getTipoRet().equals("tipo_vacio")) {
@@ -1809,37 +1809,37 @@ public class Compilador {
 				gestorErrores(ERR_SE, 13);
 			}
 			break;
-		
+
 		case 48:
 			tope = pilaSem.pop();
 			nuevoElem.setTipo(tope.getTipo());
 			nuevoElem.setTipoRet(tope.getTipoRet());
 			break;
-		
+
 		case 49:
 			nuevoElem.setTipoRet("tipo_vacio");
 			break;
-		
+
 		case 50:
 			TablaSimbolosGlobal = new TS("G");
 			desplG = 0;
 			TablaSimbolosActual = TablaSimbolosGlobal;
 			break;
-			
+
 		case 51:
 			zona_decl = true;
 			break;
-			
+
 		case 52:
 			zona_decl = true;
 			break;
-			
+
 		case 53:
 			TablaSimbolosLocal = new TS("L");
 			desplL = 0;
 			TablaSimbolosActual = TablaSimbolosLocal;
 			break;
-			
+
 		case 54:
 			tope = pilaSem.pop();
 			tope1 = pilaSem.pop();
@@ -1871,7 +1871,7 @@ public class Compilador {
 			pilaSem.push(tope1);
 			pilaSem.push(tope);
 			break;
-			
+
 		case 55:
 		case 56:
 			tope = pilaSem.pop();
@@ -1882,15 +1882,15 @@ public class Compilador {
 			pilaSem.push(tope1);
 			pilaSem.push(tope);
 			break;
-			
+
 		case 57:
 			zona_decl = false;
 			break;
 		}
-		
+
 		pilaSem.push(nuevoElem);
 	}
-	
+
 	public static void main(String []args){
 		//File file = new File(args[0]);
 		File file = new File("PIdG82 (1).txt");
@@ -1898,7 +1898,7 @@ public class Compilador {
 		bw = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
-			bw = new BufferedWriter(new FileWriter("tokens.txt"));
+			bw = new BufferedWriter(new FileWriter("Tokens.txt"));
 			bwTS = new BufferedWriter(new FileWriter("TablaSimbolos.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -1906,10 +1906,7 @@ public class Compilador {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-
-		/*lee();
-		while(car!='\0') ALex();*/
+		}
 
 		pilaSt.push(-1);
 		String parse = "A ";
@@ -1942,10 +1939,10 @@ public class Compilador {
 				break;
 			}
 		}
-		
+
 		bwSt = null;
 		try {
-			bwSt = new BufferedWriter(new FileWriter("parseDer.txt"));
+			bwSt = new BufferedWriter(new FileWriter("ParseDer.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1959,8 +1956,6 @@ public class Compilador {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//escribirTablaSimbolos(TablaSimbolosGlobal);
 
 		try {
 			br.close();
@@ -1973,3 +1968,59 @@ public class Compilador {
 		}
 	}
 }
+
+/* BUCLE CON PRINTS PARA DEBUGGEAR !
+System.out.println("Token 1: " + token.getCodToken());
+int n=0;
+
+while(true) {
+	n++;
+	int s = pilaSt.peek();
+	String accion = TDecLR.accion(s, token);
+
+	System.out.println("----\nIter: " + n + " Estado: " + s + " Token: " + token.getCodToken() + " Accion: " + accion);
+
+	if (accion == "") {
+		errorSintactico(s);
+		break;
+	} else if (accion.charAt(0) == 'd') {
+		pilaSt.push(token2int(token));
+		pilaSt.push(Integer.parseInt(accion.substring(1)));
+
+		System.out.println("Desplazamiento\nPushea (tb en semantica): " + token.getCodToken() + 
+				" \nPushea Estado: " + Integer.parseInt(accion.substring(1)));
+
+		meterEnPilaSemanticaToken(token2int(token), token); // <-----
+		token = ALex();
+
+		System.out.println("Pilla token: " +  token.getCodToken());
+
+	} else if (accion.charAt(0) == 'r') {
+		int numRegla = Integer.parseInt(accion.substring(1));
+
+		System.out.println("Reduccion\nnRegla: " +  numRegla + " , de longitud: " + gramatica.getLongitud(numRegla));
+
+		for (int i = 0; i < 2*gramatica.getLongitud(numRegla); i++) {
+			pilaSt.pop();
+		}
+		int s2 = pilaSt.peek();
+
+		System.out.println("Estado en cima: " +  s2);
+
+		pilaSt.push(noTerm2int(gramatica.getAntecedente(numRegla)));
+
+		System.out.println("Pushea: " +  gramatica.getAntecedente(numRegla));
+
+		int nuevoEstado = TDecLR.goto_(s2, gramatica.getAntecedente(numRegla));
+		pilaSt.push(nuevoEstado);
+
+		System.out.println("Pushea: " +  nuevoEstado);
+
+		parse += (numRegla+1) + " ";
+
+		accionSemantica(numRegla); // <-----
+	} else if (accion.charAt(0) == 'a') {
+		//FIN, pero si pongo return no llega a escribirTablaSimbolos
+		break;
+	}
+}*/
