@@ -245,6 +245,7 @@ public class Compilador {
 		private String[] tipoArgs;
 		private String[] modoArgs;
 		private String tipoDevuelto;
+		private String etiqueta;
 
 		public TSElem(String lexema) {
 			this.lexema = lexema;
@@ -314,6 +315,14 @@ public class Compilador {
 
 		public void setTipoDevuelto(String tipoDevuelto) {
 			this.tipoDevuelto = tipoDevuelto;
+		}
+
+		public void setEtiq(String str) {
+			this.etiqueta = str;
+		}
+
+		public String getEtiq() {
+			return etiqueta;
 		}
 	}
 
@@ -702,10 +711,10 @@ public class Compilador {
 			}else{
 				posi = buscaTS(lex);
 				if (posi == null){
-					posi = TablaSimbolosActual.anadeTS(lex);
+					posi = TablaSimbolosGlobal.anadeTS(lex);
 					p = Integer.parseInt(posi.substring(1));
-					TablaSimbolosActual.get(p).setTipo("entero");
-					TablaSimbolosActual.get(p).setDesplazamiento(desplG);
+					TablaSimbolosGlobal.get(p).setTipo("entero");
+					TablaSimbolosGlobal.get(p).setDesplazamiento(desplG);
 					desplG ++;
 				}
 			}
@@ -791,7 +800,6 @@ public class Compilador {
 	}
 
 	private static void liberaTS(TS tablaSimbolos){
-		//Necesito resetear el writer para escribir cada tabla en un fichero	
 
 		String cabecera = "Tabla Simbolos #" + tablaSimbolos.getNum() + ":\n";
 		String output = cabecera + "\n";
@@ -807,21 +815,25 @@ public class Compilador {
 			if (tablaSimbolos.get(i).getDesplazamiento() != -1)
 				atributos += "  + Despl: " + tablaSimbolos.get(i).getDesplazamiento() +"\n";
 
-			if (tablaSimbolos.get(i).getNArgs() != -1)
+			if (tablaSimbolos.get(i).getNArgs() != -1){
+				if (tablaSimbolos.get(i).getTipoArgs(0) != null && tablaSimbolos.get(i).getTipoArgs(0).equals("tipo_vacio")) {
+					atributos += "  + numParam: 0\n";
+				} else {
 				atributos += "  + numParam: " + tablaSimbolos.get(i).getNArgs() +"\n";
-
+				}
+			}
+				
 			for (int j = 0; j < tablaSimbolos.get(i).getNArgs(); j++) {
-				if (tablaSimbolos.get(i).getTipoArgs(j) != null)
-					atributos += "  + TipoParam" + j + ": \'" + tablaSimbolos.get(i).getTipoArgs(j) +"\'\n";
-				if (tablaSimbolos.get(i).getModoArgs(j) != null)
-					atributos += "  + ModoParam" + j + ": \'" + tablaSimbolos.get(i).getModoArgs(j) +"\'\n";
+				if (tablaSimbolos.get(i).getTipoArgs(j) != null && !tablaSimbolos.get(i).getTipoArgs(j).equals("tipo_vacio"))
+					atributos += "  + TipoParam" + (j+1) + ": \'" + tablaSimbolos.get(i).getTipoArgs(j) +"\'\n";
+				//if (tablaSimbolos.get(i).getModoArgs(j) != null)
+					atributos += "  + ModoParam" + (j+1) + ": \'Valor\'\n";
 			}
 			if (tablaSimbolos.get(i).getTipoDevuelto() != null)
-				atributos += "  + TipoRetorno: \'" + tablaSimbolos.get(i).getTipoDevuelto() +"\'\n";
+				atributos += "  + TipoRetorno: \'" +(tablaSimbolos.get(i).getTipoDevuelto().equals("tipo_vacio") ? "void" : tablaSimbolos.get(i).getTipoDevuelto())+"\'\n";
 
-			/* Que es esto?
-			 * atributos += "  + EtiqFuncion: \'" + tablaSimbolos.getTabla().get(i).getEtiq() +"\'\n";
-			atributos += "  + Param: \'" + tablaSimbolos.getTabla().get(i).getParam() +"\'\n";*/
+			atributos += "  + EtiqFuncion: \'" + tablaSimbolos.getTabla().get(i).getEtiq() +"\'\n";
+			//atributos += "  + Param: \'" + tablaSimbolos.getTabla().get(i).getParam() +"\'\n";
 
 			atributos += "\n";
 
@@ -930,7 +942,7 @@ public class Compilador {
 				{"","","","","","","","","","","","","","","d16","d18","d17","","","","","","","","","","","","87","","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","r33","r33","","","","","","","","","","r33","","","","r33","r33","","r33","r33","r33","d89","r33","","","","","","","","","","","","","","","88","","","","","","","","","","","","","",""},
 				{"","","d90","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
-				{"","","r17","d7","","","","","","","","","","d101","","","","d8","d9","","d11","","d10","","","","","","","","","","","96","86","","","","","","","","","","","","","","","","","","",""},
+				{"","","r17","d7","","","","","","","","","","d101","","","","d8","d9","","d11","","d10","","","","","85","","","","","","96","86","","","","","","","","","","","","","","","","","","",""},
 				{"","","r17","d7","","","","","","","","","","d101","","","","d8","d9","","d11","","d10","","","","","85","","","","","","97","86","","","","","","","","","","","","","","","","","","",""},
 				{"","","","d106","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
 				{"","","r30","r30","","","","","","","","","","r30","","","","r30","r30","","r30","r30","r30","","r30","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
@@ -1369,61 +1381,43 @@ public class Compilador {
 			msg += " Semantico: ";
 			switch(error) {
 			case 1:
-				msg += "...";
+				msg += "RETURN fuera de funcion.";
 				break;
 			case 2:
-				msg += "...";
+				msg += "El tipo devuelto no coincide con el declarado en la funcion.";
 				break;
 			case 3:
-				msg += "...";
+				msg += "Asignacion incorrecta.";
 				break;
 			case 4:
-				msg += "...";
+				msg += "Incoherencia entre parametros formales y actuales en la llamada a funcion.";
 				break;
 			case 5:
-				msg += "...";
+				msg += "La condicion del IF no es de tipo logico.";
 				break;
 			case 6:
-				msg += "...";
+				msg += "Error en la sentencia del RETURN.";
 				break;
 			case 7:
-				msg += "...";
+				msg += "Error al definir los parametros de llamada de una funcion.";
 				break;
 			case 8:
-				msg += "...";
+				msg += "Error en el cuerpo del IF.";
 				break;
 			case 9:
-				msg += "...";
+				msg += "Error en el cuerpo del ELSE.";
 				break;
 			case 10:
-				msg += "...";
+				msg += "No concuerdan los RETURN de las sentencias IF-ELSE.";
 				break;
 			case 11:
-				msg += "...";
+				msg += "Tipos incompatibles entre operandos y operadores.";
 				break;
 			case 12:
-				msg += "...";
+				msg += "Error en el cuerpo del IF-ELSE.";
 				break;
 			case 13:
-				msg += "...";
-				break;
-			case 14:
-				msg += "...";
-				break;
-			case 15:
-				msg += "...";
-				break;
-			case 16:
-				msg += "...";
-				break;
-			case 17:
-				msg += "...";
-				break;
-			case 18:
-				msg += "...";
-				break;
-			case 19:
-				msg += "...";
+				msg += "Error en el RETURN en el cuerpo del IF-ELSE.";
 				break;
 			}
 		}
@@ -1487,20 +1481,20 @@ public class Compilador {
 			break;
 		case 4:
 			pilaSem.pop();
-			tope1 = pilaSem.pop();
+			pilaSem.pop();
 			tope2 = pilaSem.pop();
+			tope3 = pilaSem.pop();
 			pilaSem.pop();
 			pilaSem.pop();
-			posi = Integer.parseInt(tope1.getPosi().substring(1));
-			TablaSimbolosActual.get(posi).setTipo(tope2.getTipo());
+			posi = Integer.parseInt(tope2.getPosi().substring(1));
+			TablaSimbolosActual.get(posi).setTipo(tope3.getTipo());
 			if (TablaSimbolosActual == TablaSimbolosGlobal) {
 				TablaSimbolosActual.get(posi).setDesplazamiento(desplG);
-				desplG += tope2.getTamano();
+				desplG += tope3.getTamano();
 			} else {
 				TablaSimbolosActual.get(posi).setDesplazamiento(desplL);
-				desplL += tope2.getTamano();
+				desplL += tope3.getTamano();
 			}
-			zona_decl = false;
 			break;
 		case 5:
 			pilaSem.pop();
@@ -1510,7 +1504,7 @@ public class Compilador {
 		case 6:
 			pilaSem.pop();
 			nuevoElem.setTipo("cadena");
-			nuevoElem.setTamano(1);
+			nuevoElem.setTamano(64);
 			break;
 		case 7:
 			pilaSem.pop();
@@ -1569,7 +1563,7 @@ public class Compilador {
 			else if (tope.getTipoRet().equals("tipo_vacio"))
 				nuevoElem.setTipoRet(tope1.getTipoRet());
 			else 
-				gestorErrores(ERR_SE,3);
+				gestorErrores(ERR_SE,2);
 			break;
 		case 17:
 			nuevoElem.setTipoRet("tipo_vacio");
@@ -1582,7 +1576,7 @@ public class Compilador {
 			if(tope1.getTipo().equals(buscaTipoTS(tope3.getPosi())) && !tope1.getTipo().equals("tipo_error"))
 				nuevoElem.setTipo("tipo_ok");
 			else
-				gestorErrores(ERR_SE,3);//TODO ver que num es
+				gestorErrores(ERR_SE,3);
 			nuevoElem.setTipoRet("tipo_vacio");
 			break;
 		case 19:
@@ -1611,7 +1605,7 @@ public class Compilador {
 			if (tope2.getTipo().equals("entero") || tope2.getTipo().equals("cadena"))
 				nuevoElem.setTipo("tipo_ok");
 			else 
-				gestorErrores(ERR_SE,5);
+				gestorErrores(ERR_SE,4);
 			
 			nuevoElem.setTipoRet("tipo_vacio");
 			break; 
@@ -1626,7 +1620,7 @@ public class Compilador {
 			if(buscaTipoTS(tope2.getPosi()).equals("entero") || buscaTipoTS(tope2.getPosi()).equals("cadena"))
 				nuevoElem.setTipo("tipo_ok");
 			else
-				gestorErrores(ERR_SE,6);
+				gestorErrores(ERR_SE,4);
 				
 			nuevoElem.setTipoRet("tipo_vacio");
 		break;
@@ -1641,7 +1635,7 @@ public class Compilador {
 			if(tope2.getTipo().equals("logico"))
 				nuevoElem.setTipo(tope.getTipo());
 			else
-				gestorErrores(ERR_SE,7);
+				gestorErrores(ERR_SE,5);
 			nuevoElem.setTipoRet(tope.getTipoRet());
 		break;
 				
@@ -1652,7 +1646,7 @@ public class Compilador {
 			if (!tope1.getTipo().equals("tipo_error")) 
 				nuevoElem.setTipo("tipo_ok");
 			else 
-				gestorErrores(ERR_SE,8);
+				gestorErrores(ERR_SE,6);
 			nuevoElem.setTipoRet(tope1.getTipo());
 		break;
 				
@@ -1673,7 +1667,7 @@ public class Compilador {
 					nuevoElem.setTipoLista(tope.getTipoLista(), tope1.getTipo());
 			}
 			else
-				gestorErrores(ERR_SE,10);	
+				gestorErrores(ERR_SE,7);	
 		break;
 				
 		case 27:
@@ -1689,13 +1683,13 @@ public class Compilador {
 			tope1=pilaSem.pop();
 			pilaSem.pop();
 			if(!tope1.getTipo().equals("tipo_error") && (tope.getTipoLista() != null || !tope.getTipo().equals("tipo_error"))) {
-				if(tope.getTipo().equals("tipo_vacio"))
+				if(tope.getTipo() != null && tope.getTipo().equals("tipo_vacio"))
 					nuevoElem.anadirTipoLista(tope1.getTipo());
 				else
 					nuevoElem.setTipoLista(tope.getTipoLista(), tope1.getTipo());
 			}
 			else
-				gestorErrores(ERR_SE,11);
+				gestorErrores(ERR_SE,7);
 		break;
 				
 		case 30:
@@ -1703,19 +1697,19 @@ public class Compilador {
 			pilaSem.pop();
 			tope2=pilaSem.pop();
 			pilaSem.pop();
-			if(!tope2.getTipo().equals("tipo_error"))
+			if(!tope2.getTipo().equals("tipo_error")) {
 				if(!tope.getTipo().equals("tipo_error"))
 					nuevoElem.setTipo(tope2.getTipo());
 				else
-					gestorErrores(ERR_SE,13);
-			else
-				gestorErrores(ERR_SE,12);
+					gestorErrores(ERR_SE,9);
+			} else {
+				gestorErrores(ERR_SE,8);
+			}
+			if(tope2.getTipoRet().equals(tope.getTipoRet()) || tope.getTipoRet().equals("tipo_vacio"))
+				nuevoElem.setTipoRet(tope2.getTipoRet());
 				
-			if(tope2.getTipoRet().equals(tope.getTipoRet()))
-				nuevoElem.setTipoRet(tope.getTipoRet());
-				
 			else
-				//ERROR
+				gestorErrores(ERR_SE, 10);
 				
 		break;
 				
@@ -1755,7 +1749,7 @@ public class Compilador {
 			if(tope.getTipo().equals(tope2.getTipo()) && tope.getTipo().equals("entero"))
 				nuevoElem.setTipo("logico");	
 			else
-				gestorErrores(ERR_SE,14);	
+				gestorErrores(ERR_SE,11);	
 		break;
 				
 		case 37:
@@ -1770,7 +1764,7 @@ public class Compilador {
 			if(tope.getTipo().equals(tope2.getTipo()) && tope2.getTipo().equals("entero"))
 				nuevoElem.setTipo("entero");
 			else
-				gestorErrores(ERR_SE,15);
+				gestorErrores(ERR_SE,11);
 				
 		break;
 				
@@ -1785,7 +1779,7 @@ public class Compilador {
 			if (tope.getTipo().equals("logico")) {
 				nuevoElem.setTipo("logico");
 			} else {
-				gestorErrores(ERR_SE,16);
+				gestorErrores(ERR_SE,11);
 			}
 			break;
 			
@@ -1821,7 +1815,7 @@ public class Compilador {
 					break;
 				}
 			}
-			if (error) gestorErrores(ERR_SE,17);
+			if (error) gestorErrores(ERR_SE,4);
 			break;
 		
 		case 45:
@@ -1840,7 +1834,7 @@ public class Compilador {
 			if (!tope1.getTipo().equals("tipo_error")) {
 				nuevoElem.setTipo(tope.getTipo());
 			} else {
-				gestorErrores(ERR_SE, 18);
+				gestorErrores(ERR_SE, 12);
 			}
 			
 			if (tope1.getTipoRet().equals("tipo_vacio")) {
@@ -1848,7 +1842,7 @@ public class Compilador {
 			} else if (tope.getTipoRet().equals("tipo_vacio")) {
 				nuevoElem.setTipoRet(tope1.getTipoRet());
 			} else {
-				gestorErrores(ERR_SE, 19);
+				gestorErrores(ERR_SE, 13);
 			}
 			break;
 		
@@ -1902,6 +1896,7 @@ public class Compilador {
 				TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoArgs(tope1.getTipo(), 0);
 			}
 			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setDesplazamiento(-1);
+			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setEtiq("" + TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).getLexema() + "" + tope4.getPosi().substring(1));
 			TablaSimbolosGlobal.get(Integer.parseInt(tope4.getPosi().substring(1))).setTipoDevuelto(tope5.getTipo());
 			zona_decl = false;
 			pilaSem.push(tope5);
