@@ -1,4 +1,4 @@
-24. L -> |= @{}@
+﻿24. L -> |= @{}@
 25. L-> = @{}@
 26. M-> EQ @{M.tipo =
      if(E.tipo != tipo_error
@@ -29,7 +29,7 @@
                                 else error(9)
                             else error(8)
      }@
-31. S1 -> @{S$_2$.func=S$_1$.func}@ S @{Aux[ntope].tipo=Aux[tope].tipo}@
+31. S1 -> @{S$_2$.func=S$_1$.func}@ S @{S1.tipo=S.tipo}@
 32. G -> else{ @{S$_2$.func=G.func}@ S$_2$}@{G.tipo=S$_2$.tipo}@
 33. G -> λ @{G.tipo = tipo_vacio}@
 34. X -> E @{X.tipo = E.tipo}@
