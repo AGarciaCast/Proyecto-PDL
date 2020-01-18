@@ -1,0 +1,69 @@
+24. L -> |= @{}@
+25. L-> = @{}@
+26. M-> EQ @{M.tipo =
+     if(E.tipo != tipo_error
+     AND Q.tipo != tipo_error)
+        then if(Q.tipo == tipo_vacio)
+                then E.tipo
+             else
+                E.tipo x Q.tipo
+     else
+        error(7)
+    }@
+27. M -> λ @{M.tipo = tipo_vacio}@
+28. Q -> λ @{Q.tipo = tipo_vacio}@
+29. Q -> ,EQ$_1$ @{Q.tipo=
+                   if(E.tipo != tipo_error
+                   AND Q.tipo != tipo_error)
+                     then if(Q.tipo == tipo_vacio)
+                            then NuevaPila(E.tipo)
+                          else Q.tipo.push(E.tipo)
+                   else
+                     error(7)
+                  }@
+30. S$_1$ -> { @{S$_2$.func = S$_1$.func}@ S$_2$}
+     @{G.func=S$_1$.func}@ G @{S$_1$.tipo =
+                            if(S$_2$.tipo != tipo_error)
+                                if(G.tipo != tipo_error)
+                                    then S$_2$.tipo
+                                else error(9)
+                            else error(8)
+     }@
+31. S1 -> @{S$_2$.func=S$_1$.func}@ S @{Aux[ntope].tipo=Aux[tope].tipo}@
+32. G -> else{ @{S$_2$.func=G.func}@ S$_2$}@{G.tipo=S$_2$.tipo}@
+33. G -> λ @{G.tipo = tipo_vacio}@
+34. X -> E @{X.tipo = E.tipo}@
+35. X -> λ @{X.tipo = tipo_vacio}@
+36. E -> E$_1$ < U @{E.tipo = if(E$_1$.tipo = U.tipo = entero)
+                                then logico
+                              else
+                                error(11)
+                    }@
+37. E -> U @{E.tipo = U.tipo}@
+38. U -> U$_1$ + R @{U.tipo = if(U$_1$.tipo == R.tipo == entero)
+                                then entero
+                                else
+                                  error(11)
+                    }@
+39. U-> R @{U.tipo = R.tipo}@
+40. R -> !V @{R.tipo = if(V.tipo == logico) then logico
+                       else error(11)
+             }@
+41. R -> V @{R.tipo = V.tipo}@
+42. V -> (E) @{V.tipo = E.tipo}@
+43. V -> id @{V.tipo = BuscaTS(id.posi)}@
+44. V -> id(M) @{S.tipo = if(BuscaTipoTS(id.posi) == M.tipo -> t)
+                            then t
+                          else
+                            error(4)
+                }@
+45. V -> ent @{V.tipo = entero}@
+46. V -> cadena @{V.tipo = cadena}@
+47. S$_2$ -> @{S.func = S$_2$.func}@ S @{S'$_2$.func = S$_2$.func}@ S'$_2$ @{
+              S$_2$.tipo =
+                  if(S.tipo != tipo_error) then S$_2$.tipo
+                  else
+                    error(12)
+              }@
+48. S$_2$ -> @{S.func = S$_2$.func}@ S @{S$_2$.tipo = S.tipo}@
+49. P -> λ @{}@
