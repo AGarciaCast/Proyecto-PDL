@@ -346,7 +346,7 @@
         error(7)}@
 27. M -> λ @{Aux[ntope].tipo = tipo_vacio}@
 28. Q -> λ @{Aux[ntope].tipo = tipo_vacio}@
-29. Q -> , E Q$-1$ @{if(Aux[tope-1].tipo != tipo_error
+29. Q -> , E Q$_1$ @{if(Aux[tope-1].tipo != tipo_error
                   AND Aux[tope].tipo != tipo_error)
                     then if(Aux[tope].tipo = tipo_vacio)
                             then NuevaPila(Aux[tope-1].tipo)
@@ -391,7 +391,7 @@
 43. V -> id @{Aux[ntope].tipo = BuscaTipoTS(Aux[tope].posi)}@
 44. V -> id(M) @{Aux[ntope].tipo = 
 		if(BuscaTipoTS(Aux[tope-3].posi) = ParFunc(Aux[tope-1].tipo, t)) then t
-		else error(17)}@
+		else error(4)}@
 45. V -> ent @{Aux[ntope].tipo = entero}@
 46. V -> cadena @{Aux[ntope].tipo = cadena}@
 47. S$_2$ -> S S'$_2$ @{Aux[ntope] = if(Aux[tope-1].tipo != tipo_error) then
