@@ -108,13 +108,14 @@
      else
         error(7)
      }
-23.- S -> return X;{Aux[ntope].tipo =
+23.- S -> return X; {Aux[ntope].tipo =
      if(Aux[ntope].func) then
         if(Aux[tope-1].tipo != tipo.error) then tipo_ok
         else
             error(8)
      else
         error(9)
+     Aux[ntope].tipoRet = Aux[tope-1].tipoRet
      }
 24.- L -> |= {}
 25.- L-> = {}
