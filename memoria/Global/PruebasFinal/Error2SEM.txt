@@ -1,0 +1,8 @@
+var boolean booleano;
+function boolean bisiesto (int a)	
+{	var int bis;
+	print ('Es bisiesto?');
+	input(bis);
+	return (!(a + 4 < 0));	
+}
+return booleano;

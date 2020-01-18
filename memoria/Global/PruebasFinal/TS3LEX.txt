@@ -1,0 +1,38 @@
+Tabla Simbolos #2:
+
+ * LEXEMA: 'num1'
+  + Tipo: 'entero'
+  + Despl: 0
+
+ * LEXEMA: 'num2'
+  + Tipo: 'entero'
+  + Despl: 1
+
+ * LEXEMA: 'res'
+  + Tipo: 'entero'
+  + Despl: 2
+
+Tabla Simbolos #1:
+
+ * LEXEMA: 'a'
+  + Tipo: 'entero'
+  + Despl: 0
+
+ * LEXEMA: 'b'
+  + Tipo: 'entero'
+  + Despl: 1
+
+ * LEXEMA: 'c'
+  + Tipo: 'entero'
+  + Despl: 2
+
+ * LEXEMA: 'suma'
+  + Tipo: 'funcion'
+  + numParam: 2
+  + TipoParam1: 'entero'
+  + ModoParam1: 'Valor'
+  + TipoParam2: 'entero'
+  + ModoParam2: 'Valor'
+  + TipoRetorno: 'entero'
+  + EtiqFuncion: 'suma3'
+

@@ -1,0 +1,9 @@
+var int a;
+var int b;
+a = 33333;
+b = a;
+ if (a  <  b) b  =  1;
+if (b  <  a) b  =  8;
+ a = a  +  b;
+print (a);
+print (b);
