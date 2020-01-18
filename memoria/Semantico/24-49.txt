@@ -27,11 +27,14 @@
                                 if(G.tipo != tipo_error)
                                     then S$_2$.tipo
                                 else error(9)
-                            else error(8)
-     }@
-31. S1 -> @{S$_2$.func=S$_1$.func}@ S @{S1.tipo=S.tipo; S1.tipoRet = S.tipoRet}@
-32. G -> else{ @{S$_2$.func=G.func}@ S$_2$}@{G.tipo=S$_2$.tipo}@
-33. G -> λ @{G.tipo = tipo_vacio}@
+                            else error(8);
+     S$_1$.tipoRet = if (S$_2$.tipoRet == G.tipoRet OR G.tipoRet == tipo_vacio
+		S$_2$.tipoRet
+	else error(10)}@
+31. S1 -> @{S$_2$.func=S$_1$.func}@ S @{S$_1$.tipo=S.tipo; S$_1$.tipoRet = S.tipoRet}@
+32. G -> else{ @{S$_2$.func=G.func}@ S$_2$}@{G.tipo=S$_2$.tipo; 
+						G.tipoRet = S$_2$.tipoRet}@
+33. G -> λ @{G.tipo = tipo_vacio; G.tipoRet = tipo_vacio}@
 34. X -> E @{X.tipo = E.tipo}@
 35. X -> λ @{X.tipo = tipo_vacio}@
 36. E -> E$_1$ < U @{E.tipo = if(E$_1$.tipo = U.tipo = entero)
@@ -65,5 +68,6 @@
                   else
                     error(12)
               }@
-48. S$_2$ -> @{S.func = S$_2$.func}@ S @{S$_2$.tipo = S.tipo}@
+48. S$_2$ -> @{S.func = S$_2$.func}@ S @{S$_2$.tipo = S.tipo; 
+					S$_2$.tipoRet = S.tipoRet}@
 49. P -> λ @{}@
