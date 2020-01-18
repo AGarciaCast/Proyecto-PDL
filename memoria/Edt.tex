@@ -169,9 +169,9 @@
              }
 41.- R -> V {Aux[ntope].tipo = Aux[tope].tipo}
 42.- V -> (E) {Aux[ntope].tipo = Aux[tope-1].tipo}
-43.- V -> id {Aux[ntope].tipo = BuscaTS(Aux[tope].posi)}
+43.- V -> id {Aux[ntope].tipo = BuscaTipoTS(Aux[tope].posi)}
 44.- V -> id(M) {Aux[ntope].tipo =
-                 if(BuscatipoTS(Aux[tope].posi) == ParFunc(Aux[tope-1].tipo, t))
+                 if(BuscaTipoTS(Aux[tope].posi) == ParFunc(Aux[tope-1].tipo, t))
                     then t
                  else
                     error(17)
