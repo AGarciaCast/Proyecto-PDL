@@ -106,103 +106,90 @@
 \section{Diseno del Analizador Semántico}
 \subsection{Esquema de Traducción}
 \begin{lstlisting}[style=EdT]
-0. P' -> {TSG = creaTS(); DesplG = 0; TS_actual = TSG;
-    P.func = false} P {liberaTS(TSG)}
-1. P -> D { P$_1$ .func = P.func} P$_{1}$
-2. P -> F { P$_1$ .func = P.func} P$_{1}$
-3. P -> {S.func = false} S {P$_1$ = P.func} P$_1$
-4. D -> var {zona_decl = true} T id ;
-    {InsertarTipoTS(id.posi, T.tipo)
-        if(TS_actual==TSG) then
-            InsertarDespl(id.posi, desplG)
-            desplG = desplG + T.tamano
-        else
-            InsertarDespl(id.posi, desplL)
-            desplL = desplL + T.tamano
-        zona_decl=false
-    }
-5. T -> int {T.tipo=entero; T.tamano = 1}
-6. T -> string {T.tipo=cadena; T.tamano = 64}
-7. T -> boolean {T.tipo=logico; T.tamano = 1}
-8. F -> function {zona_decl =true} T$_1$ id({TSL = creaTS();
-    desplL=0; TS_actual = TSL} A){InsertaTipoTSG}(id.posi,
-    A.tipo -> T.tipo)); zona_decl = false}
-    { { C.func = true} C {if (C.tipoRet != T.tipo)
-    then error(1); TS_actual = TSG; LiberarTS(TSL) }}
-9. T$_1$ -> λ {T.tipo = tipo_vacio}
-10. T$_1$ -> T{T$_1$.tipo = T.tipo }
-11. A -> T id {InsertarTipoTS(id.posi, T.tipo) ;
-     InsertarDesplTS(id.posi, desplL);
-     desplL = desplL + T.tamano} K
-     {A.tipo = if(K.tipo == tipo_vacio)
-                            then T.tipo}
-                         else
-                             T.tipo x K.tipo
-     }
-12. A -> λ {A.tipo = tipo_vacio}
-13. K -> λ {K.tipo = tipo_vacio}
-14. K -> , T id {InsertarTipoTS(id.posi, T.tipo);
-     InsertarDesplTS(id.posi, desplL);
-     desplL = desplL + T.tamano} K$_1$
-     {K.tipo = if(K$_1$.tipo == tipo_vacio) then
-                    T.tipo
-                else
-                    T.tipo x K.tipo
-      }
-15. C -> D {C$_1$.func = C.func}
-          C$_1$ {C.tipoRet = C$_1$.tipoRet}
-16. C -> {S.func = C.func} S {C$_1$.func = C.func}C$_1$
-        {C.tipoRet =
-        if(S.tipoRet == C$_1$.tipoRet) then
-            S.tipoRet
-        else if(S.tipoRet == tipo_vacio) then
-            C$_1$.tipoRet
-        else if(C$_1$.tipoRet == tipo_vacio) then
-            S.tipoRet
-        else
-            error(2)
-     }
-17. C -> λ{C.tipoRet = tipo_vacio}
-18. S-> id L E ; {S.tipo =
-     if(BuscaTipoTS(id.posi) == E.tipo)
-     AND (E.tipo != tipo_error))then
-        tipo_ok
-     else
-        error(3)}
-19. S-> id (M); {S.tipo =
-     if(BuscaTipoTS(id.posi) == M.tipo -> t)
-        then tipo_ok
-     else
-        error(4)}
-20. S -> print (E); {S.tipo =
-     if(E.tipo == entero || E.tipo == cadena)
-        then tipo_ok
-     else
-        error(5)
-        }
-21. S -> input(id); {S.tipo =
-     if(BuscaTipoTS(id.posi) == entero
-        || BuscaTipoTS(id.posi).tipo == cadena)) then tipo_ok
-     else
-        error(6)
-     }
-22. S -> if(E) {S$_1$.func = S.func} S$_1$ {S.tipo =
-     if(E.tipo == logico) then S$_1$.tipo
-     else
-        error(7)
-     }
-23. S -> return X; {S.tipo =
-     if(S.func) then
-        if(X.tipo != tipo.error) then tipo_ok
-        else
-            error(8)
-     else
-        error(9)
-     S.tipoRet = X.tipoRet
-     }
-24. L -> |= {}
-25. L-> = {}
-26. M-> EQ {M.tipo =
+0. P' -> @{TSG = creaTS(); DesplG = 0; TS_actual = TSG;
+    P.func = false}@ P @{liberaTS(TSG)}@
+1. P -> D @{ P$_1$ .func = P.func}@ P$_{1}$
+2. P -> F @{ P$_1$ .func = P.func}@ P$_{1}$
+3. P -> @{S.func = false}@ S @{P$_1$ = P.func}@ P$_1$
+4. D -> var @{zona_decl = true}@ T id ; @{InsertarTipoTS(id.posi, T.tipo)
+       							 if(TS_actual=TSG) then
+           							 InsertarDespl(id.posi, desplG)
+           							 desplG = desplG + T.tamano
+      						     else
+           							 InsertarDespl(id.posi, desplL)
+            						 desplL = desplL + T.tamano
+        						zona_decl=false}@
+5. T -> int @{T.tipo=entero; T.tamano = 1}@
+6. T -> string @{T.tipo=cadena; T.tamano = 64}@
+7. T -> boolean @{T.tipo=logico; T.tamano = 1}@
+8. F -> function @{zona_decl =true}@ T$_1$ id ( @{TSL = creaTS();desplL=0;
+	TS_actual = TSL}@ A )@{InsertaTipoTSG(id.posi,A.tipo -> T.tipo));
+    zona_decl = false}@ { @{ C.func = true}@ C } @{if (C.tipoRet != T.tipo)
+   											 then error(2);
+   											 TS_actual = TSG; LiberarTS(TSL)}@
+9. T$_1$ -> λ @{T.tipo = tipo_vacio}@
+10. T$_1$ -> T @{T$_1$.tipo = T.tipo}@
+11. A -> T id @{InsertarTipoTS(id.posi, T.tipo); InsertarDesplTS(id.posi, desplL);
+     desplL = desplL + T.tamano}@ K @{A.tipo = if(K.tipo = tipo_vacio)
+                            					then T.tipo
+                         					else
+                             					T.tipo x K.tipo}@
+12. A -> λ @{A.tipo = tipo_vacio}@
+13. K -> λ @{K.tipo = tipo_vacio}@
+14. K -> , T id @{InsertarTipoTS(id.posi, T.tipo); InsertarDesplTS(id.posi, desplL);
+     desplL = desplL + T.tamano}@ K$_1$ @{K.tipo = if(K$_1$.tipo = tipo_vacio)
+     											then T.tipo
+              								  else
+                  								  T.tipo x K.tipo}@
+15. C -> D @{C$_1$.func = C.func}@ C$_1$ @{C.tipoRet = C$_1$.tipoRet}@
+16. C -> @{S.func = C.func}@ S @{C$_1$.func = C.func}@ C$_1$ @{C.tipoRet =
+        								if(S.tipoRet = C$_1$.tipoRet) then
+           									S.tipoRet
+       									else if(S.tipoRet = tipo_vacio) then
+           									C$_1$.tipoRet
+        								else if(C$_1$.tipoRet = tipo_vacio) then
+           									S.tipoRet
+        								else
+           									error(2)}@
+17. C -> λ @{C.tipoRet = tipo_vacio}@
+18. S-> id L E ; @{S.tipo = if(BuscaTipoTS(id.posi) = E.tipo) 
+								AND (E.tipo != tipo_error))
+								then tipo_ok
+     						else
+        						error(3)
+        					S.tipoRet = tipo_vacio}@
+        					
+19. S-> id (M); @{S.tipo = if(BuscaTipoTS(id.posi) = M.tipo -> t)
+        					then tipo_ok
+    					 else
+        					error(4)
+        				S.tipoRet = tipo_vacio}@
+20. S -> print (E); @{S.tipo = if(E.tipo = entero || E.tipo = cadena)
+        						then tipo_ok
+    						 else
+        						error(4)
+        					S.tipoRet = tipo_vacio}@
+21. S -> input(id); @{S.tipo =
+	if(BuscaTipoTS(id.posi) = entero || BuscaTipoTS(id.posi).tipo = cadena))
+    	then tipo_ok
+    else
+    	error(4)
+     S.tipoRet = tipo_vacio}@
+22. S -> if(E) @{S$_1$.func = S.func}@ S$_1$ @{S.tipo =
+    								if(E.tipo = logico) then S$_1$.tipo
+    								else
+        								error(5)
+     								S.tipoRet = S$_1$.tipoRet}@
+23. S -> return X; @{S.tipo = if(S.func) then
+        						if(X.tipo != tipo.error) then tipo_ok
+        						else
+           							 error(6)
+     						else
+        						error(1)
+    						 S.tipoRet = X.tipoRet}@
+24. L -> |= @{}@
+25. L-> = @{}@
+26. M-> EQ @{M.tipo =
      if(E.tipo != tipo_error
      AND Q.tipo != tipo_error)
         then if(Q.tipo == tipo_vacio)
@@ -210,65 +197,67 @@
              else
                 E.tipo x Q.tipo
      else
-        error(10)
-    }
-27. M -> λ {M.tipo = tipo_vacio}
-28. Q -> λ {Q.tipo = tipo_vacio}
-29. Q -> ,EQ$_1$ {Q.tipo=
-                   if(Aux[tope-1].tipo != tipo_error
-                   AND Aux[tope].tipo != tipo_error)
-                     then if(Aux[tope].tipo == tipo_vacio)
-                            then NuevaPila(Aux[tope-1].tipo)
-                          else Aux[tope].tipo.push(Aux[tope-1].tipo)
+        error(7)}@
+27. M -> λ @{M.tipo = tipo_vacio}@
+28. Q -> λ @{Q.tipo = tipo_vacio}@
+29. Q -> ,EQ$_1$ @{Q.tipo=
+                   if(E.tipo != tipo_error
+                   AND Q.tipo != tipo_error)
+                     then if(Q.tipo == tipo_vacio)
+                            then NuevaPila(E.tipo)
+                          else Q.tipo.push(E.tipo)
                    else
-                     error(11)
-                  }
-30. S$_1$ -> { {S$_2$.func = S$_1$.func} S$_2$}
-     {G.func=S$_1$.func} G {S$_1$.tipo =
+                     error(7)}@
+30. S$_1$ -> { @{S$_2$.func = S$_1$.func}@ S$_2$}
+     @{G.func=S$_1$.func}@ G @{S$_1$.tipo =
                             if(S$_2$.tipo != tipo_error)
                                 if(G.tipo != tipo_error)
                                     then S$_2$.tipo
-                                else error(13)
-                            else error(12)
-     }
-31. S1 -> { {S$_2$.func=s$_1$.func} S {Aux[ntope].tipo=Aux[tope].tipo}
-32. G -> else{ {S$_2$.func=G.func} S$_2$}{G.tipo=S$_2$.tipo}
-33. G -> λ {G.tipo = tipo_vacio}
-34. X -> E {X.tipo = E.tipo}
-35. X -> λ {X.tipo = tipo_vacio}
-36. E -> E$_1$ < U {E.tipo = if(E$_1$.tipo = U.tipo = entero)
+                                else error(9)
+                            else error(8);
+     S$_1$.tipoRet = if (S$_2$.tipoRet == G.tipoRet OR G.tipoRet == tipo_vacio
+		S$_2$.tipoRet
+	else error(10)}@
+31. S1 -> @{S$_2$.func=S$_1$.func}@ S @{S$_1$.tipo=S.tipo; S$_1$.tipoRet = S.tipoRet}@
+32. G -> else{ @{S$_2$.func=G.func}@ S$_2$}@{G.tipo=S$_2$.tipo; 
+						G.tipoRet = S$_2$.tipoRet}@
+33. G -> λ @{G.tipo = tipo_vacio; G.tipoRet = tipo_vacio}@
+34. X -> E @{X.tipo = E.tipo}@
+35. X -> λ @{X.tipo = tipo_vacio}@
+36. E -> E$_1$ < U @{E.tipo = if(E$_1$.tipo = U.tipo = entero)
                                 then logico
                               else
-                                error(14)
-                    }
-37. E -> U {E.tipo = U.tipo}
-38. U -> U$_1$ + R {U.tipo = if(U$_1$.tipo = R.tipo = entero)
+                                error(11)}@
+37. E -> U @{E.tipo = U.tipo}@
+38. U -> U$_1$ + R @{U.tipo = if(U$_1$.tipo == R.tipo == entero)
                                 then entero
                                 else
-                                  error(15)
-                    }
-39. U-> R {U.tipo = R.tipo}
-40. R -> !V {R.tipo = if(V.tipo = logico) then logico
-                       else error(16)
-             }
-41. R -> V {R.tipo = V.tipo}
-42. V -> (E) {V.tipo = AE.tipo}
-43. V -> id {V.tipo = BuscaTS(id.posi)}
-44. V -> id(M) {S.tipo = if(BuscatipoTS(id.posi) == M.tipo -> t)
+                                  error(11)}@
+39. U-> R @{U.tipo = R.tipo}@
+40. R -> !V @{R.tipo = if(V.tipo == logico) then logico
+                       else error(11)}@
+41. R -> V @{R.tipo = V.tipo}@
+42. V -> (E) @{V.tipo = E.tipo}@
+43. V -> id @{V.tipo = BuscaTS(id.posi)}@
+44. V -> id(M) @{S.tipo = if(BuscaTipoTS(id.posi) == M.tipo -> t)
                             then t
                           else
-                            error(17)
-                }
-45. V -> ent {V.tipo = entero}
-46. V -> cadena {V.tipo = cadena}
-47. S$_2$ -> {S.func = S$_2$.func} S {S'$_2$.func = S$_2$.func} S'$_2$ {
+                            error(4)}@
+45. V -> ent @{V.tipo = entero}@
+46. V -> cadena @{V.tipo = cadena}@
+47. S$_2$ -> @{S.func = S$_2$.func}@ S @{S'$_2$.func = S$_2$.func}@ S'$_2$ @{
               S$_2$.tipo =
                   if(S.tipo != tipo_error) then S$_2$.tipo
                   else
-                    error(18)
-              }
-48. S$_2$ -> {S.func = S$_2$.func} S {S$_2$.tipo = S.tipo}
-49. P -> λ {}
+                    error(12);
+              S$_2$.tipoRet = if (S.tipoRet =) tipo_vacio) then 
+				S'$_2$.tipoRet
+			else if (S'$_2$.tipoRet =) tipo_vacio) then
+				S.tipoRet
+			else error(13) }@
+48. S$_2$ -> @{S.func = S$_2$.func}@ S @{S$_2$.tipo = S.tipo; 
+					S$_2$.tipoRet = S.tipoRet}@
+49. P -> λ @{}@
 \end{lstlisting}
 \newpage
 \subsection{Implementación del EdT}
@@ -333,12 +322,12 @@
      else error(4)
      Aux[ntope].tipoRet = tipo_vacio}@
 21. S -> input(id); @{Aux[ntope].tipo =
-     if(BuscaTipoTS(Aux[tope-2].posi == entero
-        || Aux[tope-2].tipo == cadena)) then tipo_ok
+     if(BuscaTipoTS(Aux[tope-2].posi = entero
+        || Aux[tope-2].tipo = cadena)) then tipo_ok
      else error(4)
      Aux[ntope].tipoRet = tipo_vacio}@
 22. S -> if(E) S$_1$ @{Aux[ntope].tipo =
-     if(Aux[tope-2].tipo == logico) then Aux[tope].tipo
+     if(Aux[tope-2].tipo = logico) then Aux[tope].tipo
      else error(5)
      Aux[ntope].tipoRet = tipo_vacio}@
 23. S -> return X ; @{Aux[ntope].tipo =
@@ -349,23 +338,21 @@
 26. M-> EQ @{Aux[ntope].tipo =
      if(Aux[tope-1].tipo != tipo_error
      AND Aux[tope].tipo != tipo_error)
-        then if(Aux[tope].tipo == tipo_vacio)
+        then if(Aux[tope].tipo = tipo_vacio)
                 then Aux[tope-1].tipo
              else
                 Aux[tope].tipo.push(Aux[tope-1].tipo)
      else
-        error(7)
-    }@
+        error(7)}@
 27. M -> λ @{Aux[ntope].tipo = tipo_vacio}@
 28. Q -> λ @{Aux[ntope].tipo = tipo_vacio}@
 29. Q -> , E Q$-1$ @{if(Aux[tope-1].tipo != tipo_error
                   AND Aux[tope].tipo != tipo_error)
-                    then if(Aux[tope].tipo == tipo_vacio)
+                    then if(Aux[tope].tipo = tipo_vacio)
                             then NuevaPila(Aux[tope-1].tipo)
                          else Aux[tope].tipo.push(Aux[tope-1].tipo)
                   else
-                    error(7)
-                  }@
+                    error(7)}@
 30. S$_1$ -> { S$_2$} G @{ Aux[ntope].tipo =
                             if(Aux[tope-2].tipo != tipo_error)
                                 if(Aux[tope].tipo != tipo_error)
@@ -373,8 +360,8 @@
                                 else error(9)
                             else error(8);
 	Aux[ntope].tipoRet =
-		if (Aux[tope-2].tipoRet == Aux[tope].tipoRet 
-					OR Aux[tope].tipoRet == tipo_vacio)
+		if (Aux[tope-2].tipoRet = Aux[tope].tipoRet 
+					OR Aux[tope].tipoRet = tipo_vacio)
 			Aux[tope-2].tipoRet
 		else 
 			error(10)}@
@@ -387,23 +374,23 @@
 34. X -> E @{Aux[ntope].tipo = Aux[tope].tipo}@
 35. X -> λ @{Aux[ntope].tipo = tipo_vacio}@
 36. E -> E$_1$ < U @{Aux[ntope].tipo =
-                   if(Aux[tope-2].tipo == Aux[tope].tipo == entero)
+                   if(Aux[tope-2].tipo = Aux[tope].tipo = entero)
                         then logico
                    else error(11)}@
 37. E -> U @{Aux[ntope].tipo = Aux[tope].tipo}@
 38. U -> U$_1$ + R @{Aux[ntope].tipo = 
-					if(Aux[tope-2].tipo == Aux[tope-2].tipo == entero)
+					if(Aux[tope-2].tipo = Aux[tope-2].tipo = entero)
 						then entero 
 					else error(11)}@
 39. U-> R @{Aux[ntope].tipo = Aux[tope].tipo}@
-40. R -> !V @{Aux[ntope].tipo = if(Aux[tope].tipo == logico) then 
+40. R -> !V @{Aux[ntope].tipo = if(Aux[tope].tipo = logico) then 
 									logico
              					else error(11)}@
 41. R -> V @{Aux[ntope].tipo = Aux[tope].tipo}@
 42. V -> (E) @{Aux[ntope].tipo = Aux[tope-1].tipo}@
 43. V -> id @{Aux[ntope].tipo = BuscaTipoTS(Aux[tope].posi)}@
 44. V -> id(M) @{Aux[ntope].tipo = 
-		if(BuscaTipoTS(Aux[tope-3].posi) == ParFunc(Aux[tope-1].tipo, t)) then t
+		if(BuscaTipoTS(Aux[tope-3].posi) = ParFunc(Aux[tope-1].tipo, t)) then t
 		else error(17)}@
 45. V -> ent @{Aux[ntope].tipo = entero}@
 46. V -> cadena @{Aux[ntope].tipo = cadena}@
@@ -411,9 +398,9 @@
 								 Aux[tope].tipo
 							else 
 								error(12);
-			Aux[ntope] = if(Aux[tope-1].tipoRet == tipo_vacio) then 
+			Aux[ntope] = if(Aux[tope-1].tipoRet = tipo_vacio) then 
 							Aux[tope].tipoRet
-						else if(Aux[tope].tipoRet == tipo_vacio) then 
+						else if(Aux[tope].tipoRet = tipo_vacio) then 
 							Aux[tope-1].tipoRet 
 						else error(13);}@
 48. S$_2$ -> S @{Aux[ntope].tipo = Aux[tope].tipo;
@@ -442,7 +429,7 @@
 57. MM$_{8}$ -> λ @{zona_decl = false}@
 \end{lstlisting}
 \newpage
-De forma que hemos tenido que transformar el EdT para que en vez de usar atributos heredados, lo cual complica bastante la implementación, use atributos sintetizados. Hemos transformado el atributo heredado func al atributo sintetizado tipoRet.
+De forma que hemos tenido que transformar el EdT para que en vez de usar atributos heredados, lo cual complica bastante la implementación, hemos transformado el atributo heredado func al atributo sintetizado tipoRet.
 
 También hemos tenido que modificar la gramática del sintáctico añadiendo los marcadores MM$_i$ y sus correspondientes reglas lambda para poder implementar las acciones con efectos laterales.
 
@@ -456,10 +443,10 @@ MM -> lambda @{zdecl:=true}@
 
 \subsection{Gramática y Autómata Final del A. Sintáctico}
 \begin{lstlisting}[style=Gramatica]
-Terminales = { ; { } id ent cadena ( ) + < ! = |= var int boolean 
-	string print input , return function if else }
-NoTerminales = { P1 P D T F T1 A K C S L M Q S1 G X E U R V S2 
-	M1 M2 M3 M4 M5 M6 M7 M8 }
+Terminales = { ; { } id ent cadena ( ) + < ! = |= var int
+	boolean string print input , return function if else }
+NoTerminales = { P1 P D T F T1 A K C S L M Q S1 G X E U R V
+	S2 M1 M2 M3 M4 M5 M6 M7 M8 }
 Axioma = P1
 Producciones = {
 P1 -> M1 P
@@ -522,14 +509,7 @@ M7 -> lambda
 M8 -> lambda
 }
 \end{lstlisting}
-
-\newpage
 Dando lugar a modificaciones en el Autómata (y en consecuencia en la Tabla de Decisión):
-\begin{textblock}{1}(0.5,4)
-\centering
-\includegraphics[width=20cm]{Enrico.pdf}
-\end{textblock}
-\newpage
 \begin{lstlisting}[style =EstadosAutomataST]
 Donde:
 S$_{-1}$={P2 ->  . P1, P1 -> . MM1 P, P -> . SP, MM1 -> .}
@@ -543,4 +523,25 @@ S$_{105}$={A -> T id . MM6 K, MM6 -> .}
 S$_{106}$={D -> , T id . MM7 K, MM7 -> .}
 S$_{107}$={D -> var MM2 T id . MM8 ;, MM8 -> .}
 \end{lstlisting}
+\newpage
+\begin{textblock}{1}(0.5,6.2)
+\centering
+\includegraphics[width=20cm]{Enrico.pdf}
+\end{textblock}
+\vspace{15cm}
+\subsection{Errores}
+
+\indent Error 1: "RETURN fuera de funcion."\\
+\indent Error 2: "El tipo devuelto no coincide con el declarado en la funcion."\\
+\indent Error 3: "Asignacion incorrecta.";\\
+\indent Error 4: "Incoherencia entre parametros formales y actuales en la llamada a funcion.";\\
+\indent Error 5: "La condicion del IF no es de tipo logico.";\\
+\indent Error 6: "Error en la sentencia del RETURN.";\\
+\indent Error 7: "Error al definir los parametros de llamada de una funcion.";\\
+\indent Error 8: "Error en el cuerpo del IF.";\\
+\indent Error 9: "Error en el cuerpo del ELSE.";\\
+\indent Error 10: "No concuerdan los RETURN de las sentencias IF-ELSE.";\\
+\indent Error 11: "Tipos incompatibles entre operandos y operadores.";\\
+\indent Error 12: "Error en el cuerpo del IF-ELSE.";\\
+\indent Error 13: "Error en el RETURN en el cuerpo del IF-ELSE.";\\
 \end{document}

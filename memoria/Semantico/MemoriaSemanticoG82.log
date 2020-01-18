@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.19)  18 JAN 2020 18:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.19)  18 JAN 2020 20:22
 entering extended mode
 **./MemoriaSemanticoG82.tex
 (MemoriaSemanticoG82.tex
@@ -776,66 +776,96 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 109.
- [2] [3]
+
+Overfull \hbox (23.49057pt too wide) in paragraph at lines 129--130
+[][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (47.49081pt too wide) in paragraph at lines 132--133
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (59.49094pt too wide) in paragraph at lines 139--140
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (17.49051pt too wide) in paragraph at lines 148--149
+[][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (21.97664pt too wide) in paragraph at lines 150--151
+[][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[2]
+Overfull \hbox (17.49051pt too wide) in paragraph at lines 173--174
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[3]
 LaTeX Font Info:    Trying to load font information for OML+cmr on input line 2
-39.
+27.
 
 ("C:\Users\Alejandro\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omlcmr.fd
 "
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 239.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 227.
  [4]
-Overfull \hbox (9.97652pt too wide) in paragraph at lines 279--280
+Overfull \hbox (9.97652pt too wide) in paragraph at lines 268--269
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (26.46277pt too wide) in paragraph at lines 282--283
+Overfull \hbox (26.46277pt too wide) in paragraph at lines 271--272
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ] 
  []
 
 
-Overfull \hbox (41.49075pt too wide) in paragraph at lines 300--301
+Overfull \hbox (41.49075pt too wide) in paragraph at lines 289--290
 [][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (5.49039pt too wide) in paragraph at lines 306--307
+Overfull \hbox (5.49039pt too wide) in paragraph at lines 295--296
 [][][][][][][][][][][][][][][][][][] 
  []
 
 [5] [6]
-Overfull \hbox (41.49075pt too wide) in paragraph at lines 406--407
+Overfull \hbox (35.49069pt too wide) in paragraph at lines 393--394
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (41.49075pt too wide) in paragraph at lines 434--435
+Overfull \hbox (41.49075pt too wide) in paragraph at lines 421--422
 [][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 [7]
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 459.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 446.
 LaTeX Font Info:    Font shape `OML/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 459.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 446.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 464.
- [8]
-<Enrico.pdf, id=39, 1027.84pt x 706.64pt>
+(Font)              <10.95> on input line 452.
+ [8] [9]
+<Enrico.pdf, id=43, 1027.84pt x 706.64pt>
 File: Enrico.pdf Graphic file (type pdf)
 <use Enrico.pdf>
-Package pdftex.def Info: Enrico.pdf  used on input line 519.
+Package pdftex.def Info: Enrico.pdf  used on input line 529.
 (pdftex.def)             Requested size: 569.05511pt x 391.23021pt.
 
-Overfull \hbox (531.71088pt too wide) in paragraph at lines 519--520
+Overfull \hbox (531.71088pt too wide) in paragraph at lines 529--530
  [][] 
  []
 
-[9 <./Enrico.pdf>] [10] (MemoriaSemanticoG82.aux) ) 
+[10 <./Enrico.pdf>] (MemoriaSemanticoG82.aux) ) 
 Here is how much of TeX's memory you used:
  15733 strings out of 492453
  315105 string characters out of 3118207
@@ -844,20 +874,20 @@ Here is how much of TeX's memory you used:
  10417 words of font info for 36 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  60i,7n,66p,428b,1671s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/Alejandro/AppData/
-Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/A
-lejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi1
-0.pfb><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmmi8.pfb><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Alejandro/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Alejandro/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users
-/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr
-7.pfb><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmsy10.pfb><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Alejandro/AppData/Local/Progra
-ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on MemoriaSemanticoG82.pdf (10 pages, 252231 bytes).
+<C:/Users/Alejandro/AppData/Loca
+l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Aleja
+ndro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pf
+b><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmmi8.pfb><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/Alejandro/AppData/Local/Programs/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Alejandro/AppData/L
+ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Ale
+jandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pf
+b><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmsy10.pfb><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Alejandro/AppData/Local/Programs/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on MemoriaSemanticoG82.pdf (10 pages, 255810 bytes).
 PDF statistics:
  92 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
