@@ -442,7 +442,7 @@
 57. MM$_{8}$ -> λ @{zona_decl = false}@
 \end{lstlisting}
 \newpage
-De forma que hemos tenido que transformar el EdT para que en vez de usar atributos heredados, lo cual complica bastante la implementación, hemos transformado el atributo heredado func al atributo sintetizado tipoRet.
+De forma que hemos tenido que transformar el EdT para que en vez de usar atributos heredados, lo cual complica bastante la implementación, use atributos sintetizados. Hemos transformado el atributo heredado func al atributo sintetizado tipoRet.
 
 También hemos tenido que modificar la gramática del sintáctico añadiendo los marcadores MM$_i$ y sus correspondientes reglas lambda para poder implementar las acciones con efectos laterales.
 
@@ -456,25 +456,27 @@ MM -> lambda @{zdecl:=true}@
 
 \subsection{Gramática y Autómata Final del A. Sintáctico}
 \begin{lstlisting}[style=Gramatica]
-Terminales = { ; { } id ent cadena ( ) + < ! = |= var int
-boolean string print input , return function if else }
-NoTerminales = { P D T F T1 A K C S L M Q S1 G X E U R V S2 }
-Axioma = P
+Terminales = { ; { } id ent cadena ( ) + < ! = |= var int boolean 
+	string print input , return function if else }
+NoTerminales = { P1 P D T F T1 A K C S L M Q S1 G X E U R V S2 
+	M1 M2 M3 M4 M5 M6 M7 M8 }
+Axioma = P1
 Producciones = {
+P1 -> M1 P
 P -> D P
 P -> F P
 P -> S P
-D -> var T id ;
+D -> var M2 T id M8 ;
 T -> int
 T -> string
 T -> boolean
-F -> function T1 id ( A ) { C }
+F -> function M3 T1 id M4 ( A ) M5 { C }
 T1 -> lambda
 T1 -> T
-A -> T id K
+A -> T id M6 K
 A -> lambda
 K -> lambda
-K -> , T id K
+K -> , T id M7 K
 C -> D C
 C -> S C
 C -> lambda
@@ -510,11 +512,20 @@ V -> cadena
 S2 -> S S2
 S2 -> S
 P -> lambda
+M1 -> lambda
+M2 -> lambda
+M3 -> lambda
+M4 -> lambda
+M5 -> lambda
+M6 -> lambda
+M7 -> lambda
+M8 -> lambda
 }
 \end{lstlisting}
 
+\newpage
 Dando lugar a modificaciones en el Autómata (y en consecuencia en la Tabla de Decisión):
-\begin{textblock}{1}(0.5,7.2)
+\begin{textblock}{1}(0.5,4)
 \centering
 \includegraphics[width=20cm]{Enrico.pdf}
 \end{textblock}
