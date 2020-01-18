@@ -1,0 +1,16 @@
+function string cadena (boolean log)
+{
+	if (!log)
+	{
+		imprime (s, 'hola', 33);
+		if (uno < UNO)	return s;
+	}
+	else
+	{
+		return 'Fin';
+	}
+}
+s = 'El factorial ';	
+
+if (num < 0)		print ('No existe el factorial de un negativo.');
+imprime (cadena (booleano), 'recursivo es: ', Factorial (num));

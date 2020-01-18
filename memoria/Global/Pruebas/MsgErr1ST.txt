@@ -1,0 +1,1 @@
+> Error Sintactico: Declaracion incorrecta de variable.  Linea: 2
