@@ -66,8 +66,12 @@
               S$_2$.tipo =
                   if(S.tipo != tipo_error) then S$_2$.tipo
                   else
-                    error(12)
-              }@
+                    error(12);
+              S$_2$.tipoRet = if (S.tipoRet =) tipo_vacio) then 
+				S'$_2$.tipoRet
+			else if (S'$_2$.tipoRet =) tipo_vacio) then
+				S.tipoRet
+			else error(13) }@
 48. S$_2$ -> @{S.func = S$_2$.func}@ S @{S$_2$.tipo = S.tipo; 
 					S$_2$.tipoRet = S.tipoRet}@
 49. P -> λ @{}@
