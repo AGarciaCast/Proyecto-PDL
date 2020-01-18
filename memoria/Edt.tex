@@ -140,7 +140,7 @@
                    else
                      error(11)
                    }
-30.- S$-1$ -> { {S$_2$.func = S$_1$.func} S$_2$}
+30.- S$_1$ -> { {S$_2$.func = S$_1$.func} S$_2$}
      {G.func=S$_1$.func} G {Aux[ntope].tipo =
                             if(Aux[tope-2].tipo != tipo_error)
                                 if(Aux[tope].tipo != tipo_error)
@@ -160,14 +160,14 @@
                         error(14)
                     }
 37.- E -> U {Aux[ntope].tipo = Aux[tope].tipo}
-38.- U -> u$_1$ + R {Aux[ntope].tipo =
+38.- U -> U$_1$ + R {Aux[ntope].tipo =
                     if(Aux[tope-2].tipo = Aux[tope].tipo = entero)
                         then entero
                     else
                         error(15)
                     }
 39.- U-> R {Aux[ntope].tipo = Aux[tope].tipo}
-40.- R _> !V {Aux[ntope].tipo =
+40.- R -> !V {Aux[ntope].tipo =
              if(Aux[tope].tipo = logico) then logico
              else error(16)
              }
