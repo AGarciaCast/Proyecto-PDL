@@ -331,7 +331,7 @@ $\rightarrow$ 0 & 12 G5 & 13 G6 & 14 G7 & 15 G8 & 16 G9 & 17 G10 & 18 G11 & 19 G
     
 \section{Tabla de Símbolos: Estructura e implementación}
 Contiene la información de los identificadores, de los cuales se guardan los campos: lexema, tipo y desplazamiento.
-Para las funciones, además, se guardará el número de parámetros, su tipo, la forma de paso de parámetros y el tipo del valor de retorno.
+Para las funciones, además, se guardará el número de parámetros, su tipo, la forma de paso de parámetros, el tipo del valor de retorno y etiqueta de funcion (formada por nombre y su posición en tabla de simbolos).
 
 La tabla de símbolos estará formada por dos matrices de tamaño dinámico; la primera contendran los indentificadores de ámbito global y la segunda del local. Así pues, esta segunda se creará al encontrar la declaración de una función y se borrará al acabar de ser declarada. También se utiliza un flag de declaración o uso (FlagDeclUso), un flag para saber cual es la tabla actual y dos más para el valor del desplazamiento en cada una de las tablas.
 
