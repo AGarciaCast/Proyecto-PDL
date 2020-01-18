@@ -1,0 +1,73 @@
+30. S$-1$ -> { S$_2$} G @{ Aux[ntope].tipo =
+                            if(Aux[tope-2].tipo != tipo_error)
+                                if(Aux[tope].tipo != tipo_error)
+                                    then Aux[tope-2].tipo
+                                else error(9)
+                            else error(8);
+	Aux[ntope].tipoRet =
+		if (Aux[tope-2].tipoRet == Aux[tope].tipoRet 
+					OR Aux[tope].tipoRet == tipo_vacio)
+			Aux[tope-2].tipoRet
+		else 
+			error(10)}@
+31. S1 -> S @{Aux[ntope].tipo = Aux[tope].tipo;
+			Aux[ntope].tipoRet = Aux[tope].tipoRet}@
+32. G -> else{S$_2$} @{Aux[ntope].tipo = Aux[tope-1].tipo;
+					Aux[ntope].tipoRet = Aux[tope-1].tipoRet}@
+33. G -> λ @{Aux[ntope].tipo = tipo_vacio;
+			Aux[ntope].tipoRet = tipo_vacio}@
+34. X -> E @{Aux[ntope].tipo = Aux[tope].tipo}@
+35. X -> λ @{Aux[ntope].tipo = tipo_vacio}@
+36. E -> E$_1$ < U @{Aux[ntope].tipo =
+                   if(Aux[tope-2].tipo == Aux[tope].tipo == entero)
+                        then logico
+                   else error(11)}@
+37. E -> U @{Aux[ntope].tipo = Aux[tope].tipo}@
+38. U -> U$_1$ + R @{Aux[ntope].tipo = 
+					if(Aux[tope-2].tipo == Aux[tope-2].tipo == entero)
+						then entero 
+					else error(11)}@
+39. U-> R @{Aux[ntope].tipo = Aux[tope].tipo}@
+40. R -> !V @{Aux[ntope].tipo = if(Aux[tope].tipo == logico) then 
+									logico
+             					else error(11)}@
+41. R -> V @{Aux[ntope].tipo = Aux[tope].tipo}@
+42. V -> (E) @{Aux[ntope].tipo = Aux[tope-1].tipo}@
+43. V -> id @{Aux[ntope].tipo = BuscaTipoTS(Aux[tope].posi)}@
+44. V -> id(M) @{Aux[ntope].tipo = 
+		if(BuscaTipoTS(Aux[tope-3].posi) == ParFunc(Aux[tope-1].tipo, t)) then t
+		else error(17)}@
+45. V -> ent @{Aux[ntope].tipo = entero}@
+46. V -> cadena @{Aux[ntope].tipo = cadena}@
+47. S$_2$ -> S S'$_2$ @{Aux[ntope] = if(Aux[tope-1].tipo != tipo_error) then
+								 Aux[tope].tipo
+							else 
+								error(12);
+			Aux[ntope] = if(Aux[tope-1].tipoRet == tipo_vacio) then 
+							Aux[tope].tipoRet
+						else if(Aux[tope].tipoRet == tipo_vacio) then 
+							Aux[tope-1].tipoRet 
+						else error(13);}@
+48. S$_2$ -> S @{Aux[ntope].tipo = Aux[tope].tipo;
+			Aux[ntope].tipoRet = Aux[tope].tipoRet}@
+49. P -> λ @{Aux[ntope].tipoRet = tipo_vacio}@
+50. MM$_{1}$ -> λ @{TSG = creaTS();
+			desplG = 0;
+			TSA = TSG}@
+51. MM$_{2}$ -> λ @{zona_decl = true}@
+52. MM$_{3}$ -> λ @{zona_decl = true}@
+53. MM$_{4}$ -> λ @{TSL = creaTS();
+			desplL = 0;
+			TSA = TSL}@
+54. MM$_{5}$ -> λ @{InsertarTipoTS(Aux[tope-4].posi, Aux[tope-1].tipo) ;
+	InsertarNArgsTS(Aux[tope-4].posi, Aux[tope-1].NArgs) ;
+	for i in NArgs : InsertarTipoArgsTS(Aux[tope-4].posi, Aux[tope-1].tipoLista(i));
+	InsertarEtiquetaTS(Aux[tope-4].posi, Aux[tope-4].lexema + Aux[tope-4].posi) ; 
+	InsertarTipoDevueltoTS(Aux[tope-4].posi, Aux[tope-5].tipo)}@
+55. MM$_{6}$ -> λ @{InsertarTipoTS(Aux[tope].posi, Aux[tope-1].tipo) ;
+     InsertarDesplTS(Aux[tope].posi, desplL);
+     desplL = desplL + Aux[tope-1].tamano}@
+56. MM$_{7}$ -> λ @{InsertarTipoTS(Aux[tope].posi, Aux[tope-1].tipo) ;
+     InsertarDesplTS(Aux[tope].posi, desplL);
+     desplL = desplL + Aux[tope-1].tamano}@
+57. MM$_{8}$ -> λ @{zona_decl = false}@
