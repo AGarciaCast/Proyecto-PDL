@@ -131,14 +131,15 @@
     }
 27.- M -> λ {Aux[ntope].tipo = tipo_vacio}
 28.- Q -> λ {Aux[ntope].tipo = tipo_vacio}
-29.- Q -> ,EQ$_1${if(Aux[tope-1].tipo != tipo_error
-                  AND Aux[tope].tipo != tipo_error)
-                    then if(Aux[tope].tipo == tipo_vacio)
-                            then NuevaPila(Aux[tope-1].tipo)
-                         else Aux[tope].tipo.push(Aux[tope-1].tipo)
-                  else
-                    error(11)
-                  }
+29.- Q -> ,EQ$_1$ {Aux[ntope]=
+                   if(Aux[tope-1].tipo != tipo_error
+                   AND Aux[tope].tipo != tipo_error)
+                     then if(Aux[tope].tipo == tipo_vacio)
+                             then NuevaPila(Aux[tope-1].tipo)
+                          else Aux[tope].tipo.push(Aux[tope-1].tipo)
+                   else
+                     error(11)
+                   }
 30.- S$-1$ -> { {S$_2$.func = S$_1$.func} S$_2$}
      {G.func=S$_1$.func} G {Aux[ntope].tipo =
                             if(Aux[tope-2].tipo != tipo_error)
