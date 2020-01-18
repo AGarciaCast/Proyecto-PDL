@@ -1,0 +1,191 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\lstdefinestyle{EstadosAutomataST}{
+  basicstyle=\mdseries\footnotesize,
+  xleftmargin=0em,
+  mathescape=true,
+  tabsize=4,
+  literate={->}{$\rightarrow$}{2}
+           {λ}{$\lambda$}{1}
+
+}
+
+\lstset{
+  basicstyle=\mdseries,
+  xleftmargin=0cm,
+  mathescape=true
+}
+
+\begin{document}
+
+\begin{lstlisting}[style=EstadosAutomataST]
+
+
+0.- P' -> {TSG = creaTS(); DesplG = 0; TS_actual = TSG;
+    P.func = false} P {liberaTS(TSG)}
+1.- P -> D { P$_1$ .func = P.func} P$_{1}$
+2.- P -> F { P$_1$ .func = P.func} P$_{1}$
+3.- P -> {S.func = false} S {P$_1$ = P.func} P$_1$
+4.- D -> var {zona_decl = true} T id ;
+    {InsertarTipoTS(id.posi, T.tipo)
+        if(TS_actual==TSG) then
+            InsertarDespl(id.posi, desplG)
+            desplG = desplG + T.tamaño
+        else
+            InsertarDespl(id.posi, desplL)
+            desplL = desplL + T.tamaño
+        zona_decl=false
+    }
+5.- T -> int {T.tipo=entero; T.tamaño = 1}
+6.- T -> string {T.tipo=cadena; T.tamaño = 64}
+7.- T -> boolean {T.tipo=logico; T.tamaño = 1}
+8.- F -> function {zona_decl =true} T$_1$ id({TSL = creaTS();
+    desplL=0; TS_actual = TSL} A){InsertaTipoTSG}(id.posi,
+    A.tipo -> T.tipo)); zona_decl = false}
+    { { C.func = true} C {if (C.tipoRet != T.tipo)
+    then error(1); TS_actual = TSG; LiberarTS(TSL) }}
+9.- T$_1$ -> λ {T.tipo = tipo_vacio}
+10.- T$_1$ -> T{T$_1$.tipo = T.tipo }
+11.- A -> T id {InsertarTipoTS(id.posi, T.tipo) ;
+     InsertarDesplTS(id.posi, desplL);
+     desplL = desplL + T.tamaño} K
+     {A.tipo = if(K.tipo == tipo_vacio)
+                            then T.tipo}
+                         else
+                             T.tipo x K.tipo
+     }
+12.- A -> λ {A.tipo = tipo_vacio}
+13.- K -> λ {K.tipo = tipo_vacio}
+14.- K -> , T id {InsertarTipoTS(id.posi, T.tipo);
+     InsertarDesplTS(id.posi, desplL);
+     desplL = desplL + T.tamaño} K$_1$
+     {K.tipo = if(K$_1$.tipo == tipo_vacio) then
+                    T.tipo
+                else
+                    T.tipo x K.tipo
+      }
+15.- C -> D {C$_1$.func = C.func}
+          C$_1$ {C.tipoRet = C$_1$.tipoRet}
+16.- C -> {S.func = C.func} S {C$_1$.func = C.func}C$_1$
+        {C.tipoRet =
+        if(S.tipoRet == C$_1$.tipoRet) then
+            S.tipoRet
+        else if(S.tipoRet == tipo_vacio) then
+            C$_1$.tipoRet
+        else if(C$_1$.tipoRet == tipo_vacio) then
+            S.tipoRet
+        else
+            error(2)
+     }
+17.- C -> λ{C.tipoRet = tipo_vacio}
+18.- S-> id L E ; {S.tipo =
+     if(BuscaTipoTS(id.posi) == E.tipo)
+     AND (E.tipo != tipo_error))then
+        tipo_ok
+     else
+        error(3)}
+19.- S-> id (M); {S.tipo =
+     if(BuscaTipoTS(id.posi) == M.tipo -> t)
+        then tipo_ok
+     else
+        error(4)}
+20.- S -> print (E); {S.tipo =
+     if(E.tipo == entero || E.tipo == cadena)
+        then tipo_ok
+     else
+        error(5)
+        }
+21.- S -> input(id); {S.tipo =
+     if(BuscaTipoTS(id.posi) == entero
+        || BuscaTipoTS(id.posi).tipo == cadena)) then tipo_ok
+     else
+        error(6)
+     }
+22.- S -> if(E) {S$_1$.func = S.func} S$_1$ {S.tipo =
+     if(E.tipo == logico) then S$_1$.tipo
+     else
+        error(7)
+     }
+23.- S -> return X; {S.tipo =
+     if(S.func) then
+        if(X.tipo != tipo.error) then tipo_ok
+        else
+            error(8)
+     else
+        error(9)
+     S.tipoRet = X.tipoRet
+     }
+24.- L -> |= {}
+25.- L-> = {}
+26.- M-> EQ {M.tipo =
+     if(E.tipo != tipo_error
+     AND Q.tipo != tipo_error)
+        then if(Q.tipo == tipo_vacio)
+                then E.tipo
+             else
+                E.tipo x Q.tipo
+     else
+        error(10)
+    }
+27.- M -> λ {M.tipo = tipo_vacio}
+28.- Q -> λ {Q.tipo = tipo_vacio}
+29.- Q -> ,EQ$_1$ {Q.tipo=
+                   if(Aux[tope-1].tipo != tipo_error
+                   AND Aux[tope].tipo != tipo_error)
+                     then if(Aux[tope].tipo == tipo_vacio)
+                            then NuevaPila(Aux[tope-1].tipo)
+                          else Aux[tope].tipo.push(Aux[tope-1].tipo)
+                   else
+                     error(11)
+                  }
+30.- S$_1$ -> { {S$_2$.func = S$_1$.func} S$_2$}
+     {G.func=S$_1$.func} G {S$_1$.tipo =
+                            if(S$_2$.tipo != tipo_error)
+                                if(G.tipo != tipo_error)
+                                    then S$_2$.tipo
+                                else error(13)
+                            else error(12)
+     }
+31.- S1 -> { {S$_2$.func=s$_1$.func} S {Aux[ntope].tipo=Aux[tope].tipo}
+32.- G -> else{ {S$_2$.func=G.func} S$_2$}{G.tipo=S$_2$.tipo}
+33.- G -> λ {G.tipo = tipo_vacio}
+34.- X -> E {X.tipo = E.tipo}
+35.- X -> λ {X.tipo = tipo_vacio}
+36.- E -> E$_1$ < U {E.tipo = if(E$_1$.tipo = U.tipo = entero)
+                                then logico
+                              else
+                                error(14)
+                    }
+37.- E -> U {E.tipo = U.tipo}
+38.- U -> U$_1$ + R {U.tipo = if(U$_1$.tipo = R.tipo = entero)
+                                then entero
+                                else
+                                  error(15)
+                    }
+39.- U-> R {U.tipo = R.tipo}
+40.- R -> !V {R.tipo = if(V.tipo = logico) then logico
+                       else error(16)
+             }
+41.- R -> V {R.tipo = V.tipo}
+42.- V -> (E) {V.tipo = AE.tipo}
+43.- V -> id {V.tipo = BuscaTS(id.posi)}
+44.- V -> id(M) {S.tipo = if(BuscatipoTS(id.posi) == M.tipo -> t)
+                            then t
+                          else
+                            error(17)
+                }
+45.- V -> ent {V.tipo = entero}
+46.- V -> cadena {V.tipo = cadena}
+47.- S$_2$ -> {S.func = S$_2$.func} S {S'$_2$.func = S$_2$.func} S'$_2$ {
+              S$_2$.tipo =
+                  if(S.tipo != tipo_error) then S$_2$.tipo
+                  else
+                    error(18)
+              }
+48.- S$_2$ -> {S.func = S$_2$.func} S {S$_2$.tipo = S.tipo}
+49.- P -> λ {}
+
+\end{lstlisting}
+
+\end{document}
