@@ -1,0 +1,268 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{import}
+\usepackage{tikz}
+\usetikzlibrary{automata}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{listings}
+\usepackage{booktabs} 
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{longtable}
+\usepackage[stable]{footmisc}
+\usepackage[a4paper,bindingoffset=0.2in,%
+            left=1in,right=1in,top=1in,bottom=1in,%
+            footskip=.25in]{geometry}
+            
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}    
+        
+\lstdefinestyle{JavaScript}{
+	language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}      
+
+\lstdefinestyle{DOS}
+{
+    backgroundcolor=\color{black},
+    basicstyle=\scriptsize\color{white}\ttfamily
+}
+
+
+\lstdefinestyle{Gramatica}{
+  basicstyle=\itshape\small,
+  tabsize=4,
+  literate={->}{$\rightarrow$}{2}
+           {λ}{$\lambda$}{1}
+}
+
+\lstdefinestyle{EstadosAutomataST}{
+  basicstyle=\mdseries\footnotesize,
+  xleftmargin=0em,
+  mathescape=true,
+  tabsize=4,
+  literate={->}{$\rightarrow$}{2}
+           {λ}{$\lambda$}{1}
+           {.}{$\bullet$}1
+}     
+
+\lstdefinestyle{EdT}{
+  basicstyle=\mdseries\footnotesize,
+  xleftmargin=0em,
+  mathescape=true,
+  tabsize=4,
+  moredelim=**[is][\color{blue}]{@}{@},
+  literate={->}{$\rightarrow$}{2}
+           {λ}{$\lambda$}{1}
+} 
+
+\lstdefinestyle{AccionesSemanticas}{
+  basicstyle=\mdseries\small,
+  xleftmargin=0em,
+  mathescape=true,
+  tabsize=4,
+}
+         
+\title{Memoria de la Práctica de Procesadores de Lenguajes}
+\author{Diego José Abengózar Vilar, Alejandro García Castellanos,\\ Ignacio Javier Encinas Ramos\\\\Grupo 82}
+
+\renewcommand*\contentsname{Índice}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{Diseno del Analizador Semántico}
+\subsection{Implementación del EdT}
+
+\begin{lstlisting}[style=EdT]
+0. P' -> MM$_{1}$ P @{liberaTS(TSG)}@
+1. P -> D P$_{1}$ @{Aux[ntope].tipoRet = Aux[tope].tipoRet}@
+2. P -> F P$_{1}$ @{Aux[ntope].tipoRet = Aux[tope].tipoRet}@
+3. P -> S P$_{1}$ @{Aux[ntope].tipoRet = if(Aux[tope-1].tipoRet = tipo_vacio)then 
+										Aux[tope].tipoRet
+								   else error(1)}@
+4. D -> var MM$_{2}$ T id MM$_{8}$ ; @{InsertarTipoTS(Aux[tope-2].posi, Aux[tope-3].tipo)
+       						 if(TS_actual = TSG) then
+           						 InsertarDespl(Aux[tope-1].posi, desplG)
+           						 desplG = desplG + Aux[tope-3].tamano
+       						 else
+           						 InsertarDespl(Aux[tope-2].posi, desplL)
+            					 desplL = desplL + Aux[tope-3]}@ 
+5. T -> int @{Aux[ntope].tipo=entero; Aux[ntope].tamano = 1}@
+6. T -> string @{Aux[ntope].tipo=cadena; Aux[ntope].tamano = 64}@
+7. T -> boolean @{Aux[ntope].tipo=logico; Aux[ntope].tamano = 1}@
+8. F -> function MM$_{3}$ T$_1$ id MM$_{4}$ ( A ) MM$_{5}$ { C } @{if (Aux[tope-1].tipoRet != Aux[tope-7].tipo)
+    then error(1); TS_actual = TSG; LiberarTS(TSL) }@
+9. T$_1$ -> λ {Aux[ntope].tipo = tipo_vacio}
+10. T$_1$ -> T{Aux[ntope].tipo = Aux[tope].tipo }
+11. A -> T id {InsertarTipoTS(Aux[tope-1].posi, Aux[tope-2].tipo) ;
+     InsertarDesplTS(Aux[tope-1].posi, desplL);
+     desplL = desplL + Aux[tope-2].tamano} K
+     {Aux[ntope].tipo = if(Aux[tope].tipo == tipo_vacio)
+                            then Aux[tope-2].tipo}
+                         else
+                             Aux[tope].tipo.push(Aux[tope-2].tipo)
+     }
+12. A -> λ {Aux[ntope].tipo = tipo_vacio}
+13. K -> λ {Aux[ntope].tipo = tipo_vacio}
+14. K -> , T id {InsertarTipoTS(Aux[tope-1].posi, Aux[tope-2].tipo);
+     InsertarDesplTS(Aux[tope-1].posi, desplL);
+     desplL = desplL + Aux[tope-2].tamano} K$_1$
+     {K.tipo = if(Aux[tope].tipo == tipo_vacio) then
+                    NuevaPila(Aux[tope-2].tipo)
+                else
+                    Aux[tope].tipo.push(Aux[tope-2].tipo)
+      }
+15. C -> {S.func = C.func} S {C$_1$.func = C.func}C$_1$
+        {Aux[ntope].tipoRet=
+        if(Aux[tope-1].tipoRet == Aux[tope].tipoRet) then
+            Aux[tope-1].tipoRet
+        else if(Aux[tope-1].tipoRet == tipo_vacio) then
+            Aux[tope-1].tipoRet
+        else if(Aux[tope].tipoRet == tipo_vacio) then
+            Aux[tope-1].tipoRet}
+        else
+            error(2)
+     }
+17. C -> λ{Aux[ntope].tipoRet = tipo_vacio}
+18. S-> id L E ; {Aux[ntope].tipo =
+     if(BuscaTipoTS(Aux[tope-3].posi)==(Aux[tope-1].tipo)
+     AND (Aux[tope-1].tipo != tipo_error))then
+        tipo_ok
+     else
+        error(3)}
+19. S-> id (M) E ; {Aux[ntope].tipo =
+     if(BuscaTipoTS(Aux[tope-4].posi)== ParFunc(Aux[tope-2].tipo, t)
+        then tipo_ok
+     else
+        error(4)}
+20. S -> print (E) ; {Aux[ntope].tipo =
+     if(Aux[tope-2].tipo == entero || Aux[tope-2].tipo == cadena)
+        then tipo_ok
+     else
+        error(5)
+        }
+21. S -> input(id); {Aux[ntope].tipo =
+     if(BuscaTipoTS(Aux[tope-2].posi == entero
+        || Aux[tope-2].tipo == cadena)) then tipo_ok
+     else
+        error(6)
+     }
+22. S -> if(E) {S$_1$.func = S.func} S$_1$ {Aux[ntope].tipo =
+     if(Aux[tope-2].tipo == logico) then Aux[tope].tipo
+     else
+        error(7)
+     }
+23. S -> return X;{Aux[ntope].tipo =
+     if(Aux[ntope].func) then
+        if(Aux[tope-1].tipo != tipo.error) then tipo_ok
+        else
+            error(8)
+     else
+        error(9)
+     }
+24. L -> |= {}
+25. L-> = {}
+26. M-> EQ {Aux[ntope].tipo =
+     if(Aux[tope-1].tipo != tipo_error
+     AND Aux[tope].tipo != tipo_error)
+        then if(Aux[tope].tipo == tipo_vacio)
+                then Aux[tope-1].tipo
+             else
+                Aux[tope].tipo.push(Aux[tope-1].tipo)
+     else
+        error(10)
+    }
+27. M -> λ {Aux[ntope].tipo = tipo_vacio}
+28. Q -> λ {Aux[ntope].tipo = tipo_vacio}
+29. Q -> ,EQ$-1${if(Aux[tope-1].tipo != tipo_error
+                  AND Aux[tope].tipo != tipo_error)
+                    then if(Aux[tope].tipo == tipo_vacio)
+                            then NuevaPila(Aux[tope-1].tipo)
+                         else Aux[tope].tipo.push(Aux[tope-1].tipo)
+                  else
+                    error(11)
+                  }
+30. S$-1$ -> { {S$_2$.func = S$_1$.func} S$_2$}
+     {G.func=S$_1$.func} G {Aux[ntope].tipo =
+                            if(Aux[tope-2].tipo != tipo_error)
+                                if(Aux[tope].tipo != tipo_error)
+                                    then Aux[tope-2].tipo
+                                else error(13)
+                            else error(12)
+     }
+31. S1 -> { {S$_2$.func=s$_1$.func} S {Aux[ntope].tipo=Aux[tope].tipo}
+32. G -> else{ {S$_2$.func=G.func} S$_2$}{Aux[ntope].tipo=Aux[tope-1].tipo}
+33. G -> λ {Aux[ntope].tipo = tipo_vacio}
+34. X -> E {Aux[ntope].tipo = Aux[tope].tipo}
+35. X -> λ {Aux[ntope].tipo = tipo_vacio}
+36. E -> E$_1$ < U {Aux[ntope].tipo =
+                     if(Aux[tope-2].tipo = Aux[tope].tipo = entero)
+                        then logico
+                     else
+                        error(14)
+                    }
+37. E -> U {Aux[ntope].tipo = Aux[tope].tipo}
+38. U -> u$_1$ + R {Aux[ntope].tipo =
+                    if(Aux[tope-2].tipo = Aux[tope].tipo = entero)
+                        then entero
+                    else
+                        error(15)
+                    }
+39. U-> R {Aux[ntope].tipo = Aux[tope].tipo}
+40. R _> !V {Aux[ntope].tipo =
+             if(Aux[tope].tipo = logico) then logico
+             else error(16)
+             }
+41. R -> V {Aux[ntope].tipo = Aux[tope].tipo}
+42. V -> (E) {Aux[ntope].tipo = Aux[tope-1].tipo}
+43. V -> id {Aux[ntope].tipo = BuscaTipoTS(Aux[tope].posi)}
+44. V -> id(M) {Aux[ntope].tipo =
+                 if(BuscaTipoTS(Aux[tope].posi) == ParFunc(Aux[tope-1].tipo, t))
+                    then t
+                 else
+                    error(17)
+                }
+45. V -> ent{Aux[ntope].tipo = entero}
+46. V -> cadena{Aux[ntope].tipo = cadena}
+47. S$_2$ -> {S.func = S$_2$.func} S {S'$_2$.func = S$_2$.func} S'$_2$ {
+              Aux[ntope] = if(Aux[tope-1].tipo != tipo_error) then Aux[tope].tipo
+                  else
+                    error(18)
+              }
+48. S$_2$ -> {S.func = S$_2$.func} S {Aux[ntope].tipo = Aux[tope].tipo}
+49. P -> λ {}
+\end{lstlisting}
+\end{document}
