@@ -66,7 +66,9 @@
                 else
                     Aux[tope].tipo.push(Aux[tope-2].tipo)
       }
-15.- C -> {S.func = C.func} S {C$_1$.func = C.func}C$_1$
+15.- C -> D {C$_1$.func = C.func} 
+          C$_1$ {Aux[ntope].tipoRet = Aux[tope].tipoRet}
+16.- C -> {S.func = C.func} S {C$_1$.func = C.func}C$_1$
         {Aux[ntope].tipoRet=
         if(Aux[tope-1].tipoRet == Aux[tope].tipoRet) then
             Aux[tope-1].tipoRet
