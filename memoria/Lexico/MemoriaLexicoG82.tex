@@ -335,15 +335,6 @@ Para las funciones, además, se guardará el número de parámetros, su tipo, la
 
 La tabla de símbolos estará formada por dos matrices de tamaño dinámico; la primera contendran los indentificadores de ámbito global y la segunda del local. Así pues, esta segunda se creará al encontrar la declaración de una función y se borrará al acabar de ser declarada. También se utiliza un flag de declaración o uso (FlagDeclUso), un flag para saber cual es la tabla actual y dos más para el valor del desplazamiento en cada una de las tablas.
 
-Sin embargo, en la implementación actual sólo se usa una tabla y siempre se supone que está el FlagDeclUso = Uso, pero en el caso de que no este declarada la variable se insertará en la tabla actual, ya que requerimos de la implementacion del Analizador Semántico para poder saber cuando se cambia de ámbito y cuando se están declarando o usando identificadores. Así que, la acción semántica que genera los tokens de los identificadores quedaría temporalmente así:
-\begin{lstlisting}
-$G_2$: if(lex $\in$ palRes)
-	GEN_TOKEN(palRes, -)
-    else if((p:= BUSCA_TS(lex))=NULL)
-	p:=INSERTAR_TS(lex)
-	GEN_TOKEN(ID, p)
-\end{lstlisting}
-
 \section{Anexo de Pruebas}
 \subsection*{Error 1:}
 \lstinputlisting[style=JavaScript]{Error1LEX.txt}
