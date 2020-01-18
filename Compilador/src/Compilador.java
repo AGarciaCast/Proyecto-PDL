@@ -1558,7 +1558,7 @@ public class Compilador {
 					nuevoElem.setTipo("tipo_ok");
 				}
 			}
-			if (!nuevoElem.getTipo().equals("tipo_ok")) gestorErrores(ERR_SE,4);
+			if (nuevoElem.getTipo() == null || !nuevoElem.getTipo().equals("tipo_ok")) gestorErrores(ERR_SE,4);
 			nuevoElem.setTipoRet("tipo_vacio");
 			break;
 		case 20:
