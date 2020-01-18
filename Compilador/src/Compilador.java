@@ -788,10 +788,10 @@ public class Compilador {
 			}
 
 			for (int j = 0; j < tablaSimbolos.get(i).getNArgs(); j++) {
-				if (tablaSimbolos.get(i).getTipoArgs(j) != null && !tablaSimbolos.get(i).getTipoArgs(j).equals("tipo_vacio"))
+				if (tablaSimbolos.get(i).getTipoArgs(j) != null && !tablaSimbolos.get(i).getTipoArgs(j).equals("tipo_vacio")) {
 					atributos += "  + TipoParam" + (j+1) + ": \'" + tablaSimbolos.get(i).getTipoArgs(j) +"\'\n";
-				//if (tablaSimbolos.get(i).getModoArgs(j) != null)
-				atributos += "  + ModoParam" + (j+1) + ": \'Valor\'\n";
+					atributos += "  + ModoParam" + (j+1) + ": \'Valor\'\n";
+				}
 			}
 			if (tablaSimbolos.get(i).getTipoDevuelto() != null)
 				atributos += "  + TipoRetorno: \'" +(tablaSimbolos.get(i).getTipoDevuelto().equals("tipo_vacio") ? "void" : tablaSimbolos.get(i).getTipoDevuelto())+"\'\n";
