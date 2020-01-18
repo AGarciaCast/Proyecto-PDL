@@ -795,8 +795,10 @@ public class Compilador {
 			}
 			if (tablaSimbolos.get(i).getTipoDevuelto() != null)
 				atributos += "  + TipoRetorno: \'" +(tablaSimbolos.get(i).getTipoDevuelto().equals("tipo_vacio") ? "void" : tablaSimbolos.get(i).getTipoDevuelto())+"\'\n";
-
-			atributos += "  + EtiqFuncion: \'" + tablaSimbolos.getTabla().get(i).getEtiq() +"\'\n";
+			
+			if (tablaSimbolos.get(i).getTipo().equals("funcion"))
+				atributos += "  + EtiqFuncion: \'" + tablaSimbolos.getTabla().get(i).getEtiq() +"\'\n";
+			
 			//atributos += "  + Param: \'" + tablaSimbolos.getTabla().get(i).getParam() +"\'\n";
 
 			atributos += "\n";
