@@ -1,0 +1,15 @@
+Tabla Simbolos #1:
+
+ * LEXEMA: 'a'
+
+ * LEXEMA: 'b'
+
+ * LEXEMA: 'c'
+
+ * LEXEMA: 'suma'
+
+ * LEXEMA: 'num1'
+
+ * LEXEMA: 'num2'
+
+ * LEXEMA: 'res'

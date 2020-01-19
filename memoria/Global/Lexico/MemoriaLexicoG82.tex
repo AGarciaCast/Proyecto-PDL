@@ -1,3 +1,4 @@
+
 \section{Diseño del Analizador Léxico}
 
 \subsection{Tokens}
@@ -176,7 +177,7 @@ E: cont = cont + 1
 $G_3$: if(num $>=$ $2^{15}$) Error("Numero se sale del rango")
     else GEN_TOKEN(ENT, num)
 
-$G_4:$ if(num $>$ 64) Error("Exceso de caracteres en la cadena")
+$G_4:$ if(cont $>$ 64) Error("Exceso de caracteres en la cadena")
      else GEN_TOKEN(CAD, lex)
 
 $G_5:$ GEN_TOKEN(PuntoComa, -)
@@ -203,7 +204,10 @@ Donde, palRes $=$ $\{$var, int, boolean, string, print, input, function, return,
 \newline
 
 \subsection{Errores}
-Los errores que pueden ocurrir son errores de transiciones imprevistas, error de que un número esté fuera de rango y error de identificador ya declarado previamente (cuando el FlagDeclUso= DECL).
+\noindent Error 1: "Transición no prevista.";\\ 
+\noindent Error 2: "Numero fuera de rango.";\\ 
+\noindent Error 3: "Exceso de caracteres en la cadena.";\\ 
+\noindent Error 4: "Variable ya declarada.";\\ 
 
 \subsection{Matriz de Transiciones}
 \hspace*{-50pt}\setlength{\tabcolsep}{0.7\tabcolsep} \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
@@ -253,16 +257,6 @@ $\rightarrow$ 0 & 12 G5 & 13 G6 & 14 G7 & 15 G8 & 16 G9 & 17 G10 & 18 G11 & 19 G
     
 \section{Tabla de Símbolos: Estructura e implementación}
 Contiene la información de los identificadores, de los cuales se guardan los campos: lexema, tipo y desplazamiento.
-Para las funciones, además, se guardará el número de parámetros, su tipo, la forma de paso de parámetros y el tipo del valor de retorno.
+Para las funciones, además, se guardará el número de parámetros, su tipo, la forma de paso de parámetros, el tipo del valor de retorno y etiqueta de función (formada por nombre y su posición en tabla de simbolos).
 
-La tabla de símbolos estará formada por dos matrices de tamaño dinámico; la primera contendran los indentificadores de ámbito global y la segunda del local. Así pues, esta segunda se creará al encontrar la declaración de una función y se borrará al acabar de ser declarada. También se utiliza un flag de declaración o uso (FlagDeclUso), un flag para saber cual es la tabla actual y dos más para el valor del desplazamiento en cada una de las tablas.
-
-Sin embargo, en la implementación actual sólo se usa una tabla y siempre se supone que está el FlagDeclUso = Uso, pero en el caso de que no este declarada la variable se insertará en la tabla actual, ya que requerimos de la implementacion del Analizador Semántico para poder saber cuando se cambia de ámbito y cuando se están declarando o usando identificadores. Así que, la acción semántica que genera los tokens de los identificadores quedaría temporalmente así:
-\begin{lstlisting}
-$G_2$: if(lex $\in$ palRes)
-	GEN_TOKEN(palRes, -)
-    else if((p:= BUSCA_TS(lex))=NULL)
-	p:=INSERTAR_TS(lex)
-	GEN_TOKEN(ID, p)
-\end{lstlisting}
-
+La tabla de símbolos estará formada por dos matrices de tamaño dinámico; la primera contendrán los identificadores de ámbito global y la segunda del local. Así pues, esta segunda se creará al encontrar la declaración de una función y se borrará al acabar de ser declarada. También se utiliza un flag de declaración o uso (FlagDeclUso), un flag para saber cual es la tabla actual y dos más para el valor del desplazamiento en cada una de las tablas.

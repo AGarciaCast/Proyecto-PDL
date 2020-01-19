@@ -1,0 +1,1 @@
+> Error Lexico: Transicion no prevista.  Linea: 6

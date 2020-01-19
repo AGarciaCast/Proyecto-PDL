@@ -1,0 +1,15 @@
+var string texto; /*Comentario bueno*/
+ function imprime (string msg)
+{
+	print (msg);
+}
+/ Comentario malo*/
+function pideTexto ()
+{
+	print ( 'Introduce un texto' );
+	input (texto);
+}
+ pideTexto();
+var string textoAux;
+textoAux = texto;
+imprime (textoAux);
