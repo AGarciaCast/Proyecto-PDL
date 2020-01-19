@@ -1903,8 +1903,9 @@ public class Compilador {
 			bw = new BufferedWriter(new FileWriter("Tokens.txt"));
 			bwTS = new BufferedWriter(new FileWriter("TablaSimbolos.txt"));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Archivo "+ file +" no encontrado");
+			return;
+			//e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
