@@ -1,0 +1,88 @@
+Tabla Simbolos #2:
+
+ * LEXEMA: 'n'
+  + Tipo: 'entero'
+  + Despl: 0
+
+Tabla Simbolos #3:
+
+ * LEXEMA: 's'
+  + Tipo: 'cadena'
+  + Despl: 0
+
+ * LEXEMA: 'msg'
+  + Tipo: 'cadena'
+  + Despl: 64
+
+ * LEXEMA: 'f'
+  + Tipo: 'entero'
+  + Despl: 128
+
+Tabla Simbolos #4:
+
+ * LEXEMA: 'log'
+  + Tipo: 'logico'
+  + Despl: 0
+
+Tabla Simbolos #1:
+
+ * LEXEMA: 's'
+  + Tipo: 'cadena'
+  + Despl: 0
+
+ * LEXEMA: 'uno'
+  + Tipo: 'entero'
+  + Despl: 64
+
+ * LEXEMA: 'UNO'
+  + Tipo: 'entero'
+  + Despl: 65
+
+ * LEXEMA: 'Factorial'
+  + Tipo: 'funcion'
+  + numParam: 1
+  + TipoParam1: 'entero'
+  + ModoParam1: 'Valor'
+  + TipoRetorno: 'entero'
+  + EtiqFuncion: 'Factorial3'
+
+ * LEXEMA: 'For'
+  + Tipo: 'entero'
+  + Despl: 66
+
+ * LEXEMA: 'functional'
+  + Tipo: 'entero'
+  + Despl: 67
+
+ * LEXEMA: 'While'
+  + Tipo: 'entero'
+  + Despl: 68
+
+ * LEXEMA: 'imprime'
+  + Tipo: 'funcion'
+  + numParam: 3
+  + TipoParam1: 'entero'
+  + ModoParam1: 'Valor'
+  + TipoParam2: 'cadena'
+  + ModoParam2: 'Valor'
+  + TipoParam3: 'cadena'
+  + ModoParam3: 'Valor'
+  + TipoRetorno: 'void'
+  + EtiqFuncion: 'imprime7'
+
+ * LEXEMA: 'cadena'
+  + Tipo: 'funcion'
+  + numParam: 1
+  + TipoParam1: 'logico'
+  + ModoParam1: 'Valor'
+  + TipoRetorno: 'cadena'
+  + EtiqFuncion: 'cadena8'
+
+ * LEXEMA: 'num'
+  + Tipo: 'entero'
+  + Despl: 70
+
+ * LEXEMA: 'booleano'
+  + Tipo: 'logico'
+  + Despl: 71
+

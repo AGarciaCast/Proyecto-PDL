@@ -1,0 +1,587 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+<title>Arbol</title>
+<link rel="stylesheet" href="http://www-lt.ls.fi.upm.es/procesadores/Software/VASt/jquery.treeview.css" /> 
+<link rel="stylesheet" href="http://www-lt.ls.fi.upm.es/procesadores/Software/VASt/screen.css" /> 
+<script src="http://www-lt.ls.fi.upm.es/procesadores/Software/VASt/jquery.js" type="text/javascript"></script>
+<script src="http://www-lt.ls.fi.upm.es/procesadores/Software/VASt/jquery.treeview.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="CSS.css"> 
+<style type="text/css"> 
+.filetree span.Noterminales { color: Brown;}
+.filetree span.terminales { color: Red;}
+</style>
+<script>
+$(document).ready(function(){
+$("#browser").treeview();
+});
+</script>
+</head>
+<body>
+<h4>Árbol resultado de:</h4>
+<h4>Gramática: D:\PROGRAMACIÓN 1\VisorArbSt\gramaticaLR.txt</h4>
+<h4>Parse: D:\PROGRAMACIÓN 1\VisorArbSt\Parse3LEX.txt</h4>
+<ul id="browser" class="filetree">
+
+<li><span class="Noterminales">P1 (1)</span>
+<ul>
+<li><span class="Noterminales">M1 (51)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (2)</span>
+<ul>
+<li><span class="Noterminales">D (5)</span>
+<ul>
+<li><span class="terminales">var</span>
+</li>
+<li><span class="Noterminales">M2 (52)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">T (6)</span>
+<ul>
+<li><span class="terminales">int</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">M8 (58)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (2)</span>
+<ul>
+<li><span class="Noterminales">D (5)</span>
+<ul>
+<li><span class="terminales">var</span>
+</li>
+<li><span class="Noterminales">M2 (52)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">T (6)</span>
+<ul>
+<li><span class="terminales">int</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">M8 (58)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (2)</span>
+<ul>
+<li><span class="Noterminales">D (5)</span>
+<ul>
+<li><span class="terminales">var</span>
+</li>
+<li><span class="Noterminales">M2 (52)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">T (6)</span>
+<ul>
+<li><span class="terminales">int</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">M8 (58)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (4)</span>
+<ul>
+<li><span class="Noterminales">S (21)</span>
+<ul>
+<li><span class="terminales">print</span>
+</li>
+<li><span class="terminales">(</span>
+</li>
+<li><span class="Noterminales">E (38)</span>
+<ul>
+<li><span class="Noterminales">U (40)</span>
+<ul>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (47)</span>
+<ul>
+<li><span class="terminales">cadena</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">)</span>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (4)</span>
+<ul>
+<li><span class="Noterminales">S (22)</span>
+<ul>
+<li><span class="terminales">input</span>
+</li>
+<li><span class="terminales">(</span>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="terminales">)</span>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (4)</span>
+<ul>
+<li><span class="Noterminales">S (21)</span>
+<ul>
+<li><span class="terminales">print</span>
+</li>
+<li><span class="terminales">(</span>
+</li>
+<li><span class="Noterminales">E (38)</span>
+<ul>
+<li><span class="Noterminales">U (40)</span>
+<ul>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (47)</span>
+<ul>
+<li><span class="terminales">cadena</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">)</span>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (4)</span>
+<ul>
+<li><span class="Noterminales">S (22)</span>
+<ul>
+<li><span class="terminales">input</span>
+</li>
+<li><span class="terminales">(</span>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="terminales">)</span>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (3)</span>
+<ul>
+<li><span class="Noterminales">F (9)</span>
+<ul>
+<li><span class="terminales">function</span>
+</li>
+<li><span class="Noterminales">M3 (53)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">T1 (11)</span>
+<ul>
+<li><span class="Noterminales">T (6)</span>
+<ul>
+<li><span class="terminales">int</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">M4 (54)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">(</span>
+</li>
+<li><span class="Noterminales">A (12)</span>
+<ul>
+<li><span class="Noterminales">T (6)</span>
+<ul>
+<li><span class="terminales">int</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">M6 (56)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">K (15)</span>
+<ul>
+<li><span class="terminales">,</span>
+</li>
+<li><span class="Noterminales">T (6)</span>
+<ul>
+<li><span class="terminales">int</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">M7 (57)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">K (14)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">)</span>
+</li>
+<li><span class="Noterminales">M5 (55)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">{</span>
+</li>
+<li><span class="Noterminales">C (16)</span>
+<ul>
+<li><span class="Noterminales">D (5)</span>
+<ul>
+<li><span class="terminales">var</span>
+</li>
+<li><span class="Noterminales">M2 (52)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">T (6)</span>
+<ul>
+<li><span class="terminales">int</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">M8 (58)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">C (17)</span>
+<ul>
+<li><span class="Noterminales">S (19)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">L (26)</span>
+<ul>
+<li><span class="terminales">=</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">E (38)</span>
+<ul>
+<li><span class="Noterminales">U (39)</span>
+<ul>
+<li><span class="Noterminales">U (40)</span>
+<ul>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (44)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">+</span>
+</li>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (44)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">C (17)</span>
+<ul>
+<li><span class="Noterminales">S (24)</span>
+<ul>
+<li><span class="terminales">return</span>
+</li>
+<li><span class="Noterminales">X (35)</span>
+<ul>
+<li><span class="Noterminales">E (38)</span>
+<ul>
+<li><span class="Noterminales">U (40)</span>
+<ul>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (44)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">C (18)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">}</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (4)</span>
+<ul>
+<li><span class="Noterminales">S (19)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="Noterminales">L (26)</span>
+<ul>
+<li><span class="terminales">=</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">E (38)</span>
+<ul>
+<li><span class="Noterminales">U (40)</span>
+<ul>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (45)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+<li><span class="terminales">(</span>
+</li>
+<li><span class="Noterminales">M (27)</span>
+<ul>
+<li><span class="Noterminales">E (38)</span>
+<ul>
+<li><span class="Noterminales">U (40)</span>
+<ul>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (44)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">Q (30)</span>
+<ul>
+<li><span class="terminales">,</span>
+</li>
+<li><span class="Noterminales">E (38)</span>
+<ul>
+<li><span class="Noterminales">U (40)</span>
+<ul>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (44)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">Q (29)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">)</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (4)</span>
+<ul>
+<li><span class="Noterminales">S (21)</span>
+<ul>
+<li><span class="terminales">print</span>
+</li>
+<li><span class="terminales">(</span>
+</li>
+<li><span class="Noterminales">E (38)</span>
+<ul>
+<li><span class="Noterminales">U (40)</span>
+<ul>
+<li><span class="Noterminales">R (42)</span>
+<ul>
+<li><span class="Noterminales">V (44)</span>
+<ul>
+<li><span class="terminales">id</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="terminales">)</span>
+</li>
+<li><span class="terminales">;</span>
+</li>
+</ul>
+</li>
+<li><span class="Noterminales">P (50)</span>
+<ul>
+<li><span class="terminales">lambda</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</body>
+</html>

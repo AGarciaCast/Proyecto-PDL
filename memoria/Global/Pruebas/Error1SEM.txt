@@ -11,5 +11,5 @@ function int suma (int num1, int num2)
 	res = num1+num2;
 	return res;
 }
-c = suma (a, b);
+c = suma (a, b, c);
 print (c);

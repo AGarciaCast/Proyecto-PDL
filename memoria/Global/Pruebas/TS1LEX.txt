@@ -1,0 +1,14 @@
+Tabla Simbolos #1:
+
+ * LEXEMA: 'a'
+  + Tipo: 'entero'
+  + Despl: 0
+
+ * LEXEMA: 'b'
+  + Tipo: 'entero'
+  + Despl: 1
+
+ * LEXEMA: 'c'
+  + Tipo: 'logico'
+  + Despl: 2
+

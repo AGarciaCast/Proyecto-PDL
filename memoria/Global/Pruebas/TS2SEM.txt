@@ -1,0 +1,86 @@
+Tabla Simbolos #2:
+
+ * LEXEMA: 'a'
+  + Tipo: 'entero'
+  + Despl: 0
+
+ * LEXEMA: 'bis'
+  + Tipo: 'entero'
+  + Despl: 1
+
+Tabla Simbolos #3:
+
+ * LEXEMA: 'm'
+  + Tipo: 'entero'
+  + Despl: 0
+
+ * LEXEMA: 'a'
+  + Tipo: 'entero'
+  + Despl: 1
+
+ * LEXEMA: 'dd'
+  + Tipo: 'entero'
+  + Despl: 2
+
+Tabla Simbolos #4:
+
+ * LEXEMA: 'd'
+  + Tipo: 'entero'
+  + Despl: 0
+
+ * LEXEMA: 'm'
+  + Tipo: 'entero'
+  + Despl: 1
+
+ * LEXEMA: 'a'
+  + Tipo: 'entero'
+  + Despl: 2
+
+Tabla Simbolos #5:
+
+Tabla Simbolos #1:
+
+ * LEXEMA: 'booleano'
+  + Tipo: 'logico'
+  + Despl: 0
+
+ * LEXEMA: 'bisiesto'
+  + Tipo: 'funcion'
+  + numParam: 1
+  + TipoParam1: 'entero'
+  + ModoParam1: 'Valor'
+  + TipoRetorno: 'logico'
+  + EtiqFuncion: 'bisiesto1'
+
+ * LEXEMA: 'dias'
+  + Tipo: 'funcion'
+  + numParam: 2
+  + TipoParam1: 'entero'
+  + ModoParam1: 'Valor'
+  + TipoParam2: 'entero'
+  + ModoParam2: 'Valor'
+  + TipoRetorno: 'entero'
+  + EtiqFuncion: 'dias2'
+
+ * LEXEMA: 'esFechaCorrecta'
+  + Tipo: 'funcion'
+  + numParam: 3
+  + TipoParam1: 'entero'
+  + ModoParam1: 'Valor'
+  + TipoParam2: 'entero'
+  + ModoParam2: 'Valor'
+  + TipoParam3: 'entero'
+  + ModoParam3: 'Valor'
+  + TipoRetorno: 'logico'
+  + EtiqFuncion: 'esFechaCorrecta3'
+
+ * LEXEMA: 'demo'
+  + Tipo: 'funcion'
+  + numParam: 0
+  + TipoRetorno: 'void'
+  + EtiqFuncion: 'demo4'
+
+ * LEXEMA: 'A_A_A_'
+  + Tipo: 'cadena'
+  + Despl: 2
+

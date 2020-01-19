@@ -1,0 +1,28 @@
+Tabla Simbolos #2:
+
+ * LEXEMA: 'msg'
+  + Tipo: 'cadena'
+  + Despl: 0
+
+Tabla Simbolos #3:
+
+Tabla Simbolos #1:
+
+ * LEXEMA: 'texto'
+  + Tipo: 'cadena'
+  + Despl: 0
+
+ * LEXEMA: 'imprime'
+  + Tipo: 'funcion'
+  + numParam: 1
+  + TipoParam1: 'cadena'
+  + ModoParam1: 'Valor'
+  + TipoRetorno: 'void'
+  + EtiqFuncion: 'imprime1'
+
+ * LEXEMA: 'pideTexto'
+  + Tipo: 'funcion'
+  + numParam: 0
+  + TipoRetorno: 'void'
+  + EtiqFuncion: 'pideTexto2'
+
