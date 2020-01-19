@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.19)  19 JAN 2020 12:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.19)  19 JAN 2020 12:51
 entering extended mode
 **./MemoriaG82.tex
 (MemoriaG82.tex
@@ -630,18 +630,18 @@ LaTeX Warning: Label `tab:addlabel' multiply defined.
 )
 \openout1 = `MemoriaG82.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
 
 ("C:\Users\Alejandro\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\su
 pp-pdf.mkii"
@@ -752,9 +752,9 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 103.
+(Font)              <14.4> on input line 104.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 103.
+(Font)              <7> on input line 104.
 (MemoriaG82.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 2.
@@ -1013,185 +1013,181 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
 ) (Pruebas/MsgErr2LEX.txt) (Pruebas/Error2ST.txt) (Pruebas/MsgErr2ST.txt) (Prue
 bas/Error3ST.txt)
 (Pruebas/MsgErr3ST.txt) [23] (Pruebas/Error1SEM.txt) (Pruebas/MsgErr1SEM.txt)
-Overfull \hbox (45.9966pt too wide) in paragraph at lines 1--127
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
- []
-
 (Pruebas/Error2SEM.txt) (Pruebas/MsgErr2SEM.txt) [24] (Pruebas/Prueba2SEM.txt)
 (Pruebas/Tokens2SEM.txt [25] [26] [27]) (Pruebas/TS2SEM.txt [28] [29])
 (Pruebas/Parse2SEM.txt)
 <Pruebas/Prueba2SEMArbol.pdf, id=136, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf>
-Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf  used on input line 141.
+Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf  used on input line 142.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf>
-Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf  used on input line 141.
+Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf  used on input line 142.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 <Pruebas/Prueba2SEMArbol.pdf, id=139, page=1, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 1>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page1 used on input line
- 141.
+ 142.
 (pdftex.def)             Requested size: 438.51413pt x 620.53755pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 1>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page1 used on input line
- 141.
+ 142.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [30]
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 1>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page1 used on input line
- 141.
+ 142.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 1>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page1 used on input line
- 141.
+ 142.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 1>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page1 used on input line
- 141.
+ 142.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [31 <./Pruebas/Prueba2SEMArbol.pdf>]
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf>
-Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf  used on input line 142.
+Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf  used on input line 143.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf>
-Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf  used on input line 142.
+Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf  used on input line 143.
 (pdftex.def)             Requested size: 597.1896pt x 845.07512pt.
 <Pruebas/Prueba2SEMArbol.pdf, id=180, page=2, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 2>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page2 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 438.51413pt x 620.53755pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 2>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page2 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 2>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page2 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 2>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page2 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 2>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page2 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [32 <./Pruebas/Prueba2SEMArbol.pdf>]
 <Pruebas/Prueba2SEMArbol.pdf, id=216, page=3, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 3>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page3 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 3>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page3 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 3>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page3 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [33 <./Pruebas/Prueba2SEMArbol.pdf>]
 <Pruebas/Prueba2SEMArbol.pdf, id=244, page=4, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 4>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page4 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 4>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page4 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 4>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page4 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [34 <./Pruebas/Prueba2SEMArbol.pdf>]
 <Pruebas/Prueba2SEMArbol.pdf, id=278, page=5, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 5>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page5 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 5>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page5 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 5>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page5 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [35 <./Pruebas/Prueba2SEMArbol.pdf>]
 <Pruebas/Prueba2SEMArbol.pdf, id=310, page=6, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 6>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page6 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 6>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page6 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 6>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page6 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [36 <./Pruebas/Prueba2SEMArbol.pdf>]
 <Pruebas/Prueba2SEMArbol.pdf, id=346, page=7, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 7>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page7 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 7>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page7 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 7>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page7 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [37 <./Pruebas/Prueba2SEMArbol.pdf>]
 <Pruebas/Prueba2SEMArbol.pdf, id=377, page=8, 597.19106pt x 845.07718pt>
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 8>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page8 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 8>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page8 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
 File: Pruebas/Prueba2SEMArbol.pdf Graphic file (type pdf)
 <use Pruebas/Prueba2SEMArbol.pdf, page 8>
 Package pdftex.def Info: Pruebas/Prueba2SEMArbol.pdf , page8 used on input line
- 142.
+ 143.
 (pdftex.def)             Requested size: 813.95514pt x 1151.81715pt.
  [38 <./Pruebas/Prueba2SEMArbol.pdf>] (Pruebas/Prueba1LEX.txt) (Pruebas/Prueba3
 LEX.txt)
@@ -1203,7 +1199,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  16424 strings out of 492453
  328126 string characters out of 3118207
- 817263 words of memory out of 3000000
+ 817280 words of memory out of 3000000
  20400 multiletter control sequences out of 15000+200000
  11366 words of font info for 40 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1228,7 +1224,7 @@ ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/
 Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
 m/cmtt10.pfb><C:/Users/Alejandro/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
 public/amsfonts/cm/cmtt8.pfb>
-Output written on MemoriaG82.pdf (40 pages, 603710 bytes).
+Output written on MemoriaG82.pdf (40 pages, 603703 bytes).
 PDF statistics:
  465 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
