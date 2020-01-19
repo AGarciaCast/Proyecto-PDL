@@ -1625,8 +1625,6 @@ public class Compilador {
 		case 26:
 			tope=pilaSem.pop();
 			tope1=pilaSem.pop();
-			System.out.println(tope.getTipoLista());
-			System.out.println(tope1.getTipo());
 			if(!tope1.getTipo().equals("tipo_error") && (tope.getTipoLista() != null || !tope.getTipo().equals("tipo_error"))) {
 				if(tope.getTipo() != null && tope.getTipo().equals("tipo_vacio"))
 					nuevoElem.setTipo(tope1.getTipo());
