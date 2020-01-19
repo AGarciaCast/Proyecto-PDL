@@ -1894,8 +1894,9 @@ public class Compilador {
 	}
 
 	public static void main(String []args){
-		//File file = new File(args[0]);
-		File file = new File("PIdG82 (1).txt");
+		File file;
+		if (args.length == 1) file = new File(args[0]);
+		else file = new File("PIdG82.txt");
 		br = null;
 		bw = null;
 		try {
