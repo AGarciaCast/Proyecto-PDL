@@ -77,6 +77,16 @@
            {.}{$\bullet$}1
 }     
 
+\lstdefinestyle{EdT}{
+  basicstyle=\mdseries\footnotesize,
+  xleftmargin=0em,
+  mathescape=true,
+  tabsize=4,
+  moredelim=**[is][\color{blue}]{@}{@},
+  literate={->}{$\rightarrow$}{2}
+           {λ}{$\lambda$}{1}
+} 
+
 \lstdefinestyle{AccionesSemanticas}{
   basicstyle=\mdseries\small,
   xleftmargin=0em,
@@ -97,45 +107,12 @@
 \newpage
 \import{Sintactico/}{MemoriaSintacticoG82.tex}
 \newpage
-\section{Anexo de Pruebas Semántico}
+\import{Semantico/}{MemoriaSemanticoG82.tex}
+\newpage
+\section{Anexo de Pruebas}
 \subsection*{Error 1:}
-\lstinputlisting[style=JavaScript]{Pruebas/Error1LEX.txt}
-\lstinputlisting[style=DOS]{Pruebas/MsgErr1LEX.txt}
-
-\subsection*{Error 2:}
 \lstinputlisting[style=JavaScript]{Pruebas/Error2LEX.txt}
 \lstinputlisting[style=DOS]{Pruebas/MsgErr2LEX.txt}
-
-\subsection*{Error 3:}
-\lstinputlisting[style=JavaScript]{Pruebas/Error3LEX.txt}
-\lstinputlisting[style=DOS]{Pruebas/MsgErr3LEX.txt}
-
-\subsection*{Prueba 1 Correcta:}
-\lstinputlisting[style=JavaScript]{Pruebas/Prueba1LEX.txt}
-\subsubsection*{Tokens:}
-\lstinputlisting{Pruebas/Prueba1Tokens.txt}
-\subsubsection*{Tabla de símbolos:}
-\lstinputlisting{Pruebas/Prueba1TS.txt}
-
-\subsection*{Prueba 2 Correcta:}
-\lstinputlisting[style=JavaScript]{Pruebas/Prueba2LEX.txt}
-\subsubsection*{Tokens:}
-\lstinputlisting{Pruebas/Prueba2Tokens.txt}
-\subsubsection*{Tabla de símbolos:}
-\lstinputlisting{Pruebas/Prueba2TS.txt}
-
-\subsection*{Prueba 3 Correcta:}
-\lstinputlisting[style=JavaScript]{Pruebas/Prueba3LEX.txt}
-\subsubsection*{Tokens:}
-\lstinputlisting{Pruebas/Prueba3Tokens.txt}
-\subsubsection*{Tabla de símbolos:}
-\lstinputlisting{Pruebas/Prueba3TS.txt}
-
-\newpage
-\section{Anexo de Pruebas Sintáctico}
-\subsection*{Error 1:}
-\lstinputlisting[style=JavaScript]{Pruebas/Error1ST.txt}
-\lstinputlisting[style=DOS]{Pruebas/MsgErr1ST.txt}
 
 \subsection*{Error 2:}
 \lstinputlisting[style=JavaScript]{Pruebas/Error2ST.txt}
@@ -144,28 +121,40 @@
 \subsection*{Error 3:}
 \lstinputlisting[style=JavaScript]{Pruebas/Error3ST.txt}
 \lstinputlisting[style=DOS]{Pruebas/MsgErr3ST.txt}
+\newpage
+\subsection*{Error 4:}
+\lstinputlisting[style=JavaScript]{Pruebas/Error1SEM.txt}
+\lstinputlisting[style=DOS]{Pruebas/MsgErr1SEM.txt}
 
+\subsection*{Error 5:}
+\lstinputlisting[style=JavaScript]{Pruebas/Error2SEM.txt}
+\lstinputlisting[style=DOS]{Pruebas/MsgErr2SEM.txt}
+\newpage
 \subsection*{Prueba 1 Correcta:}
-\lstinputlisting[style=JavaScript]{Pruebas/Prueba1ST.txt}
+\lstinputlisting[style=JavaScript]{Pruebas/Prueba2SEM.txt}
+\subsubsection*{Tokens:}
+\lstinputlisting{Pruebas/Tokens2SEM.txt}
+\subsubsection*{Tabla de símbolos:}
+\lstinputlisting{Pruebas/TS2SEM.txt}
 \subsubsection*{Parse a Derechas:}
-\input{Pruebas/Prueba1Parse.txt}
-\includepdf[pages=1,pagecommand={\subsubsection*{Árbol sintáctico:}},width=\textwidth]{Pruebas/Prueba1Arbol.pdf}
-\includepdf[pages=2-,pagecommand={},width=\textwidth]{Pruebas/Prueba1Arbol.pdf}
+\input{Pruebas/Parse2SEM.txt}
+\includepdf[pages=1,pagecommand={\subsubsection*{Árbol sintáctico:}},width=\textwidth]{Pruebas/Prueba2SEMArbol.pdf}
+\includepdf[pages=2-,pagecommand={},width=\textwidth]{Pruebas/Prueba2SEMArbol.pdf}
 
-\subsection*{Prueba 2 Correcta:}
+
+\subsection*{Fuente 2 Correcta:}
+\lstinputlisting[style=JavaScript]{Pruebas/Prueba1LEX.txt}
+
+\subsection*{Fuente 3 Correcta:}
+\lstinputlisting[style=JavaScript]{Pruebas/Prueba3LEX.txt}
+
+\subsection*{Fuente 4 Correcta:}
 \lstinputlisting[style=JavaScript]{Pruebas/Prueba2ST.txt}
-\subsubsection*{Parse a Derechas:}
-\input{Pruebas/Prueba2Parse.txt}
-\includepdf[pages=1,pagecommand={\subsubsection*{Árbol sintáctico:}},width=\textwidth]{Pruebas/Prueba2Arbol.pdf}
-\includepdf[pages=2-,pagecommand={},width=\textwidth]{Pruebas/Prueba2Arbol.pdf}
+\newpage
+\subsection*{Fuente 5 Correcta:}
+\lstinputlisting[style=JavaScript]{Pruebas/Prueba1SEM.txt}
 
 
-\subsection*{Prueba 3 Correcta:}
-\lstinputlisting[style=JavaScript]{Pruebas/Prueba3ST.txt}
-\subsubsection*{Parse a Derechas:}
-\input{Pruebas/Prueba3Parse.txt}
-\includepdf[pages=1,pagecommand={\subsubsection*{Árbol sintáctico:}},width=\textwidth]{Pruebas/Prueba3Arbol.pdf}
-\includepdf[pages=2-,pagecommand={},width=\textwidth]{Pruebas/Prueba3Arbol.pdf}
 
 
 \end{document}

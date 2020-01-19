@@ -6,12 +6,16 @@
 \contentsline {subsection}{\numberline {1.5}Errores}{5}% 
 \contentsline {subsection}{\numberline {1.6}Matriz de Transiciones}{5}% 
 \contentsline {section}{\numberline {2}Tabla de Símbolos: Estructura e implementación}{5}% 
-\contentsline {section}{\numberline {3}Diseño del Analizador Sintáctico}{7}% 
-\contentsline {subsection}{\numberline {3.1}Gramática}{7}% 
-\contentsline {subsection}{\numberline {3.2}Autómata Reconocedor de Prefijos Viables\FN@sf@gobble@opt {Los estados con forma de rectángulo redondeado son aquellos con bucles a si mismos. La etiqueta de dicha arista es la misma que la arista que conecta dicho estado y su antecedente}}{8}% 
-\contentsline {subsubsection}{\numberline {3.2.1}Estados del autómata}{9}% 
-\contentsline {subsection}{\numberline {3.3}Conflictos}{11}% 
-\contentsline {subsection}{\numberline {3.4}Errores}{12}% 
+\contentsline {section}{\numberline {3}Diseño del Analizador Sintáctico}{6}% 
+\contentsline {subsection}{\numberline {3.1}Gramática}{6}% 
+\contentsline {subsection}{\numberline {3.2}Autómata Reconocedor de Prefijos Viables\FN@sf@gobble@opt {Los estados con forma de rectángulo redondeado son aquellos con bucles a si mismos. La etiqueta de dicha arista es la misma que la arista que conecta dicho estado y su antecedente}}{7}% 
+\contentsline {subsubsection}{\numberline {3.2.1}Estados del autómata}{8}% 
+\contentsline {subsection}{\numberline {3.3}Conflictos}{10}% 
+\contentsline {subsection}{\numberline {3.4}Errores}{11}% 
 \contentsline {subsection}{\numberline {3.5}Tabla de Decisión}{12}% 
-\contentsline {section}{\numberline {4}Anexo de Pruebas Semántico}{15}% 
-\contentsline {section}{\numberline {5}Anexo de Pruebas Sintáctico}{23}% 
+\contentsline {section}{\numberline {4}Diseno del Analizador Semántico}{14}% 
+\contentsline {subsection}{\numberline {4.1}Esquema de Traducción}{14}% 
+\contentsline {subsection}{\numberline {4.2}Implementación del EdT}{17}% 
+\contentsline {subsection}{\numberline {4.3}Gramática y Autómata Final del A. Sintáctico}{20}% 
+\contentsline {subsection}{\numberline {4.4}Errores}{22}% 
+\contentsline {section}{\numberline {5}Anexo de Pruebas}{23}% 
