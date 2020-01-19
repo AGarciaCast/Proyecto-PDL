@@ -123,7 +123,7 @@
      S$_1$.tipoRet = if (S$_2$.tipoRet = G.tipoRet OR G.tipoRet = tipo_vacio)
 						then S$_2$.tipoRet
 				else error(10)}@
-31. S1 -> @{S$_2$.func=S$_1$.func}@ S @{S$_1$.tipo=S.tipo; S$_1$.tipoRet = S.tipoRet}@
+31. S1 -> @{S.func=S$_1$.func}@ S @{S$_1$.tipo=S.tipo; S$_1$.tipoRet = S.tipoRet}@
 32. G -> else{ @{S$_2$.func=G.func}@ S$_2$}@{G.tipo=S$_2$.tipo; 
 						G.tipoRet = S$_2$.tipoRet}@
 33. G -> λ @{G.tipo = tipo_vacio; G.tipoRet = tipo_vacio}@
@@ -155,9 +155,9 @@
                   if(S.tipo != tipo_error) then S$_2$.tipo
                   else
                     error(12);
-              S$_2$.tipoRet = if (S.tipoRet =) tipo_vacio) then 
+              S$_2$.tipoRet = if (S.tipoRet = tipo_vacio) then 
 				S'$_2$.tipoRet
-			else if (S'$_2$.tipoRet =) tipo_vacio) then
+			else if (S'$_2$.tipoRet = tipo_vacio) then
 				S.tipoRet
 			else error(13) }@
 48. S$_2$ -> @{S.func = S$_2$.func}@ S @{S$_2$.tipo = S.tipo; 
@@ -337,7 +337,7 @@
 57. MM$_{8}$ -> λ @{zona_decl = false}@
 \end{lstlisting}
 \newpage
-De forma que hemos tenido que transformar el EdT para que en vez de usar atributos heredados, lo cual complica bastante la implementación, hemos transformado el atributo heredado func al atributo sintetizado tipoRet.
+De forma que hemos tenido que transformar el EdT para que en vez de usar atributos heredados, lo cual complica bastante la implementación, utilice sólo sintetizados. Hemos transformado el atributo heredado func al atributo sintetizado tipoRet.
 
 También hemos tenido que modificar la gramática del sintáctico añadiendo los marcadores MM$_i$ y sus correspondientes reglas lambda para poder implementar las acciones con efectos laterales.
 
